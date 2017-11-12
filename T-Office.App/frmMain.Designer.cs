@@ -34,6 +34,10 @@
             this.controlBoxPanel = new System.Windows.Forms.Panel();
             this.btnClose = new Bunifu.Framework.UI.BunifuImageButton();
             this.btnMinimize = new Bunifu.Framework.UI.BunifuImageButton();
+            this.btnHome = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.btnClients = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.btnReports = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.btnSettings = new Bunifu.Framework.UI.BunifuFlatButton();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.controlBoxPanel.SuspendLayout();
@@ -44,6 +48,10 @@
             // mainPanel
             // 
             this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.mainPanel.Controls.Add(this.btnSettings);
+            this.mainPanel.Controls.Add(this.btnReports);
+            this.mainPanel.Controls.Add(this.btnClients);
+            this.mainPanel.Controls.Add(this.btnHome);
             this.mainPanel.Controls.Add(this.pbLogo);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
@@ -103,6 +111,154 @@
             this.btnMinimize.Zoom = 10;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
+            // btnHome
+            // 
+            this.btnHome.Activecolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnHome.BorderRadius = 0;
+            this.btnHome.ButtonText = "Poruke";
+            this.btnHome.CausesValidation = false;
+            this.btnHome.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHome.DisabledColor = System.Drawing.Color.Gray;
+            this.btnHome.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnHome.Iconcolor = System.Drawing.Color.Transparent;
+            this.btnHome.Iconimage = ((System.Drawing.Image)(resources.GetObject("btnHome.Iconimage")));
+            this.btnHome.Iconimage_right = null;
+            this.btnHome.Iconimage_right_Selected = null;
+            this.btnHome.Iconimage_Selected = null;
+            this.btnHome.IconMarginLeft = 0;
+            this.btnHome.IconMarginRight = 0;
+            this.btnHome.IconRightVisible = true;
+            this.btnHome.IconRightZoom = 0D;
+            this.btnHome.IconVisible = true;
+            this.btnHome.IconZoom = 90D;
+            this.btnHome.IsTab = false;
+            this.btnHome.Location = new System.Drawing.Point(0, 179);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnHome.OnHovercolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnHome.OnHoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnHome.selected = false;
+            this.btnHome.Size = new System.Drawing.Size(288, 48);
+            this.btnHome.TabIndex = 1;
+            this.btnHome.Text = "Poruke";
+            this.btnHome.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHome.Textcolor = System.Drawing.Color.White;
+            this.btnHome.TextFont = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // btnClients
+            // 
+            this.btnClients.Activecolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnClients.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClients.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnClients.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnClients.BorderRadius = 0;
+            this.btnClients.ButtonText = "Klijenti";
+            this.btnClients.CausesValidation = false;
+            this.btnClients.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClients.DisabledColor = System.Drawing.Color.Gray;
+            this.btnClients.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnClients.Iconcolor = System.Drawing.Color.Transparent;
+            this.btnClients.Iconimage = ((System.Drawing.Image)(resources.GetObject("btnClients.Iconimage")));
+            this.btnClients.Iconimage_right = null;
+            this.btnClients.Iconimage_right_Selected = null;
+            this.btnClients.Iconimage_Selected = null;
+            this.btnClients.IconMarginLeft = 0;
+            this.btnClients.IconMarginRight = 0;
+            this.btnClients.IconRightVisible = true;
+            this.btnClients.IconRightZoom = 0D;
+            this.btnClients.IconVisible = true;
+            this.btnClients.IconZoom = 90D;
+            this.btnClients.IsTab = false;
+            this.btnClients.Location = new System.Drawing.Point(0, 233);
+            this.btnClients.Name = "btnClients";
+            this.btnClients.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnClients.OnHovercolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnClients.OnHoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnClients.selected = false;
+            this.btnClients.Size = new System.Drawing.Size(288, 48);
+            this.btnClients.TabIndex = 2;
+            this.btnClients.Text = "Klijenti";
+            this.btnClients.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClients.Textcolor = System.Drawing.Color.White;
+            this.btnClients.TextFont = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // btnReports
+            // 
+            this.btnReports.Activecolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnReports.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReports.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnReports.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReports.BorderRadius = 0;
+            this.btnReports.ButtonText = "Izveštaji";
+            this.btnReports.CausesValidation = false;
+            this.btnReports.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReports.DisabledColor = System.Drawing.Color.Gray;
+            this.btnReports.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnReports.Iconcolor = System.Drawing.Color.Transparent;
+            this.btnReports.Iconimage = ((System.Drawing.Image)(resources.GetObject("btnReports.Iconimage")));
+            this.btnReports.Iconimage_right = null;
+            this.btnReports.Iconimage_right_Selected = null;
+            this.btnReports.Iconimage_Selected = null;
+            this.btnReports.IconMarginLeft = 0;
+            this.btnReports.IconMarginRight = 0;
+            this.btnReports.IconRightVisible = true;
+            this.btnReports.IconRightZoom = 0D;
+            this.btnReports.IconVisible = true;
+            this.btnReports.IconZoom = 90D;
+            this.btnReports.IsTab = false;
+            this.btnReports.Location = new System.Drawing.Point(0, 287);
+            this.btnReports.Name = "btnReports";
+            this.btnReports.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnReports.OnHovercolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnReports.OnHoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnReports.selected = false;
+            this.btnReports.Size = new System.Drawing.Size(288, 48);
+            this.btnReports.TabIndex = 2;
+            this.btnReports.Text = "Izveštaji";
+            this.btnReports.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReports.Textcolor = System.Drawing.Color.White;
+            this.btnReports.TextFont = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Activecolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSettings.BorderRadius = 0;
+            this.btnSettings.ButtonText = "Podešavanja";
+            this.btnSettings.CausesValidation = false;
+            this.btnSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSettings.DisabledColor = System.Drawing.Color.Gray;
+            this.btnSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnSettings.Iconcolor = System.Drawing.Color.Transparent;
+            this.btnSettings.Iconimage = ((System.Drawing.Image)(resources.GetObject("btnSettings.Iconimage")));
+            this.btnSettings.Iconimage_right = null;
+            this.btnSettings.Iconimage_right_Selected = null;
+            this.btnSettings.Iconimage_Selected = null;
+            this.btnSettings.IconMarginLeft = 0;
+            this.btnSettings.IconMarginRight = 0;
+            this.btnSettings.IconRightVisible = true;
+            this.btnSettings.IconRightZoom = 0D;
+            this.btnSettings.IconVisible = true;
+            this.btnSettings.IconZoom = 90D;
+            this.btnSettings.IsTab = false;
+            this.btnSettings.Location = new System.Drawing.Point(0, 341);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnSettings.OnHovercolor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+            this.btnSettings.OnHoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(240)))), ((int)(((byte)(17)))));
+            this.btnSettings.selected = false;
+            this.btnSettings.Size = new System.Drawing.Size(288, 48);
+            this.btnSettings.TabIndex = 3;
+            this.btnSettings.Text = "Podešavanja";
+            this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettings.Textcolor = System.Drawing.Color.White;
+            this.btnSettings.TextFont = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -131,5 +287,9 @@
         private System.Windows.Forms.Panel controlBoxPanel;
         private Bunifu.Framework.UI.BunifuImageButton btnClose;
         private Bunifu.Framework.UI.BunifuImageButton btnMinimize;
+        private Bunifu.Framework.UI.BunifuFlatButton btnHome;
+        private Bunifu.Framework.UI.BunifuFlatButton btnClients;
+        private Bunifu.Framework.UI.BunifuFlatButton btnSettings;
+        private Bunifu.Framework.UI.BunifuFlatButton btnReports;
     }
 }

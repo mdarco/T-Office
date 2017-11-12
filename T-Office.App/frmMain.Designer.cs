@@ -38,8 +38,8 @@
             this.controlBoxPanel = new System.Windows.Forms.Panel();
             this.btnMinimize = new Bunifu.Framework.UI.BunifuImageButton();
             this.btnClose = new Bunifu.Framework.UI.BunifuImageButton();
-            this.pageMessages = new T_Office.App.pages.messages.ucMessages();
             this.pageClients = new T_Office.App.pages.clients.ucClients();
+            this.pageMessages = new T_Office.App.pages.messages.ucMessages();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.controlBoxPanel.SuspendLayout();
@@ -240,7 +240,7 @@
             this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
             this.btnMinimize.Image = ((System.Drawing.Image)(resources.GetObject("btnMinimize.Image")));
             this.btnMinimize.ImageActive = null;
-            this.btnMinimize.Location = new System.Drawing.Point(1014, 12);
+            this.btnMinimize.Location = new System.Drawing.Point(1014, 3);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(23, 47);
             this.btnMinimize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -263,6 +263,14 @@
             this.btnClose.Zoom = 10;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // pageClients
+            // 
+            this.pageClients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pageClients.Location = new System.Drawing.Point(288, 42);
+            this.pageClients.Name = "pageClients";
+            this.pageClients.Size = new System.Drawing.Size(1078, 726);
+            this.pageClients.TabIndex = 3;
+            // 
             // pageMessages
             // 
             this.pageMessages.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -272,14 +280,6 @@
             this.pageMessages.Name = "pageMessages";
             this.pageMessages.Size = new System.Drawing.Size(1078, 726);
             this.pageMessages.TabIndex = 2;
-            // 
-            // pageClients
-            // 
-            this.pageClients.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pageClients.Location = new System.Drawing.Point(288, 42);
-            this.pageClients.Name = "pageClients";
-            this.pageClients.Size = new System.Drawing.Size(1078, 726);
-            this.pageClients.TabIndex = 3;
             // 
             // frmMain
             // 

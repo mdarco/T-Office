@@ -76,6 +76,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\T-Office.BL\T-Office.BL.csproj">
+      <Project>{77f4ad72-597f-4cf9-b619-878973dd9939}</Project>
+      <Name>T-Office.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\T-Office.DAL\T-Office.DAL.csproj">
+      <Project>{2d71f902-6f61-4e7f-afe4-ff78549bd6cc}</Project>
+      <Name>T-Office.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\T-Office.Models\T-Office.Models.csproj">
+      <Project>{7bc2d9e0-613b-4856-9c20-21a7d1c21315}</Project>
+      <Name>T-Office.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

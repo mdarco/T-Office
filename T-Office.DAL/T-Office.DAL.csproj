@@ -45,6 +45,12 @@
   <ItemGroup>
     <Folder Include="DBModel\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\T-Office.Models\T-Office.Models.csproj">
+      <Project>{7bc2d9e0-613b-4856-9c20-21a7d1c21315}</Project>
+      <Name>T-Office.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

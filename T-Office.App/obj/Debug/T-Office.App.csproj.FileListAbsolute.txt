@@ -1,0 +1,1 @@
+C:\Dev\T-Office\T-Office.App\bin\Debug\T-Office.App.exe.config

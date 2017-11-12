@@ -17,10 +17,19 @@ namespace T_Office.App
             InitializeComponent();
         }
 
+        #region Control box buttons
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        #endregion
 
         #region Dragging support
 

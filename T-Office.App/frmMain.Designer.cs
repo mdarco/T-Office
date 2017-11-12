@@ -33,10 +33,12 @@
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.controlBoxPanel = new System.Windows.Forms.Panel();
             this.btnClose = new Bunifu.Framework.UI.BunifuImageButton();
+            this.btnMinimize = new Bunifu.Framework.UI.BunifuImageButton();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.controlBoxPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).BeginInit();
             this.SuspendLayout();
             // 
             // mainPanel
@@ -62,6 +64,7 @@
             // controlBoxPanel
             // 
             this.controlBoxPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.controlBoxPanel.Controls.Add(this.btnMinimize);
             this.controlBoxPanel.Controls.Add(this.btnClose);
             this.controlBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.controlBoxPanel.Location = new System.Drawing.Point(288, 0);
@@ -86,6 +89,20 @@
             this.btnClose.Zoom = 10;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // btnMinimize
+            // 
+            this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnMinimize.Image = ((System.Drawing.Image)(resources.GetObject("btnMinimize.Image")));
+            this.btnMinimize.ImageActive = null;
+            this.btnMinimize.Location = new System.Drawing.Point(1014, 12);
+            this.btnMinimize.Name = "btnMinimize";
+            this.btnMinimize.Size = new System.Drawing.Size(23, 47);
+            this.btnMinimize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnMinimize.TabIndex = 10;
+            this.btnMinimize.TabStop = false;
+            this.btnMinimize.Zoom = 10;
+            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,6 +118,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.controlBoxPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -111,5 +129,6 @@
         private System.Windows.Forms.PictureBox pbLogo;
         private System.Windows.Forms.Panel controlBoxPanel;
         private Bunifu.Framework.UI.BunifuImageButton btnClose;
+        private Bunifu.Framework.UI.BunifuImageButton btnMinimize;
     }
 }

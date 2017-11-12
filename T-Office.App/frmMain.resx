@@ -700,6 +700,13 @@
         AFFFFAH/2Q==
 </value>
   </data>
+  <data name="btnMinimize.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACEAAAAhCAYAAABX5MJvAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAEFJREFUWEft0LEJACAMRNFsldL9l7B1jHhCIBtElP/gN2kOYgAA4AsR4Wqp2dDZ
+        8ZwuOg7VaeR00fH+JwAAwHvMNizTT0JLTcaZAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="btnClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAhCAYAAAC4JqlRAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO

@@ -15,6 +15,7 @@ namespace T_Office.App
         public frmMain()
         {
             InitializeComponent();
+            //Bunifu_classes.Round.ActivateForm(this, 15);
         }
 
         #region Control box buttons

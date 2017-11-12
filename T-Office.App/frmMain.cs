@@ -15,7 +15,9 @@ namespace T_Office.App
         public frmMain()
         {
             InitializeComponent();
-            //Bunifu_classes.Round.ActivateForm(this, 15);
+
+            pageMessages.Visible = false;
+            pageClients.Visible = false;
         }
 
         #region Control box buttons
@@ -52,5 +54,17 @@ namespace T_Office.App
         }
 
         #endregion
+
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            pageMessages.Visible = true;
+            pageMessages.BringToFront();
+        }
+
+        private void btnClients_Click(object sender, EventArgs e)
+        {
+            pageClients.Visible = true;
+            pageClients.BringToFront();
+        }
     }
 }

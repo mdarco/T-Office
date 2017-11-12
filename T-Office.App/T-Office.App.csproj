@@ -57,10 +57,28 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\clients\ucClients.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\clients\ucClients.Designer.cs">
+      <DependentUpon>ucClients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\messages\ucMessages.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\messages\ucMessages.Designer.cs">
+      <DependentUpon>ucMessages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\clients\ucClients.resx">
+      <DependentUpon>ucClients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\messages\ucMessages.resx">
+      <DependentUpon>ucMessages.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -100,8 +118,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="pages\clients\" />
-    <Folder Include="pages\messages\" />
     <Folder Include="pages\reports\" />
     <Folder Include="pages\settings\" />
   </ItemGroup>

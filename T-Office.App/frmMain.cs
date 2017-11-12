@@ -16,5 +16,31 @@ namespace T_Office.App
         {
             InitializeComponent();
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        #region Dragging support
+
+        Bunifu.Framework.UI.Drag dragWindow = new Bunifu.Framework.UI.Drag();
+
+        private void controlBoxPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragWindow.Grab(this);
+        }
+
+        private void controlBoxPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            dragWindow.MoveObject(true, true);
+        }
+
+        private void controlBoxPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragWindow.Release();
+        }
+
+        #endregion
     }
 }

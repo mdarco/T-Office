@@ -50,6 +50,7 @@
             // mainPanel
             // 
             this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.mainPanel.CausesValidation = false;
             this.mainPanel.Controls.Add(this.btnSettings);
             this.mainPanel.Controls.Add(this.btnReports);
             this.mainPanel.Controls.Add(this.btnClients);
@@ -223,7 +224,7 @@
             // 
             // controlBoxPanel
             // 
-            this.controlBoxPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.controlBoxPanel.BackColor = System.Drawing.Color.DimGray;
             this.controlBoxPanel.Controls.Add(this.btnMinimize);
             this.controlBoxPanel.Controls.Add(this.btnClose);
             this.controlBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -237,7 +238,7 @@
             // 
             // btnMinimize
             // 
-            this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnMinimize.BackColor = System.Drawing.Color.DimGray;
             this.btnMinimize.Image = ((System.Drawing.Image)(resources.GetObject("btnMinimize.Image")));
             this.btnMinimize.ImageActive = null;
             this.btnMinimize.Location = new System.Drawing.Point(1014, 3);
@@ -251,7 +252,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.btnClose.BackColor = System.Drawing.Color.DimGray;
             this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
             this.btnClose.ImageActive = null;
             this.btnClose.Location = new System.Drawing.Point(1043, 12);

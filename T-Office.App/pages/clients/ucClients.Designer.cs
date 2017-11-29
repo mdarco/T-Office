@@ -28,33 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblMessages = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.SuspendLayout();
-            // 
-            // lblMessages
-            // 
-            this.lblMessages.AutoSize = true;
-            this.lblMessages.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblMessages.Location = new System.Drawing.Point(34, 36);
-            this.lblMessages.Name = "lblMessages";
-            this.lblMessages.Size = new System.Drawing.Size(77, 30);
-            this.lblMessages.TabIndex = 1;
-            this.lblMessages.Text = "Klijenti";
             // 
             // ucClients
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblMessages);
             this.Name = "ucClients";
-            this.Size = new System.Drawing.Size(500, 500);
+            this.Size = new System.Drawing.Size(886, 571);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private Bunifu.Framework.UI.BunifuCustomLabel lblMessages;
+        private System.Windows.Forms.Panel panel1;
     }
 }

@@ -57,12 +57,14 @@ namespace T_Office.App
 
         private void btnHome_Click(object sender, EventArgs e)
         {
+            lblMainHeader.Text = "Poruke";
             pageMessages.Visible = true;
             pageMessages.BringToFront();
         }
 
         private void btnClients_Click(object sender, EventArgs e)
         {
+            lblMainHeader.Text = "Klijenti";
             pageClients.Visible = true;
             pageClients.BringToFront();
         }

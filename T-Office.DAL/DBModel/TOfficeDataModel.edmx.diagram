@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="736b1d0d26194b2691c78535048a5c4c" Name="Diagram1" ZoomLevel="86">
-        <EntityTypeShape EntityType="TOfficeModel.ClientRegistrationDocumentData" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.Clients" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.RegistrationDocumentData" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.RegistrationVehicleData" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrationInstallments" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrations" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+      <Diagram DiagramId="736b1d0d26194b2691c78535048a5c4c" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="TOfficeModel.ClientRegistrationDocumentData" Width="2.5" PointX="3.375" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.Clients" Width="2.375" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.RegistrationDocumentData" Width="2.375" PointX="0.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.RegistrationVehicleData" Width="2.5" PointX="11.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrationInstallments" Width="2.375" PointX="6.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrations" Width="2.875" PointX="6.375" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" ManuallyRouted="false" />
         <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" ManuallyRouted="false" />
         <AssociationConnector Association="TOfficeModel.FK_VehicleRegistrations_ClientRegistrationDocumentData" ManuallyRouted="false" />

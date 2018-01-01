@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.DAL", "T-Office.DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Models", "T-Office.Models\T-Office.Models.csproj", "{7BC2D9E0-613B-4856-9C20-21A7D1C21315}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.RegLicenseReader", "T-Office.RegLicenseReader\T-Office.RegLicenseReader.csproj", "{970FF34C-C519-47DB-BDA2-EFFCCC3C7FD1}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -37,6 +39,10 @@ Global
 		{7BC2D9E0-613B-4856-9C20-21A7D1C21315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BC2D9E0-613B-4856-9C20-21A7D1C21315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BC2D9E0-613B-4856-9C20-21A7D1C21315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{970FF34C-C519-47DB-BDA2-EFFCCC3C7FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{970FF34C-C519-47DB-BDA2-EFFCCC3C7FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{970FF34C-C519-47DB-BDA2-EFFCCC3C7FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{970FF34C-C519-47DB-BDA2-EFFCCC3C7FD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

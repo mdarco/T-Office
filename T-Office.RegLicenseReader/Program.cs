@@ -29,7 +29,7 @@ namespace RegLicenseReader
             Registration reg = new Registration();
 
             int initResponse = reg.Initialize();
-            if (initResponse != 0)
+            if (initResponse != 0 && initResponse != 1056)
             {
                 Console.Write(HandleError(initResponse));
                 return;
@@ -37,7 +37,7 @@ namespace RegLicenseReader
 
             string readerName = string.Empty;
             int getReaderNameResponse = reg.GetReaderName(0, out readerName);
-            if (getReaderNameResponse != 0)
+            if (getReaderNameResponse != 0 && (uint)getReaderNameResponse != 0x80100008)
             {
                 Console.Write(HandleError(getReaderNameResponse));
                 return;
@@ -129,46 +129,60 @@ namespace RegLicenseReader
                     return string.Empty;
 
                 case 11:
-                    return "11";
+                    // ERROR_BAD_FORMAT
+                    return "Interna greška (nisu pronađeni obavezni interni podaci na kartici).";
 
                 case 12:
-                    return "12";
+                    // ERROR_INVALID_ACCESS
+                    return "Interna greška (nije pozvana funkcija za obradu nove kartice).";
 
                 case 13:
-                    return "13";
+                    // ERROR_INVALID_DATA
+                    return "Neispravni podaci na saobraćajnoj dozvoli.";
 
                 case 87:
-                    return "87";
+                    // ERROR_INVALID_PARAMETER
+                    return "Interna greška (nije zadat naziv čitača saobraćajne dozvole).";
 
                 case 1056:
-                    return "1056";
+                    // ERROR_SERVICE_ALREADY_RUNNING
+                    return "Interno upozorenje (servis za čitanje saobraćajne dozvole je već aktivan).";
 
                 case 1062:
-                    return "1062";
+                    // ERROR_SERVICE_NOT_ACTIVE
+                    return "Interna greška (servis za čitanje saobraćajne dozvole nije aktivan).";
 
                 case 0x80004003:
-                    return "0x80004003";
+                    // E_POINTER
+                    return "Podaci iz saobraćajne dozvole nisu preuzeti.";
 
                 case 0x80100008:
-                    return "0x80100008";
+                    // SCARD_E_INSUFFICIENT_BUFFER
+                    return "Interno upozorenje (premala veličina polja za naziv čitača).";
 
                 case 0x80100009:
-                    return "0x80100009";
+                    // SCARD_E_UNKNOWN_READER
+                    return "Nepoznat čitač saobraćajne dozvole.";
 
                 case 0x8010000C:
-                    return "0x8010000C";
+                    // SCARD_E_NO_SMARTCARD
+                    return "Saobraćajna dozvola nije ubačena u čitač.";
 
                 case 0x80100011:
-                    return "0x80100011";
+                    // SCARD_E_INVALID_VALUE
+                    return "SCARD_E_INVALID_VALUE";
 
                 case 0x80100017:
-                    return "0x80100017";
+                    // SCARD_E_READER_UNAVAILABLE
+                    return "Čitač saobraćajne dozvole nije dostupan.";
 
                 case 0x8010001C:
-                    return "0x8010001C";
+                    // SCARD_E_CARD_UNSUPPORTED
+                    return "Nepoznata kartica u čitaču.";
 
                 case 0x8010002E:
-                    return "0x8010002E";
+                    // SCARD_E_NO_READERS_AVAILABLE
+                    return "Čitač saobraćajne dozvole nije instaliran.";
 
                 default:
                     return string.Empty;

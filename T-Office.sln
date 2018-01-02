@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.RegLicenseReader",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Api", "T-Office.Api\T-Office.Api.csproj", "{D5F61615-E273-4231-9112-696FA2515697}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Electron", "T-Office.Electron\T-Office.Electron.csproj", "{6F3DE819-6AEC-4E56-A920-668445C620A2}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -49,6 +51,10 @@ Global
 		{D5F61615-E273-4231-9112-696FA2515697}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5F61615-E273-4231-9112-696FA2515697}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5F61615-E273-4231-9112-696FA2515697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

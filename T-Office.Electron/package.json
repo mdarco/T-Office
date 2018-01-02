@@ -1,0 +1,14 @@
+{
+  "name": "t-office-electron-app",
+  "version": "1.0.0",
+  "description": "T-Office Main Electron App",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "t-office"
+  ],
+  "author": "Darko Milutinovic",
+  "license": "ISC"
+}

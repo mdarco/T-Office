@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.eVehicleRegistrationCOM">
+      <HintPath>..\..\..\MUPRS\CitacSaobracajne\Interop.eVehicleRegistrationCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +48,8 @@
     <Compile Include="PersonalDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationDataModel.cs" />
+    <Compile Include="RegLicenseData.cs" />
+    <Compile Include="RegLicenseReaderResponse.cs" />
     <Compile Include="VehicleDataModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

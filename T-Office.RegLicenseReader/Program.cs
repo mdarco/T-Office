@@ -5,25 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using eVehicleRegistrationCOM;
+using T_Office.Models;
 
 namespace RegLicenseReader
 {
     class Program
     {
-        class ProgramResponse
-        {
-            public bool IsError { get; set; }
-            public string ErrorMessage { get; set; }
-            public RegLicenseData Result { get; set; }
-        }
-
-        class RegLicenseData
-        {
-            public _DOCUMENT_DATA DocumentData { get; set; }
-            public _VEHICLE_DATA VehicleData { get; set; }
-            public _PERSONAL_DATA PersonalData { get; set; }
-        }
-
         static void Main(string[] args)
         {
             Registration reg = new Registration();
@@ -93,7 +80,7 @@ namespace RegLicenseReader
             resultData.VehicleData = vehicleData;
             resultData.PersonalData = personalData;
 
-            ProgramResponse programResponse = new ProgramResponse()
+            RegLicenseReaderResponse programResponse = new RegLicenseReaderResponse()
             {
                 IsError = false,
                 ErrorMessage = string.Empty,
@@ -108,7 +95,7 @@ namespace RegLicenseReader
         {
             string errorMessage = string.Empty;
 
-            ProgramResponse programResponse = new ProgramResponse();
+            RegLicenseReaderResponse programResponse = new RegLicenseReaderResponse();
 
             if ((errorMessage = GetErrorMessage((uint)errorCode)) != string.Empty)
             {

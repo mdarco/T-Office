@@ -10,6 +10,10 @@ app.on('window-all-closed', function () {
     }
 });
 
+app.on('browser-window-created',function(e, window) {
+    window.setMenu(null);
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows
 app.on('ready', function () {

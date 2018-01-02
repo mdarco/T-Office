@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SlavaGu.ConsoleAppLauncher;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,16 @@ namespace T_Office.Api.Controllers
 {
     public class ValuesController : ApiController
     {
+        // GET api/card-reader
+        [Route("api/card-reader")]
+        [HttpGet]
+        public string GetCardData()
+        {
+            string cardReaderPath = @"c:\Dev\T-Office\T-Office.RegLicenseReader\bin\Debug\RegLicenseReader.exe";
+
+            return ConsoleApp.Run(cardReaderPath).Output.Trim();
+        }
+
         // GET api/values
         public IEnumerable<string> Get()
         {

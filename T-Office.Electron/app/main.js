@@ -17,7 +17,11 @@ app.on('browser-window-created',function(e, window) {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows
 app.on('ready', function () {
-    mainWindow = new BrowserWindow({ width: 800, height: 600 });
+    mainWindow = new BrowserWindow({ 
+        width: 800,
+        height: 600,
+        icon: __dirname + '/images/main-icon.png'
+    });
 
     // and load the index.html of the app
     mainWindow.loadURL('file://' + __dirname + '/index.html');

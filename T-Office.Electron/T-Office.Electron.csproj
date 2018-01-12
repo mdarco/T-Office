@@ -72,6 +72,7 @@
     <Content Include="app\app.css" />
     <Content Include="app\Content\abn-tree\abn_tree.css" />
     <Content Include="app\Content\angular-block-ui\angular-block-ui.css" />
+    <Content Include="app\Content\angular-block-ui\angular-block-ui.css.map" />
     <Content Include="app\Content\angular-block-ui\angular-block-ui.min.css" />
     <Content Include="app\Content\angular-csp.css" />
     <Content Include="app\Content\angular-toastr\angular-toastr.css" />
@@ -83,15 +84,28 @@
     <Content Include="app\Content\angular-ui\select2x2.png" />
     <Content Include="app\Content\angular-ui\spinner.gif" />
     <Content Include="app\Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="app\Content\bootstrap\bootstrap-theme.css.map" />
     <Content Include="app\Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="app\Content\bootstrap\bootstrap-theme.min.css.map" />
     <Content Include="app\Content\bootstrap\bootstrap.css" />
+    <Content Include="app\Content\bootstrap\bootstrap.css.map" />
     <Content Include="app\Content\bootstrap\bootstrap.min.css" />
+    <Content Include="app\Content\bootstrap\bootstrap.min.css.map" />
     <Content Include="app\Content\css\select2.css" />
     <Content Include="app\Content\css\select2.min.css" />
     <Content Include="app\Content\font-awesome\font-awesome.css" />
     <Content Include="app\Content\font-awesome\font-awesome.min.css" />
+    <Content Include="app\Content\fonts\fontawesome-webfont.eot" />
     <Content Include="app\Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="app\Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="app\Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="app\Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="app\Content\fonts\FontAwesome.otf" />
+    <Content Include="app\Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="app\Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="app\Content\img\ajax-loader.gif" />
     <Content Include="app\Content\img\alpha.png" />
     <Content Include="app\Content\img\avatars\1.png" />
@@ -103,6 +117,7 @@
     <Content Include="app\Content\img\avatars\male.png" />
     <Content Include="app\Content\img\avatars\sunny-big.png" />
     <Content Include="app\Content\img\avatars\sunny.png" />
+    <Content Include="app\Content\img\avatars\Thumbs.db" />
     <Content Include="app\Content\img\avatars\user-avatar-1.png" />
     <Content Include="app\Content\img\avatars\user-avatar-2.gif" />
     <Content Include="app\Content\img\avatars\user-avatar-3.png" />
@@ -130,6 +145,7 @@
     <Content Include="app\Content\img\demo\sidebarhero.png" />
     <Content Include="app\Content\img\demo\site-1.jpg" />
     <Content Include="app\Content\img\demo\site-2.jpg" />
+    <Content Include="app\Content\img\demo\Thumbs.db" />
     <Content Include="app\Content\img\demo\widget-colorpicker.png" />
     <Content Include="app\Content\img\df-logo.jpg" />
     <Content Include="app\Content\img\df-logo.png" />
@@ -137,18 +153,25 @@
     <Content Include="app\Content\img\doc-2.png" />
     <Content Include="app\Content\img\dropzone\spritemap%402x.png" />
     <Content Include="app\Content\img\dropzone\spritemap.png" />
+    <Content Include="app\Content\img\dropzone\Thumbs.db" />
     <Content Include="app\Content\img\favicon\1favicon.ico" />
     <Content Include="app\Content\img\favicon\favicon.ico" />
     <Content Include="app\Content\img\favicon\favicon.png" />
+    <Content Include="app\Content\img\favicon\Thumbs.db" />
     <Content Include="app\Content\img\flags\de.png" />
     <Content Include="app\Content\img\flags\es.png" />
+    <Content Include="app\Content\img\flags\flags.zip" />
+    <Content Include="app\Content\img\flags\Thumbs.db" />
     <Content Include="app\Content\img\flags\us.png" />
     <Content Include="app\Content\img\gradient\login.png" />
+    <Content Include="app\Content\img\gradient\Thumbs.db" />
     <Content Include="app\Content\img\hue.png" />
     <Content Include="app\Content\img\invoice\americanexpress.png" />
     <Content Include="app\Content\img\invoice\mastercard.png" />
     <Content Include="app\Content\img\invoice\paypal.png" />
+    <Content Include="app\Content\img\invoice\Thumbs.db" />
     <Content Include="app\Content\img\invoice\visa.png" />
+    <Content Include="app\Content\img\jqueryui\Thumbs.db" />
     <Content Include="app\Content\img\jqueryui\ui-bg_flat_0_999999_40x100.png" />
     <Content Include="app\Content\img\jqueryui\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="app\Content\img\jqueryui\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -194,6 +217,7 @@
     <Content Include="app\Content\img\pattern\pattern.png" />
     <Content Include="app\Content\img\pattern\sneaker_mesh_fabric-xs.png" />
     <Content Include="app\Content\img\pattern\sneaker_mesh_fabric.png" />
+    <Content Include="app\Content\img\pattern\Thumbs.db" />
     <Content Include="app\Content\img\pattern\tileable_wood_texture-xs.png" />
     <Content Include="app\Content\img\pattern\tileable_wood_texture.png" />
     <Content Include="app\Content\img\ribbon.png" />
@@ -209,6 +233,7 @@
     <Content Include="app\Content\img\splash\ipad-portrait.png" />
     <Content Include="app\Content\img\splash\iphone.png" />
     <Content Include="app\Content\img\splash\sptouch-icon-iphone.png" />
+    <Content Include="app\Content\img\splash\Thumbs.db" />
     <Content Include="app\Content\img\splash\touch-icon-ipad-retina.png" />
     <Content Include="app\Content\img\splash\touch-icon-ipad.png" />
     <Content Include="app\Content\img\splash\touch-icon-iphone-retina.png" />
@@ -260,6 +285,7 @@
     <Content Include="app\Content\img\superbox\superbox-thumb-7.jpg" />
     <Content Include="app\Content\img\superbox\superbox-thumb-8.jpg" />
     <Content Include="app\Content\img\superbox\superbox-thumb-9.jpg" />
+    <Content Include="app\Content\img\superbox\Thumbs.db" />
     <Content Include="app\Content\img\trophy-icon-disabled.png" />
     <Content Include="app\Content\img\trophy-icon.png" />
     <Content Include="app\Content\img\ts-logo.png" />
@@ -269,7 +295,9 @@
     <Content Include="app\Content\ivh-treeview\ivh-treeview.css" />
     <Content Include="app\Content\ivh-treeview\ivh-treeview.min.css" />
     <Content Include="app\Content\ngTable\ng-table.css" />
+    <Content Include="app\Content\ngTable\ng-table.css.map" />
     <Content Include="app\Content\ngTable\ng-table.min.css" />
+    <Content Include="app\Content\ngTable\ng-table.min.css.map" />
     <Content Include="app\Content\ngTagsInput\ng-tags-input.bootstrap.css" />
     <Content Include="app\Content\ngTagsInput\ng-tags-input.css" />
     <Content Include="app\Content\SmartAdmin\smartadmin-production.css" />
@@ -443,36 +471,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\package.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="app\Content\angular-block-ui\angular-block-ui.css.map" />
-    <Content Include="app\Content\bootstrap\bootstrap-theme.css.map" />
-    <Content Include="app\Content\bootstrap\bootstrap-theme.min.css.map" />
-    <Content Include="app\Content\bootstrap\bootstrap.css.map" />
-    <Content Include="app\Content\bootstrap\bootstrap.min.css.map" />
-    <Content Include="app\Content\fonts\fontawesome-webfont.eot" />
-    <Content Include="app\Content\fonts\fontawesome-webfont.ttf" />
-    <Content Include="app\Content\fonts\fontawesome-webfont.woff" />
-    <Content Include="app\Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="app\Content\fonts\FontAwesome.otf" />
-    <Content Include="app\Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="app\Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="app\Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="app\Content\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="app\Content\img\avatars\Thumbs.db" />
-    <Content Include="app\Content\img\demo\Thumbs.db" />
-    <Content Include="app\Content\img\dropzone\Thumbs.db" />
-    <Content Include="app\Content\img\favicon\Thumbs.db" />
-    <Content Include="app\Content\img\flags\flags.zip" />
-    <Content Include="app\Content\img\flags\Thumbs.db" />
-    <Content Include="app\Content\img\gradient\Thumbs.db" />
-    <Content Include="app\Content\img\invoice\Thumbs.db" />
-    <Content Include="app\Content\img\jqueryui\Thumbs.db" />
-    <Content Include="app\Content\img\pattern\Thumbs.db" />
-    <Content Include="app\Content\img\splash\Thumbs.db" />
-    <Content Include="app\Content\img\superbox\Thumbs.db" />
-    <Content Include="app\Content\ngTable\ng-table.css.map" />
-    <Content Include="app\Content\ngTable\ng-table.min.css.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\fonts\fontawesome-webfont.eot" />

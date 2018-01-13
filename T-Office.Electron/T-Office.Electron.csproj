@@ -358,6 +358,7 @@
     <Content Include="app\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="app\images\logo.jpg" />
     <Content Include="app\images\main-icon.png" />
+    <Content Include="app\images\toffice-logo-transparent.png" />
     <Content Include="app\index.html" />
     <Content Include="app\main.js" />
   </ItemGroup>

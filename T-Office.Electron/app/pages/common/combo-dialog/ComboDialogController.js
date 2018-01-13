@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('DFApp')
+        .module('TOfficeApp')
         .controller('ComboDialogController', ctrlFn);
 
     ctrlFn.$inject = ['$scope', '$uibModalInstance', 'toastr', 'settings', 'comboValues'];

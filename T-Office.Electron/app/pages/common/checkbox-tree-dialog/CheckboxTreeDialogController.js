@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('DFApp')
+        .module('TOfficeApp')
         .controller('CheckboxTreeDialogController', ctrlFn);
 
     ctrlFn.$inject = ['$scope', '$uibModalInstance', '$timeout', 'ivhTreeviewMgr', /* 'ivhTreeviewBfs', */ 'toastr', 'treeData', 'treeSelectedNodes', 'singleSelect', 'rootSelectAllowed', 'options'];

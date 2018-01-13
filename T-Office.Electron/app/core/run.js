@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('DFApp')
+        .module('TOfficeApp')
         .run(runFn);
 
     runFn.$inject = ['$rootScope', '$location', 'AuthorizationService'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('DFApp')
+        .module('TOfficeApp')
         .config(routeFn);
 
     routeFn.$inject = ['$routeProvider'];

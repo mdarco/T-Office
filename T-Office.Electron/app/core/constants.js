@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('DFApp');
+    var app = angular.module('TOfficeApp');
 
     app.constant('WebApiBaseUrl', '/DFApi');
 

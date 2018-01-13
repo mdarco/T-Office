@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('DFApp')
+        .module('TOfficeApp')
         .controller('TableSelectDialogController', ctrlFn);
 
     ctrlFn.$inject = ['$scope', '$uibModalInstance', 'toastr', 'tableStructure', 'tableData', 'additionalChkboxCol', 'tableSelectedData'];

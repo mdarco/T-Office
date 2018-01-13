@@ -20,14 +20,18 @@ app.on('ready', function () {
     mainWindow = new BrowserWindow({ 
         width: 1366,
         height: 768,
-        icon: __dirname + '/images/main-icon.png'
+        icon: __dirname + '/images/main-icon.png',
+        webPreferences: {
+            // for jQuery and other similar libraries to work from script tags
+            nodeIntegration: false
+        }
     });
 
     // and load the index.html of the app
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
     // Open the devtools.
-    // mainWindow.openDevTools();
+    mainWindow.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {

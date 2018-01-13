@@ -363,6 +363,8 @@
     <Content Include="app\main.js" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\pages\clients\clients.html" />
+    <Content Include="app\pages\clients\ClientsController.js" />
     <Content Include="app\pages\common\checkbox-tree-dialog\checkbox-tree-dialog.html" />
     <Content Include="app\pages\common\checkbox-tree-dialog\CheckboxTreeDialogController.js" />
     <Content Include="app\pages\common\combo-dialog\combo-dialog.html" />
@@ -476,6 +478,13 @@
     <Content Include="app\Scripts\sweet-alert\sweet-alert.min.js" />
     <Content Include="app\services\UtilityService.js" />
     <Content Include="package.json" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\package.json" />
@@ -520,6 +529,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\node_modules\" />
+    <Folder Include="app\pages\reports\" />
+    <Folder Include="app\pages\settings\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

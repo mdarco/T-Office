@@ -19,10 +19,14 @@
             .when('/home',
                 {
                     controller: 'HomeController',
-                    templateUrl: 'pages/home/home.html?nd=' + Date.now(),
-                    access: {
-                        loginRequired: true
-                    }
+                    templateUrl: 'pages/home/home.html?nd=' + Date.now()
+                }
+            )
+
+            .when('/clients',
+                {
+                    controller: 'ClientsController',
+                    templateUrl: 'pages/clients/clients.html?nd=' + Date.now()
                 }
             )
 

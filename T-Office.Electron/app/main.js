@@ -18,8 +18,8 @@ app.on('browser-window-created',function(e, window) {
 // initialization and is ready to create browser windows
 app.on('ready', function () {
     mainWindow = new BrowserWindow({ 
-        width: 800,
-        height: 600,
+        width: 1366,
+        height: 768,
         icon: __dirname + '/images/main-icon.png'
     });
 

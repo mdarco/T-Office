@@ -3,7 +3,7 @@
 
     var app = angular.module('TOfficeApp');
 
-    app.constant('WebApiBaseUrl', '/DFApi');
+    app.constant('WebApiBaseUrl', '/TOfficeApi');
 
     app.constant('AppParams', {
         datePickerOptions: {

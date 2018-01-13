@@ -5,29 +5,29 @@
         .module('TOfficeApp')
         .run(runFn);
 
-    runFn.$inject = ['$rootScope', '$location', 'AuthorizationService'];
+    //.$inject = ['$rootScope', '$location', 'AuthorizationService'];
 
-    function runFn($rootScope, $location, AuthorizationService) {
+    function runFn(/* $rootScope, $location, AuthorizationService */) {
         // check route permissions
-        $rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
-            if (nextRoute.access !== undefined) {
-                //var userAccessByPermissionsAuthorisedResult = AuthorizationService.authorize(nextRoute.access.loginRequired, nextRoute.access.requiredPermissions);
-                var userAccessByUserGroupsAuthorisedResult = AuthorizationService.authorizeByUserGroup(nextRoute.access.loginRequired, nextRoute.access.requiredUserGroups);
+        //$rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
+        //    if (nextRoute.access !== undefined) {
+        //        //var userAccessByPermissionsAuthorisedResult = AuthorizationService.authorize(nextRoute.access.loginRequired, nextRoute.access.requiredPermissions);
+        //        var userAccessByUserGroupsAuthorisedResult = AuthorizationService.authorizeByUserGroup(nextRoute.access.loginRequired, nextRoute.access.requiredUserGroups);
 
-                if (userAccessByUserGroupsAuthorisedResult === 'login-required' /* || userAccessByPermissionsAuthorisedResult === 'login-required' */) {
-                    event.preventDefault();
-                    $rootScope.$evalAsync(function () {
-                        $location.path('/login');
-                    });
-                }
+        //        if (userAccessByUserGroupsAuthorisedResult === 'login-required' /* || userAccessByPermissionsAuthorisedResult === 'login-required' */) {
+        //            event.preventDefault();
+        //            $rootScope.$evalAsync(function () {
+        //                $location.path('/login');
+        //            });
+        //        }
 
-                if (userAccessByUserGroupsAuthorisedResult === 'not-authorised' /* || userAccessByPermissionsAuthorisedResult === 'not-authorised' */) {
-                    event.preventDefault();
-                    $rootScope.$evalAsync(function () {
-                        $location.path('/notauthorised');
-                    });
-                }
-            }
-        });
+        //        if (userAccessByUserGroupsAuthorisedResult === 'not-authorised' /* || userAccessByPermissionsAuthorisedResult === 'not-authorised' */) {
+        //            event.preventDefault();
+        //            $rootScope.$evalAsync(function () {
+        //                $location.path('/notauthorised');
+        //            });
+        //        }
+        //    }
+        //});
     }
 })();

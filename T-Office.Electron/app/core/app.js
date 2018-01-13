@@ -9,7 +9,7 @@
         'abnTree',
         'blockUI',
         'ngTable',
-        'UserAuth',
+        //'UserAuth',
         'base64',
         'angularUUID2',
         //'ivh.treeview',

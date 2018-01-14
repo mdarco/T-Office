@@ -30,8 +30,8 @@ namespace T_Office.DAL.DBModel
         public string SerialNumber { get; set; }
         public int RegistrationVehicleDataID { get; set; }
     
+        public virtual RegistrationVehicleData RegistrationVehicleData { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientRegistrationDocumentData> ClientRegistrationDocumentData { get; set; }
-        public virtual RegistrationVehicleData RegistrationVehicleData { get; set; }
     }
 }

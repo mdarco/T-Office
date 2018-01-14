@@ -16,6 +16,8 @@ namespace T_Office.Models
         public string LastName { get; set; }
         public string FullName { get; set; }
         public string Address { get; set; }
+        public string Phone { get; set; }
+        public string RecommendedBy { get; set; }
         public string ClientType { get; set; }
 
         public List<VehicleDataModel> Vehicles { get; set; }

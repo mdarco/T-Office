@@ -121,6 +121,8 @@ namespace T_Office.DAL
                 client.FirstName = model.FirstName;
                 client.LastName = model.LastName;
                 client.Address = model.Address;
+                client.Phone = model.Phone;
+                client.RecommendedBy = model.RecommendedBy;
 
                 ctx.Clients.Add(client);
             }

@@ -26,8 +26,8 @@ namespace T_Office.DAL.DBModel
         public bool IsExpired { get; set; }
     
         public virtual Clients Clients { get; set; }
-        public virtual RegistrationDocumentData RegistrationDocumentData { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VehicleRegistrations> VehicleRegistrations { get; set; }
+        public virtual RegistrationDocumentData RegistrationDocumentData { get; set; }
     }
 }

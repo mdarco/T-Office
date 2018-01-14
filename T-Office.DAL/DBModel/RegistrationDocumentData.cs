@@ -18,7 +18,6 @@ namespace T_Office.DAL.DBModel
         public RegistrationDocumentData()
         {
             this.ClientRegistrationDocumentData = new HashSet<ClientRegistrationDocumentData>();
-            this.RegistrationVehicleData = new HashSet<RegistrationVehicleData>();
         }
     
         public int ID { get; set; }
@@ -29,10 +28,10 @@ namespace T_Office.DAL.DBModel
         public Nullable<System.DateTime> IssuingDate { get; set; }
         public Nullable<System.DateTime> ExpiryDate { get; set; }
         public string SerialNumber { get; set; }
+        public int RegistrationVehicleDataID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientRegistrationDocumentData> ClientRegistrationDocumentData { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RegistrationVehicleData> RegistrationVehicleData { get; set; }
+        public virtual RegistrationVehicleData RegistrationVehicleData { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace T_Office.Models
         public Nullable<System.DateTime> IssuingDate { get; set; }
         public Nullable<System.DateTime> ExpiryDate { get; set; }
         public string SerialNumber { get; set; }
+        public int? RegistrationVehicleDataID { get; set; }
     }
 }

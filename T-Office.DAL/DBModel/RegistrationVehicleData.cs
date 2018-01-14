@@ -14,6 +14,12 @@ namespace T_Office.DAL.DBModel
     
     public partial class RegistrationVehicleData
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RegistrationVehicleData()
+        {
+            this.RegistrationDocumentData = new HashSet<RegistrationDocumentData>();
+        }
+    
         public int ID { get; set; }
         public string RegistrationNumber { get; set; }
         public Nullable<System.DateTime> FirstRegistrationDate { get; set; }
@@ -37,8 +43,8 @@ namespace T_Office.DAL.DBModel
         public string Color { get; set; }
         public string RestrictionToChangeOwner { get; set; }
         public string Load { get; set; }
-        public int RegistrationDocumentDataID { get; set; }
     
-        public virtual RegistrationDocumentData RegistrationDocumentData { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RegistrationDocumentData> RegistrationDocumentData { get; set; }
     }
 }

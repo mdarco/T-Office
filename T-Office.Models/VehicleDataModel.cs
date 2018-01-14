@@ -9,7 +9,6 @@ namespace T_Office.Models
     public class VehicleDataModel
     {
         public int? ID { get; set; }
-        public int? RegistrationDocumentDataID { get; set; }
         public string RegistrationNumber { get; set; }
         public Nullable<System.DateTime> FirstRegistrationDate { get; set; }
         public string ProductionYear { get; set; }

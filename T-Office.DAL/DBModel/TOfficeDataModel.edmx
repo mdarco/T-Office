@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TOfficeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TOfficeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ClientRegistrationDocumentData">
           <Key>
             <PropertyRef Name="ID" />
@@ -38,6 +38,7 @@
           <Property Name="IssuingDate" Type="datetime" />
           <Property Name="ExpiryDate" Type="datetime" />
           <Property Name="SerialNumber" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RegistrationVehicleDataID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RegistrationVehicleData">
           <Key>
@@ -66,7 +67,6 @@
           <Property Name="Color" Type="nvarchar" MaxLength="1000" />
           <Property Name="RestrictionToChangeOwner" Type="nvarchar" MaxLength="1000" />
           <Property Name="Load" Type="nvarchar" MaxLength="1000" />
-          <Property Name="RegistrationDocumentDataID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VehicleRegistrationInstallments">
           <Key>
@@ -115,15 +115,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RegistrationVehicleData_RegistrationDocumentData">
-          <End Role="RegistrationDocumentData" Type="Self.RegistrationDocumentData" Multiplicity="1" />
-          <End Role="RegistrationVehicleData" Type="Self.RegistrationVehicleData" Multiplicity="*" />
+        <Association Name="FK_RegistrationDocumentData_RegistrationVehicleData">
+          <End Role="RegistrationVehicleData" Type="Self.RegistrationVehicleData" Multiplicity="1" />
+          <End Role="RegistrationDocumentData" Type="Self.RegistrationDocumentData" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="RegistrationDocumentData">
+            <Principal Role="RegistrationVehicleData">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="RegistrationVehicleData">
-              <PropertyRef Name="RegistrationDocumentDataID" />
+            <Dependent Role="RegistrationDocumentData">
+              <PropertyRef Name="RegistrationVehicleDataID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -166,9 +166,9 @@
             <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
             <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
           </AssociationSet>
-          <AssociationSet Name="FK_RegistrationVehicleData_RegistrationDocumentData" Association="Self.FK_RegistrationVehicleData_RegistrationDocumentData">
-            <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
+          <AssociationSet Name="FK_RegistrationDocumentData_RegistrationVehicleData" Association="Self.FK_RegistrationDocumentData_RegistrationVehicleData">
             <End Role="RegistrationVehicleData" EntitySet="RegistrationVehicleData" />
+            <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
           </AssociationSet>
           <AssociationSet Name="FK_VehicleRegistrationInstallments_VehicleRegistrations" Association="Self.FK_VehicleRegistrationInstallments_VehicleRegistrations">
             <End Role="VehicleRegistrations" EntitySet="VehicleRegistrations" />
@@ -179,8 +179,7 @@
             <End Role="VehicleRegistrations" EntitySet="VehicleRegistrations" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TOfficeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -193,8 +192,8 @@
           <Property Name="RegistrationDocumentDataID" Type="Int32" Nullable="false" />
           <Property Name="IsExpired" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Clients" Relationship="Self.FK_ClientRegistrationDocumentData_Clients" FromRole="ClientRegistrationDocumentData" ToRole="Clients" />
-          <NavigationProperty Name="RegistrationDocumentData" Relationship="Self.FK_ClientRegistrationDocumentData_RegistrationDocumentData" FromRole="ClientRegistrationDocumentData" ToRole="RegistrationDocumentData" />
           <NavigationProperty Name="VehicleRegistrations" Relationship="Self.FK_VehicleRegistrations_ClientRegistrationDocumentData" FromRole="ClientRegistrationDocumentData" ToRole="VehicleRegistrations" />
+          <NavigationProperty Name="RegistrationDocumentData" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" FromRole="ClientRegistrationDocumentData" ToRole="RegistrationDocumentData" />
         </EntityType>
         <EntityType Name="Clients">
           <Key>
@@ -208,51 +207,6 @@
           <Property Name="LastName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ClientRegistrationDocumentData" Relationship="Self.FK_ClientRegistrationDocumentData_Clients" FromRole="Clients" ToRole="ClientRegistrationDocumentData" />
-        </EntityType>
-        <EntityType Name="RegistrationDocumentData">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IssuingState" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="CompetentAuthority" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IssuingAuthority" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="UnambiguousNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IssuingDate" Type="DateTime" Precision="3" />
-          <Property Name="ExpiryDate" Type="DateTime" Precision="3" />
-          <Property Name="SerialNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ClientRegistrationDocumentData" Relationship="Self.FK_ClientRegistrationDocumentData_RegistrationDocumentData" FromRole="RegistrationDocumentData" ToRole="ClientRegistrationDocumentData" />
-          <NavigationProperty Name="RegistrationVehicleData" Relationship="Self.FK_RegistrationVehicleData_RegistrationDocumentData" FromRole="RegistrationDocumentData" ToRole="RegistrationVehicleData" />
-        </EntityType>
-        <EntityType Name="RegistrationVehicleData">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RegistrationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FirstRegistrationDate" Type="DateTime" Precision="3" />
-          <Property Name="ProductionYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Make" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Model" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="EnginePowerKW" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EngineCapacity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FuelType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="PowerWeightRatio" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Mass" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MaxPermissibleLadenMass" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="TypeApprovalNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NumberOfSeats" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NumberOfStandingPlaces" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="EngineIDNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="VehicleIDNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NumberOfAxles" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Category" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Color" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="RestrictionToChangeOwner" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Load" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="RegistrationDocumentDataID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="RegistrationDocumentData" Relationship="Self.FK_RegistrationVehicleData_RegistrationDocumentData" FromRole="RegistrationVehicleData" ToRole="RegistrationDocumentData" />
         </EntityType>
         <EntityType Name="VehicleRegistrationInstallments">
           <Key>
@@ -292,18 +246,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientRegistrationDocumentData_RegistrationDocumentData">
-          <End Role="RegistrationDocumentData" Type="Self.RegistrationDocumentData" Multiplicity="1" />
-          <End Role="ClientRegistrationDocumentData" Type="Self.ClientRegistrationDocumentData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegistrationDocumentData">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ClientRegistrationDocumentData">
-              <PropertyRef Name="RegistrationDocumentDataID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_VehicleRegistrations_ClientRegistrationDocumentData">
           <End Role="ClientRegistrationDocumentData" Type="Self.ClientRegistrationDocumentData" Multiplicity="1" />
           <End Role="VehicleRegistrations" Type="Self.VehicleRegistrations" Multiplicity="*" />
@@ -313,18 +255,6 @@
             </Principal>
             <Dependent Role="VehicleRegistrations">
               <PropertyRef Name="ClientRegistrationDocumentDataID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RegistrationVehicleData_RegistrationDocumentData">
-          <End Role="RegistrationDocumentData" Type="Self.RegistrationDocumentData" Multiplicity="1" />
-          <End Role="RegistrationVehicleData" Type="Self.RegistrationVehicleData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegistrationDocumentData">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="RegistrationVehicleData">
-              <PropertyRef Name="RegistrationDocumentDataID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -343,31 +273,100 @@
         <EntityContainer Name="TOfficeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ClientRegistrationDocumentData" EntityType="Self.ClientRegistrationDocumentData" />
           <EntitySet Name="Clients" EntityType="Self.Clients" />
-          <EntitySet Name="RegistrationDocumentData" EntityType="Self.RegistrationDocumentData" />
-          <EntitySet Name="RegistrationVehicleData" EntityType="Self.RegistrationVehicleData" />
           <EntitySet Name="VehicleRegistrationInstallments" EntityType="Self.VehicleRegistrationInstallments" />
           <EntitySet Name="VehicleRegistrations" EntityType="Self.VehicleRegistrations" />
           <AssociationSet Name="FK_ClientRegistrationDocumentData_Clients" Association="Self.FK_ClientRegistrationDocumentData_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientRegistrationDocumentData_RegistrationDocumentData" Association="Self.FK_ClientRegistrationDocumentData_RegistrationDocumentData">
-            <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
-            <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
-          </AssociationSet>
           <AssociationSet Name="FK_VehicleRegistrations_ClientRegistrationDocumentData" Association="Self.FK_VehicleRegistrations_ClientRegistrationDocumentData">
             <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
             <End Role="VehicleRegistrations" EntitySet="VehicleRegistrations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RegistrationVehicleData_RegistrationDocumentData" Association="Self.FK_RegistrationVehicleData_RegistrationDocumentData">
-            <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
-            <End Role="RegistrationVehicleData" EntitySet="RegistrationVehicleData" />
           </AssociationSet>
           <AssociationSet Name="FK_VehicleRegistrationInstallments_VehicleRegistrations" Association="Self.FK_VehicleRegistrationInstallments_VehicleRegistrations">
             <End Role="VehicleRegistrations" EntitySet="VehicleRegistrations" />
             <End Role="VehicleRegistrationInstallments" EntitySet="VehicleRegistrationInstallments" />
           </AssociationSet>
+          <EntitySet Name="RegistrationDocumentData" EntityType="TOfficeModel.RegistrationDocumentData" />
+          <EntitySet Name="RegistrationVehicleData" EntityType="TOfficeModel.RegistrationVehicleData" />
+          <AssociationSet Name="FK_ClientRegistrationDocumentData_RegistrationDocumentData" Association="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData">
+            <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
+            <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDocumentData_RegistrationVehicleData" Association="TOfficeModel.FK_RegistrationDocumentData_RegistrationVehicleData">
+            <End Role="RegistrationVehicleData" EntitySet="RegistrationVehicleData" />
+            <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="RegistrationDocumentData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssuingState" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CompetentAuthority" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IssuingAuthority" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="UnambiguousNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IssuingDate" Type="DateTime" Precision="3" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="SerialNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationVehicleDataID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClientRegistrationDocumentData" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" FromRole="RegistrationDocumentData" ToRole="ClientRegistrationDocumentData" />
+          <NavigationProperty Name="RegistrationVehicleData" Relationship="TOfficeModel.FK_RegistrationDocumentData_RegistrationVehicleData" FromRole="RegistrationDocumentData" ToRole="RegistrationVehicleData" />
+        </EntityType>
+        <EntityType Name="RegistrationVehicleData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstRegistrationDate" Type="DateTime" Precision="3" />
+          <Property Name="ProductionYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Make" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="EnginePowerKW" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EngineCapacity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FuelType" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="PowerWeightRatio" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Mass" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MaxPermissibleLadenMass" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TypeApprovalNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfSeats" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfStandingPlaces" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="EngineIDNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="VehicleIDNumber" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfAxles" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RestrictionToChangeOwner" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Load" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RegistrationDocumentData" Relationship="TOfficeModel.FK_RegistrationDocumentData_RegistrationVehicleData" FromRole="RegistrationVehicleData" ToRole="RegistrationDocumentData" />
+        </EntityType>
+        <Association Name="FK_ClientRegistrationDocumentData_RegistrationDocumentData">
+          <End Type="TOfficeModel.RegistrationDocumentData" Role="RegistrationDocumentData" Multiplicity="1" />
+          <End Type="TOfficeModel.ClientRegistrationDocumentData" Role="ClientRegistrationDocumentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDocumentData">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClientRegistrationDocumentData">
+              <PropertyRef Name="RegistrationDocumentDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDocumentData_RegistrationVehicleData">
+          <End Type="TOfficeModel.RegistrationVehicleData" Role="RegistrationVehicleData" Multiplicity="1" />
+          <End Type="TOfficeModel.RegistrationDocumentData" Role="RegistrationDocumentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationVehicleData">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegistrationDocumentData">
+              <PropertyRef Name="RegistrationVehicleDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -397,50 +396,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RegistrationDocumentData">
-            <EntityTypeMapping TypeName="TOfficeModel.RegistrationDocumentData">
-              <MappingFragment StoreEntitySet="RegistrationDocumentData">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="IssuingState" ColumnName="IssuingState" />
-                <ScalarProperty Name="CompetentAuthority" ColumnName="CompetentAuthority" />
-                <ScalarProperty Name="IssuingAuthority" ColumnName="IssuingAuthority" />
-                <ScalarProperty Name="UnambiguousNumber" ColumnName="UnambiguousNumber" />
-                <ScalarProperty Name="IssuingDate" ColumnName="IssuingDate" />
-                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RegistrationVehicleData">
-            <EntityTypeMapping TypeName="TOfficeModel.RegistrationVehicleData">
-              <MappingFragment StoreEntitySet="RegistrationVehicleData">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
-                <ScalarProperty Name="FirstRegistrationDate" ColumnName="FirstRegistrationDate" />
-                <ScalarProperty Name="ProductionYear" ColumnName="ProductionYear" />
-                <ScalarProperty Name="Make" ColumnName="Make" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="EnginePowerKW" ColumnName="EnginePowerKW" />
-                <ScalarProperty Name="EngineCapacity" ColumnName="EngineCapacity" />
-                <ScalarProperty Name="FuelType" ColumnName="FuelType" />
-                <ScalarProperty Name="PowerWeightRatio" ColumnName="PowerWeightRatio" />
-                <ScalarProperty Name="Mass" ColumnName="Mass" />
-                <ScalarProperty Name="MaxPermissibleLadenMass" ColumnName="MaxPermissibleLadenMass" />
-                <ScalarProperty Name="TypeApprovalNumber" ColumnName="TypeApprovalNumber" />
-                <ScalarProperty Name="NumberOfSeats" ColumnName="NumberOfSeats" />
-                <ScalarProperty Name="NumberOfStandingPlaces" ColumnName="NumberOfStandingPlaces" />
-                <ScalarProperty Name="EngineIDNumber" ColumnName="EngineIDNumber" />
-                <ScalarProperty Name="VehicleIDNumber" ColumnName="VehicleIDNumber" />
-                <ScalarProperty Name="NumberOfAxles" ColumnName="NumberOfAxles" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="RestrictionToChangeOwner" ColumnName="RestrictionToChangeOwner" />
-                <ScalarProperty Name="Load" ColumnName="Load" />
-                <ScalarProperty Name="RegistrationDocumentDataID" ColumnName="RegistrationDocumentDataID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VehicleRegistrationInstallments">
             <EntityTypeMapping TypeName="TOfficeModel.VehicleRegistrationInstallments">
               <MappingFragment StoreEntitySet="VehicleRegistrationInstallments">
@@ -463,6 +418,50 @@
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="ClientPhone" ColumnName="ClientPhone" />
                 <ScalarProperty Name="ClientRecommendedBy" ColumnName="ClientRecommendedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistrationDocumentData">
+            <EntityTypeMapping TypeName="TOfficeModel.RegistrationDocumentData">
+              <MappingFragment StoreEntitySet="RegistrationDocumentData">
+                <ScalarProperty Name="RegistrationVehicleDataID" ColumnName="RegistrationVehicleDataID" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="IssuingDate" ColumnName="IssuingDate" />
+                <ScalarProperty Name="UnambiguousNumber" ColumnName="UnambiguousNumber" />
+                <ScalarProperty Name="IssuingAuthority" ColumnName="IssuingAuthority" />
+                <ScalarProperty Name="CompetentAuthority" ColumnName="CompetentAuthority" />
+                <ScalarProperty Name="IssuingState" ColumnName="IssuingState" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistrationVehicleData">
+            <EntityTypeMapping TypeName="TOfficeModel.RegistrationVehicleData">
+              <MappingFragment StoreEntitySet="RegistrationVehicleData">
+                <ScalarProperty Name="Load" ColumnName="Load" />
+                <ScalarProperty Name="RestrictionToChangeOwner" ColumnName="RestrictionToChangeOwner" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="NumberOfAxles" ColumnName="NumberOfAxles" />
+                <ScalarProperty Name="VehicleIDNumber" ColumnName="VehicleIDNumber" />
+                <ScalarProperty Name="EngineIDNumber" ColumnName="EngineIDNumber" />
+                <ScalarProperty Name="NumberOfStandingPlaces" ColumnName="NumberOfStandingPlaces" />
+                <ScalarProperty Name="NumberOfSeats" ColumnName="NumberOfSeats" />
+                <ScalarProperty Name="TypeApprovalNumber" ColumnName="TypeApprovalNumber" />
+                <ScalarProperty Name="MaxPermissibleLadenMass" ColumnName="MaxPermissibleLadenMass" />
+                <ScalarProperty Name="Mass" ColumnName="Mass" />
+                <ScalarProperty Name="PowerWeightRatio" ColumnName="PowerWeightRatio" />
+                <ScalarProperty Name="FuelType" ColumnName="FuelType" />
+                <ScalarProperty Name="EngineCapacity" ColumnName="EngineCapacity" />
+                <ScalarProperty Name="EnginePowerKW" ColumnName="EnginePowerKW" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="ProductionYear" ColumnName="ProductionYear" />
+                <ScalarProperty Name="FirstRegistrationDate" ColumnName="FirstRegistrationDate" />
+                <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

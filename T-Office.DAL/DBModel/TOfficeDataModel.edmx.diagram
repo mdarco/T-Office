@@ -7,15 +7,15 @@
       <Diagram DiagramId="736b1d0d26194b2691c78535048a5c4c" Name="Diagram1" ZoomLevel="98">
         <EntityTypeShape EntityType="TOfficeModel.ClientRegistrationDocumentData" Width="2.5" PointX="3.375" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TOfficeModel.Clients" Width="2.375" PointX="0.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.RegistrationDocumentData" Width="2.375" PointX="0.5" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TOfficeModel.RegistrationVehicleData" Width="2.5" PointX="11.375" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrationInstallments" Width="2.375" PointX="6.375" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrations" Width="2.875" PointX="6.375" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" ManuallyRouted="false" />
-        <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" ManuallyRouted="false" />
         <AssociationConnector Association="TOfficeModel.FK_VehicleRegistrations_ClientRegistrationDocumentData" ManuallyRouted="false" />
-        <AssociationConnector Association="TOfficeModel.FK_RegistrationVehicleData_RegistrationDocumentData" ManuallyRouted="false" />
         <AssociationConnector Association="TOfficeModel.FK_VehicleRegistrationInstallments_VehicleRegistrations" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TOfficeModel.RegistrationDocumentData" Width="2.75" PointX="1.125" PointY="5.5" />
+        <EntityTypeShape EntityType="TOfficeModel.RegistrationVehicleData" Width="2.375" PointX="10.25" PointY="1" />
+        <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" />
+        <AssociationConnector Association="TOfficeModel.FK_RegistrationDocumentData_RegistrationVehicleData" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

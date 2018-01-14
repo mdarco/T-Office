@@ -477,8 +477,17 @@
     <Content Include="app\Scripts\sweet-alert\sweet-alert.js" />
     <Content Include="app\Scripts\sweet-alert\sweet-alert.min.js" />
     <Content Include="app\services\UtilityService.js" />
+    <Content Include="app\Content\ngTable%403.0.1\ng-table.css" />
+    <Content Include="app\Content\ngTable%403.0.1\ng-table.min.css" />
     <Content Include="package.json" />
+    <Content Include="app\Scripts\ngTable%403.0.1\ng-table.js" />
+    <Content Include="app\Scripts\ngTable%403.0.1\ng-table.min.js" />
     <Content Include="web.config" />
+    <Content Include="app\Scripts\ngTable%403.0.1\ng-table.min.js.map" />
+    <Content Include="app\Scripts\ngTable%403.0.1\ng-table.js.map" />
+    <Content Include="app\Content\ngTable%403.0.1\ng-table.min.css.map" />
+    <Content Include="app\Content\ngTable%403.0.1\ng-table.css.map" />
+    <Content Include="packages.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

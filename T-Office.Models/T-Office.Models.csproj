@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiTableResponseModel.cs" />
+    <Compile Include="ClientFilterModel.cs" />
+    <Compile Include="ClientModel.cs" />
     <Compile Include="DocumentDataModel.cs" />
     <Compile Include="PersonalDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

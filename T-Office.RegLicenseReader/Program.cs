@@ -101,6 +101,7 @@ namespace RegLicenseReader
             {
                 programResponse.IsError = true;
                 programResponse.ErrorMessage = errorMessage;
+                programResponse.Result = new RegLicenseData();
 
                 return JsonConvert.SerializeObject(programResponse);
             }

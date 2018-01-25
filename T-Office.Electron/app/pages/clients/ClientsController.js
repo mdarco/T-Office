@@ -81,22 +81,44 @@
         };
 
         $scope.addClient = function () {
-            RegLicenseReaderService.readData().then(
-                function (result) {
-                    if (result && result.data) {
-                        var data = JSON.parse(result.data);
-                        alert(data);
-                    } else {
-                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                        return;
+            bootbox.confirm({
+                message: "Stavite saobraćajnu dozvolu u čitač.",
+                buttons: {
+                    confirm: {
+                        label: 'Ok',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Odustani',
+                        className: 'btn-primary'
                     }
                 },
-                function (error) {
-                    toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                    toastr.error('[GREŠKA] --> ' + error.statusText);
-                    return;
+                callback: function (result) {
+                    if (result) {
+                        RegLicenseReaderService.readData().then(
+                            function (result) {
+                                if (result && result.data) {
+                                    var data = JSON.parse(result.data);
+                                    if (data.IsError) {
+                                        toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                                        return;
+                                    } else {
+                                        alert('Klijent: ' + data.Result.PersonalData.usersSurnameOrBusinessName);
+                                    }
+                                } else {
+                                    toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                    return;
+                                }
+                            },
+                            function (error) {
+                                toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                toastr.error('[GREŠKA] --> ' + error.statusText);
+                                return;
+                            }
+                        );
+                    }
                 }
-            );
+            });
         };
 
         $scope.openClientDossier = function (client) {

@@ -100,7 +100,8 @@
                                 if (result && result.data) {
                                     var data = JSON.parse(result.data);
                                     if (data.IsError) {
-                                        toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                                        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                         return;
                                     } else {
                                         alert('Klijent: ' + data.Result.PersonalData.usersSurnameOrBusinessName);

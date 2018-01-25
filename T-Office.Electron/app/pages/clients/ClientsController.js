@@ -82,7 +82,7 @@
 
         $scope.addClient = function () {
             bootbox.confirm({
-                message: "Stavite saobraćajnu dozvolu u čitač.",
+                message: "<span style='font-weight: bold; font-size: large;'>Stavite saobraćajnu dozvolu u čitač.</span>",
                 buttons: {
                     confirm: {
                         label: 'Ok',

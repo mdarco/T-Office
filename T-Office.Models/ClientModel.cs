@@ -21,5 +21,7 @@ namespace T_Office.Models
         public string ClientType { get; set; }
 
         public List<VehicleDataModel> Vehicles { get; set; }
+
+        public string JMBGPIB { get; set; }
     }
 }

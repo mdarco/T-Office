@@ -10,8 +10,7 @@ namespace T_Office.Models
     {
         public string JMBG { get; set; }
         public string PIB { get; set; }
-        public string CompanyName { get; set; }
-        public string Name { get; set; }
+        public string ClientName { get; set; }
         public string VehicleRegNo { get; set; }
 
         // paging and sorting support

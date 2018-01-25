@@ -16,7 +16,7 @@
     <RootNamespace>T_Office.Electron</RootNamespace>
     <AssemblyName>T-Office.Electron</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -476,6 +476,8 @@
     <Content Include="app\Scripts\sweet-alert\sweet-alert.css" />
     <Content Include="app\Scripts\sweet-alert\sweet-alert.js" />
     <Content Include="app\Scripts\sweet-alert\sweet-alert.min.js" />
+    <Content Include="app\services\ClientsService.js" />
+    <Content Include="app\services\RegLicenseReaderService.js" />
     <Content Include="app\services\UtilityService.js" />
     <Content Include="app\Content\ngTable%403.0.1\ng-table.css" />
     <Content Include="app\Content\ngTable%403.0.1\ng-table.min.css" />
@@ -556,7 +558,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58815</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58815/</IISUrl>
+          <IISUrl>http://localhost/TOffice</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

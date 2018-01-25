@@ -34,14 +34,9 @@ namespace T_Office.DAL
                         q = q.Where(x => x.PIB.StartsWith(filter.PIB));
                     }
 
-                    if (!string.IsNullOrEmpty(filter.CompanyName))
+                    if (!string.IsNullOrEmpty(filter.ClientName))
                     {
-                        q = q.Where(x => x.CompanyName.ToLower().Contains(filter.CompanyName.ToLower()));
-                    }
-
-                    if (!string.IsNullOrEmpty(filter.Name))
-                    {
-                        q = q.Where(x => (x.FirstName + " " + x.LastName).ToLower().Contains(filter.Name.ToLower()));
+                        q = q.Where(x => x.CompanyName.ToLower().Contains(filter.ClientName.ToLower()) || (x.FirstName + " " + x.LastName).ToLower().Contains(filter.ClientName.ToLower()));
                     }
 
                     if (!string.IsNullOrEmpty(filter.VehicleRegNo))
@@ -80,7 +75,7 @@ namespace T_Office.DAL
                                     CompanyName = x.CompanyName,
                                     FirstName = x.FirstName,
                                     LastName = x.LastName,
-                                    FullName = x.FirstName + " " + x.LastName,
+                                    FullName = (!string.IsNullOrEmpty(x.JMBG)) ? (x.FirstName + " " + x.LastName) : x.CompanyName,
                                     Address = x.Address,
                                     ClientType = (!string.IsNullOrEmpty(x.JMBG)) ? "Fizičko lice" : "Pravno lice",
 

@@ -122,6 +122,10 @@
             });
         };
 
+        $scope.addClientManually = function () {
+            alert('U razvoju..');
+        };
+
         $scope.openClientDossier = function (client) {
             $location.path('/client-file/' + client.ID);
         };

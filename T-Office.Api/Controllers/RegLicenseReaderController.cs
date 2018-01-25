@@ -16,30 +16,51 @@ namespace T_Office.Api.Controllers
         [HttpGet]
         public string ReadLicenseData()
         {
+            string result = string.Empty;
+
             string path = ConfigurationManager.AppSettings["toffice:RegLicenseReaderPath"];
             if (string.IsNullOrEmpty(path))
             {
-                throw new Exception("Nije zadata putanja do programa za čitanje podataka sa saobraćajne dozvole.");
+                throw new HttpResponseException(
+                    new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        ReasonPhrase = "Nije zadata putanja do programa za čitanje podataka sa saobraćajne dozvole."
+                    });
+
+                // TODO: log error
             }
 
-            var proc = new Process
+            try
             {
-                StartInfo = new ProcessStartInfo
+                var proc = new Process
                 {
-                    FileName = path,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = path,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true
+                    }
+                };
+
+                proc.Start();
+                while (!proc.StandardOutput.EndOfStream)
+                {
+                    string line = proc.StandardOutput.ReadLine();
+                    result += line;
                 }
-            };
-
-            string result = string.Empty;
-
-            proc.Start();
-            while (!proc.StandardOutput.EndOfStream)
+            }
+            catch (Exception ex)
             {
-                string line = proc.StandardOutput.ReadLine();
-                result += line;
+                throw new HttpResponseException(
+                    new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        ReasonPhrase = string.Format("{0}\n\n{1}", "Došlo je do greške prilikom čitanja podataka sa saobraćajne dozvole", "[GREŠKA] --> " + ex.Message)
+                    });
+
+                // TODO: log error
             }
 
             return result;

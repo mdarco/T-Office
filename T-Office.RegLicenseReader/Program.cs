@@ -13,66 +13,103 @@ namespace RegLicenseReader
     {
         static void Main(string[] args)
         {
+            RegLicenseReaderResponse errorResponse = new RegLicenseReaderResponse()
+            {
+                IsError = true
+            };
+
             Registration reg = new Registration();
 
             int initResponse = reg.Initialize();
             if (initResponse != 0 && initResponse != 1056)
             {
-                Console.Write(HandleError(initResponse));
-                return;
+                //Console.WriteLine("Initialize");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)initResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)initResponse);
+                Console.Write(JsonConvert.SerializeObject(errorResponse));
+                Environment.Exit(0);
             }
 
             string readerName = string.Empty;
             int getReaderNameResponse = reg.GetReaderName(0, out readerName);
             if (getReaderNameResponse != 0 && (uint)getReaderNameResponse != 0x80100008)
             {
-                Console.Write(HandleError(getReaderNameResponse));
-                return;
+                //Console.WriteLine("Get reader name");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)getReaderNameResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)getReaderNameResponse);
+                Console.Write(JsonConvert.SerializeObject(errorResponse));
+                Environment.Exit(0);
             }
 
             int getSelectReaderResponse = reg.SelectReader(readerName);
             if (getSelectReaderResponse != 0)
             {
-                Console.Write(HandleError(getSelectReaderResponse));
-                return;
+                //Console.WriteLine("Get select reader");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)getSelectReaderResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)getSelectReaderResponse);
+                Console.Write(JsonConvert.SerializeObject(errorResponse));
+                Environment.Exit(0);
             }
 
             int processNewCardResponse = reg.ProcessNewCard();
             if (processNewCardResponse != 0)
             {
-                Console.Write(HandleError(processNewCardResponse));
-                return;
+                //Console.WriteLine("Process new card");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)processNewCardResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)processNewCardResponse);
+                Console.Write(JsonConvert.SerializeObject(errorResponse));
+                Environment.Exit(0);
             }
 
             _DOCUMENT_DATA docData;
             int docDataResponse = reg.ReadDocumentData(out docData);
             if (docDataResponse != 0)
             {
-                Console.Write(HandleError(docDataResponse));
-                return;
+                //Console.WriteLine("Read doc data");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)docDataResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)docDataResponse);
+                Console.Write(JsonConvert.SerializeObject(errorResponse));
+                Environment.Exit(0);
             }
 
             _VEHICLE_DATA vehicleData;
             int vehicleDataResponse = reg.ReadVehicleData(out vehicleData);
             if (vehicleDataResponse != 0)
             {
-                Console.Write(HandleError(vehicleDataResponse));
-                return;
+                //Console.WriteLine("Get vehcle data");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)vehicleDataResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)vehicleDataResponse);
+                Console.Write(JsonConvert.SerializeObject(errorResponse));
+                Environment.Exit(0);
             }
 
             _PERSONAL_DATA personalData;
             int personalDataResponse = reg.ReadPersonalData(out personalData);
             if (personalDataResponse != 0)
             {
-                Console.Write(HandleError(personalDataResponse));
-                return;
+                //Console.WriteLine("Get personal data");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)personalDataResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)initResponse);
+                Console.Write(JsonConvert.SerializeObject(personalDataResponse));
+                Environment.Exit(0);
             }
 
             int finalizeResponse = reg.Finalize();
             if (finalizeResponse != 0)
             {
-                Console.Write(HandleError(finalizeResponse));
-                return;
+                //Console.WriteLine("Finalize");
+                //Console.WriteLine("ERROR MESSAGE: " + GetErrorMessage((uint)finalizeResponse));
+
+                errorResponse.ErrorMessage = GetErrorMessage((uint)initResponse);
+                Console.Write(JsonConvert.SerializeObject(finalizeResponse));
+                Environment.Exit(0);
             }
 
             RegLicenseData resultData = new RegLicenseData();
@@ -88,10 +125,10 @@ namespace RegLicenseReader
             };
 
             Console.Write(JsonConvert.SerializeObject(programResponse));
-            return;
+            Environment.Exit(0);
         }
 
-        static string HandleError(int errorCode)
+        static RegLicenseReaderResponse HandleError(int errorCode)
         {
             string errorMessage = string.Empty;
 
@@ -101,12 +138,9 @@ namespace RegLicenseReader
             {
                 programResponse.IsError = true;
                 programResponse.ErrorMessage = errorMessage;
-                programResponse.Result = new RegLicenseData();
-
-                return JsonConvert.SerializeObject(programResponse);
             }
 
-            return string.Empty;
+            return programResponse;
         }
 
         static string GetErrorMessage(uint responseCode)

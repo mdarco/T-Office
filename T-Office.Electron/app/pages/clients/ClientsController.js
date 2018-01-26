@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientsController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'NgTableParams', 'ClientsService', 'RegLicenseReaderService', 'toastr'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'RegLicenseReaderService', 'toastr'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, NgTableParams, ClientsService, RegLicenseReaderService, toastr) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, RegLicenseReaderService, toastr) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
@@ -104,7 +104,39 @@
                                         toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                         return;
                                     } else {
-                                        insertClient(data.Result);
+                                        var filters_ownerName = data.Result.PersonalData.ownerName.split(' ');
+                                        filters_ownerName = _.filter(filters_ownerName, function (item) {
+                                            return item.replace(/\0/g, '').length > 3; // eliminates null strings
+                                        });
+
+                                        var filters_ownersSurnameOrBusinessName = data.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
+                                        filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
+                                            return item.replace(/\0/g, '').length > 3;
+                                        });
+
+                                        var filters_usersName = data.Result.PersonalData.usersName.split(' ');
+                                        filters_usersName = _.filter(filters_usersName, function (item) {
+                                            return item.replace(/\0/g, '').length > 3;
+                                        });
+
+                                        var filters_usersSurnameOrBusinessName = data.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
+                                        filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
+                                            return item.replace(/\0/g, '').length > 3;
+                                        });
+
+                                        var clientNameFilters = [
+                                            ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
+                                            ...filters_usersName, ...filters_usersSurnameOrBusinessName
+                                        ];
+
+                                        getExistingClients(clientNameFilters).then(
+                                            function (existingClients) {
+                                                insertClient(data.Result, existingClients || []);
+                                            },
+                                            function (error) {
+                                                insertClient(data.Result, []);
+                                            }
+                                        );
                                     }
                                 } else {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
@@ -122,7 +154,7 @@
             });
         };
 
-        function insertClient(data) {
+        function insertClient(data, existingClients) {
             var dialogHtml = `
                 <table class="table table-condensed table-striped">
                     <tbody>
@@ -138,6 +170,21 @@
                             <td style="color: blue;">Vozilo</td>
                             <td>${data.VehicleData.vehicleMake || ''} ${data.VehicleData.commercialDescription || ''} (${data.VehicleData.registrationNumberOfVehicle || ''})</td>
                         </tr>
+                    </tbody>
+                </table>
+
+                <br /><br />
+
+                <table class="table table-condensed table-striped">
+                    <caption>Postojeći klijenti</caption>
+                    <tbody>
+            `;
+
+            _.each(existingClients, function (existingClient) {
+                dialogHtml += '<tr><td>' + existingClient.FullName + '</td></tr>';
+            });
+
+            dialogHtml += `
                     </tbody>
                 </table>
             `;

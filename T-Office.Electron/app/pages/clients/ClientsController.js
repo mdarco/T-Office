@@ -127,12 +127,16 @@
                 <table class="table table-condensed table-striped">
                     <tbody>
                         <tr>
-                            <td>Vlasnik</td>
-                            <td>${data.PersonalData.ownersName} ${data.PersonalData.ownersSurnameOrBusinessName}, ${data.PersonalData.ownerAddress}</td>
+                            <td style="color: blue;">Vlasnik</td>
+                            <td>${data.PersonalData.ownersName || ''} ${data.PersonalData.ownersSurnameOrBusinessName || ''}, ${data.PersonalData.ownerAddress || ''}</td>
                         </tr>
                         <tr>
-                            <td>Korisnik</td>
-                            <td>${data.PersonalData.usersName} ${data.PersonalData.usersSurnameOrBusinessName}, ${data.PersonalData.usersAddress}</td>
+                            <td style="color: blue;">Korisnik</td>
+                            <td>${data.PersonalData.usersName || ''} ${data.PersonalData.usersSurnameOrBusinessName || ''}, ${data.PersonalData.usersAddress || ''}</td>
+                        </tr>
+                        <tr>
+                            <td style="color: blue;">Vozilo</td>
+                            <td>${data.VehicleData.vehicleMake || ''} ${data.VehicleData.commercialDescription || ''} (${data.VehicleData.registrationNumberOfVehicle || ''})</td>
                         </tr>
                     </tbody>
                 </table>

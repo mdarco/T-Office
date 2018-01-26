@@ -104,7 +104,7 @@
                                         toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                         return;
                                     } else {
-                                        alert('Klijent: ' + data.Result.PersonalData.usersSurnameOrBusinessName);
+                                        insertClient(data.Result);
                                     }
                                 } else {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
@@ -121,6 +121,48 @@
                 }
             });
         };
+
+        function insertClient(data) {
+            var dialogHtml = `
+                <table class="table table-condensed table-striped">
+                    <tbody>
+                        <tr>
+                            <td>Vlasnik</td>
+                            <td>${data.PersonalData.ownersName} ${data.PersonalData.ownersSurnameOrBusinessName}, ${data.PersonalData.ownerAddress}</td>
+                        </tr>
+                        <tr>
+                            <td>Korisnik</td>
+                            <td>${data.PersonalData.usersName} ${data.PersonalData.usersSurnameOrBusinessName}, ${data.PersonalData.usersAddress}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            bootbox.dialog({
+                title: '<span style="font-weight: bold;">Novi klijent</span>',
+                message: dialogHtml,
+                buttons: {
+                    cancel: {
+                        label: 'Odustani',
+                        className: 'btn-primary'
+                    },
+                    insertOwner: {
+                        label: 'Upiši vlasnika kao klijenta',
+                        className: 'btn-success',
+                        callback: {
+                            // TODO: insert owner as client
+                        }
+                    },
+                    insertUser: {
+                        label: 'Upiši korisnika kao klijenta',
+                        className: 'btn-success',
+                        callback: {
+                            // TODO: insert user as client
+                        }
+                    }
+                }
+            });
+        }
 
         $scope.addClientManually = function () {
             alert('U razvoju..');

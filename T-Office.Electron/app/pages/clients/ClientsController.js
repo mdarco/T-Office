@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientsController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'RegLicenseReaderService', 'toastr'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'toastr'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, RegLicenseReaderService, toastr) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, toastr) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
@@ -130,7 +130,12 @@
                                         ];
 
                                         getExistingClients(clientNameFilters).then(
-                                            function (existingClients) {
+                                            function (existingClientsArray) {
+                                                var existingClients = [];
+                                                _.each(existingClientsArray, function (item) {
+                                                    existingClients.push(item.data.Data || []);
+                                                });
+
                                                 insertClient(data.Result, existingClients || []);
                                             },
                                             function (error) {
@@ -189,6 +194,54 @@
                 </table>
             `;
 
+            var model = {
+                DocumentData: {
+                    IssuingState: data.DocumentData.stateIssuing.replace(/\0/g, ''),
+                    CompetentAuthority: data.DocumentData.competentAuthority.replace(/\0/g, ''),
+                    IssuingAuthority: data.DocumentData.authorityIssuing.replace(/\0/g, ''),
+                    UnambiguousNumber: data.DocumentData.unambiguousNumber.replace(/\0/g, ''),
+                    IssuingDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.issuingDate.replace(/\0/g, '')),
+                    ExpiryDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.expiryDate.replace(/\0/g, '')),
+                    SerialNumber: data.DocumentData.serialNumber.replace(/\0/g, '')
+                },
+
+                VehicleData: {
+                    RegistrationNumber: data.VehicleData.registrationNumberOfVehicle.replace(/\0/g, ''),
+                    FirstRegistrationDate: UtilityService.convertSerbianDateStringToISODateString(data.VehicleData.dateOfFirstRegistration.replace(/\0/g, '')),
+                    ProductionYear: data.VehicleData.yearOfProduction.replace(/\0/g, ''),
+                    Make: data.VehicleData.vehicleMake.replace(/\0/g, ''),
+                    Model: data.VehicleData.commercialDescription.replace(/\0/g, ''),
+                    Type: data.VehicleData.vehicleType.replace(/\0/g, ''),
+                    EnginePowerKW: data.VehicleData.maximumNetPower.replace(/\0/g, ''),
+                    EngineCapacity: data.VehicleData.engineCapacity.replace(/\0/g, ''),
+                    FuelType: data.VehicleData.typeOfFuel.replace(/\0/g, ''),
+                    PowerWeightRatio: data.VehicleData.powerWeightRatio.replace(/\0/g, ''),
+                    Mass: data.VehicleData.vehicleMass.replace(/\0/g, ''),
+                    MaxPermissibleLadenMass: data.VehicleData.maximumPermissibleLadenMass.replace(/\0/g, ''),
+                    TypeApprovalNumber: data.VehicleData.typeApprovalNumber.replace(/\0/g, ''),
+                    NumberOfSeats: data.VehicleData.numberOfSeats.replace(/\0/g, ''),
+                    NumberOfStandingPlaces: data.VehicleData.numberOfStandingPlaces.replace(/\0/g, ''),
+                    EngineIDNumber: data.VehicleData.engineIDNumber.replace(/\0/g, ''),
+                    VehicleIDNumber: data.VehicleData.vehicleIDNumber.replace(/\0/g, ''),
+                    NumberOfAxles: data.VehicleData.numberOfAxles.replace(/\0/g, ''),
+                    Category: data.VehicleData.vehicleCategory.replace(/\0/g, ''),
+                    Color: data.VehicleData.colourOfVehicle.replace(/\0/g, ''),
+                    RestrictionToChangeOwner: UtilityService.convertSerbianJoinedDateStringToISODateString(data.VehicleData.restrictionToChangeOwner.replace(/\0/g, '')),
+                    Load: data.VehicleData.vehicleLoad.replace(/\0/g, '')
+                },
+
+                PersonalData: {
+                    OwnerPersonalNo: data.PersonalData.ownersPersonalNo.replace(/\0/g, ''),
+                    OwnerName: data.PersonalData.ownerName.replace(/\0/g, ''),
+                    OwnerSurnameOrBusinessName: data.PersonalData.ownersSurnameOrBusinessName.replace(/\0/g, ''),
+                    OwnerAddress: ownerAddress.replace(/\0/g, ''),
+                    UserPersonalNo: data.PersonalData.usersPersonalNo.replace(/\0/g, ''),
+                    UserName: data.PersonalData.usersName.replace(/\0/g, ''),
+                    UserSurnameOrBusinessName: data.PersonalData.usersSurnameOrBusinessName.replace(/\0/g, ''),
+                    UserAddress: data.PersonalData.usersAddress.replace(/\0/g, '')
+                }
+            };
+
             bootbox.dialog({
                 title: '<span style="font-weight: bold;">Novi klijent</span>',
                 message: dialogHtml,
@@ -197,22 +250,33 @@
                         label: 'Odustani',
                         className: 'btn-primary'
                     },
-                    insertOwner: {
-                        label: 'Upiši vlasnika kao klijenta',
+                    addClient: {
+                        label: 'Upiši klijenta',
                         className: 'btn-success',
-                        callback: {
-                            // TODO: insert owner as client
-                        }
-                    },
-                    insertUser: {
-                        label: 'Upiši korisnika kao klijenta',
-                        className: 'btn-success',
-                        callback: {
-                            // TODO: insert user as client
+                        callback: function () {
+                            ClientsService.addClientFull(model).then(
+                                function () {
+                                    toastr.success('Novi klijent uspešno upisan.');
+                                },
+                                function (error) {
+                                    toastr.error('Došlo je do greške prilikom upisa novog klijenta.');
+                                    toastr.error('[GREŠKA] --> ' + error.statusText);
+                                    return false;
+                                }
+                            );
                         }
                     }
                 }
             });
+        }
+
+        function getExistingClients(filters) {
+            var promises = [];
+            _.each(filters, function (filter) {
+                promises.push(ClientsService.getFiltered({ ClientName: filter }));
+            });
+
+            return $q.all(promises);
         }
 
         $scope.addClientManually = function () {

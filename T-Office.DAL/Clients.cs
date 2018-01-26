@@ -26,17 +26,17 @@ namespace T_Office.DAL
 
                     if (!string.IsNullOrEmpty(filter.JMBG))
                     {
-                        q = q.Where(x => x.JMBG.StartsWith(filter.JMBG));
+                        q = q.Where(x => x.OwnerPersonalNo.StartsWith(filter.JMBG) || x.UserPersonalNo.StartsWith(filter.JMBG));
                     }
 
                     if (!string.IsNullOrEmpty(filter.PIB))
                     {
-                        q = q.Where(x => x.PIB.StartsWith(filter.PIB));
+                        q = q.Where(x => x.OwnerPIB.StartsWith(filter.PIB) || x.UserPIB.StartsWith(filter.PIB));
                     }
 
                     if (!string.IsNullOrEmpty(filter.ClientName))
                     {
-                        q = q.Where(x => x.CompanyName.ToLower().Contains(filter.ClientName.ToLower()) || (x.FirstName + " " + x.LastName).ToLower().Contains(filter.ClientName.ToLower()));
+                        q = q.Where(x => (x.OwnerName + " " + x.OwnerSurnameOrBusinessName).ToLower().Contains(filter.ClientName.ToLower()) || (x.UserName + " " + x.UserSurnameOrBusinessName).ToLower().Contains(filter.ClientName.ToLower()));
                     }
 
                     if (!string.IsNullOrEmpty(filter.VehicleRegNo))
@@ -48,7 +48,7 @@ namespace T_Office.DAL
                     if (string.IsNullOrEmpty(filter.OrderByClause))
                     {
                         // default order
-                        filter.OrderByClause = "CompanyName, FirstName, LastName";
+                        filter.OrderByClause = "OwnerName, UserName, OwnerSurnameOrBusinessName, UserSurnameOrBusinessName";
                     }
 
                     if (filter.PageNo < 1)
@@ -70,14 +70,25 @@ namespace T_Office.DAL
                                 new ClientModel()
                                 {
                                     ID = x.ID,
-                                    JMBG = x.JMBG,
-                                    PIB = x.PIB,
-                                    CompanyName = x.CompanyName,
-                                    FirstName = x.FirstName,
-                                    LastName = x.LastName,
-                                    FullName = (!string.IsNullOrEmpty(x.JMBG)) ? (x.FirstName + " " + x.LastName) : x.CompanyName,
-                                    Address = x.Address,
-                                    ClientType = (!string.IsNullOrEmpty(x.JMBG)) ? "Fizičko lice" : "Pravno lice",
+
+                                    OwnerPersonalNo = x.OwnerPersonalNo,
+                                    OwnerPIB = x.OwnerPIB,
+                                    OwnerName = x.OwnerName,
+                                    OwnerSurnameOrBusinessName = x.OwnerSurnameOrBusinessName,
+                                    OwnerAddress = x.OwnerAddress,
+                                    OwnerPhone = x.OwnerPhone,
+                                    OwnerEmail = x.OwnerEmail,
+
+                                    UserPersonalNo = x.UserPersonalNo,
+                                    UserPIB = x.UserPIB,
+                                    UserName = x.UserName,
+                                    UserSurnameOrBusinessName = x.UserSurnameOrBusinessName,
+                                    UserAddress = x.UserAddress,
+                                    UserPhone = x.UserPhone,
+                                    UserEmail = x.UserEmail,
+
+                                    FullOwnerName = x.OwnerName + "" + x.OwnerSurnameOrBusinessName,
+                                    FullUserName = x.UserName + "" + x.UserSurnameOrBusinessName,
 
                                     Vehicles = 
                                         x.ClientRegistrationDocumentData
@@ -105,25 +116,43 @@ namespace T_Office.DAL
             }
         }
 
-        public static void AddClient(TOfficeEntities ctx, ClientModel model)
+        public static void AddClientFull(RegistrationDataModel model)
         {
-            if (model != null)
+            using (var ctx = new TOfficeEntities())
             {
-                DBModel.Clients client = new DBModel.Clients();
-                client.JMBG = model.JMBG;
-                client.PIB = model.PIB;
-                client.CompanyName = model.CompanyName;
-                client.FirstName = model.FirstName;
-                client.LastName = model.LastName;
-                client.Address = model.Address;
-                client.Phone = model.Phone;
-                client.RecommendedBy = model.RecommendedBy;
+                if (model != null)
+                {
+                    var clientModel = model.PersonalData;
 
-                ctx.Clients.Add(client);
-            }
-            else
-            {
-                throw new Exception("Ne postoje podaci o klijentu.");
+                    DBModel.Clients client = new DBModel.Clients()
+                    {
+                        OwnerPersonalNo = clientModel.OwnerPersonalNo,
+                        OwnerPIB = clientModel.OwnerPIB,
+                        OwnerName = clientModel.OwnerName,
+                        OwnerSurnameOrBusinessName = clientModel.OwnerSurnameOrBusinessName,
+                        OwnerAddress = clientModel.OwnerAddress,
+                        OwnerPhone = clientModel.OwnerPhone,
+                        OwnerEmail = clientModel.OwnerEmail,
+
+                        UserPersonalNo = clientModel.UserPersonalNo,
+                        UserPIB = clientModel.UserPIB,
+                        UserName = clientModel.UserName,
+                        UserSurnameOrBusinessName = clientModel.UserSurnameOrBusinessName,
+                        UserAddress = clientModel.UserAddress,
+                        UserPhone = clientModel.UserPhone,
+                        UserEmail = clientModel.UserEmail,
+
+                        RecommendedBy = clientModel.RecommendedBy
+                    };
+
+                    ctx.Clients.Add(client);
+
+                    // TODO: RegistrationDocuments.addDocument(ctx, model);
+                }
+                else
+                {
+                    throw new Exception("Ne postoje podaci o klijentu.");
+                }
             }
         }
     }

@@ -28,8 +28,8 @@ namespace T_Office.DAL.DBModel
         public virtual DbSet<VehicleRegistrationInstallments> VehicleRegistrationInstallments { get; set; }
         public virtual DbSet<RegistrationDocumentData> RegistrationDocumentData { get; set; }
         public virtual DbSet<RegistrationVehicleData> RegistrationVehicleData { get; set; }
-        public virtual DbSet<Clients> Clients { get; set; }
         public virtual DbSet<VehicleRegistrations> VehicleRegistrations { get; set; }
         public virtual DbSet<ClientRegistrationDocumentData> ClientRegistrationDocumentData { get; set; }
+        public virtual DbSet<Clients> Clients { get; set; }
     }
 }

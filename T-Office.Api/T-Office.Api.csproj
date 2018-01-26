@@ -163,6 +163,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegLicenseReaderController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -221,7 +222,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\T-Office.DAL\T-Office.DAL.csproj">
+      <Project>{2d71f902-6f61-4e7f-afe4-ff78549bd6cc}</Project>
+      <Name>T-Office.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\T-Office.Models\T-Office.Models.csproj">
+      <Project>{7bc2d9e0-613b-4856-9c20-21a7d1c21315}</Project>
+      <Name>T-Office.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

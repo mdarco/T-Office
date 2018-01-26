@@ -18,13 +18,20 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="JMBG" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PIB" Type="nvarchar" MaxLength="1000" />
-          <Property Name="CompanyName" Type="nvarchar" MaxLength="1000" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="1000" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Address" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="300" />
+          <Property Name="OwnerPersonalNo" Type="nvarchar" MaxLength="500" />
+          <Property Name="OwnerPIB" Type="nvarchar" MaxLength="100" />
+          <Property Name="OwnerName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="OwnerSurnameOrBusinessName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="OwnerAddress" Type="nvarchar" MaxLength="4000" />
+          <Property Name="OwnerPhone" Type="nvarchar" MaxLength="100" />
+          <Property Name="OwnerEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserPersonalNo" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserPIB" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="UserSurnameOrBusinessName" Type="nvarchar" MaxLength="4000" />
+          <Property Name="UserAddress" Type="nvarchar" MaxLength="4000" />
+          <Property Name="UserPhone" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="100" />
           <Property Name="RecommendedBy" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="RegistrationDocumentData">
@@ -202,17 +209,12 @@
             <End Role="RegistrationVehicleData" EntitySet="RegistrationVehicleData" />
             <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
           </AssociationSet>
-          <EntitySet Name="Clients" EntityType="TOfficeModel.Clients" />
           <EntitySet Name="VehicleRegistrations" EntityType="TOfficeModel.VehicleRegistrations" />
           <AssociationSet Name="FK_VehicleRegistrationInstallments_VehicleRegistrations" Association="TOfficeModel.FK_VehicleRegistrationInstallments_VehicleRegistrations">
             <End Role="VehicleRegistrations" EntitySet="VehicleRegistrations" />
             <End Role="VehicleRegistrationInstallments" EntitySet="VehicleRegistrationInstallments" />
           </AssociationSet>
           <EntitySet Name="ClientRegistrationDocumentData" EntityType="TOfficeModel.ClientRegistrationDocumentData" />
-          <AssociationSet Name="FK_ClientRegistrationDocumentData_Clients" Association="TOfficeModel.FK_ClientRegistrationDocumentData_Clients">
-            <End Role="Clients" EntitySet="Clients" />
-            <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
-          </AssociationSet>
           <AssociationSet Name="FK_ClientRegistrationDocumentData_RegistrationDocumentData" Association="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData">
             <End Role="RegistrationDocumentData" EntitySet="RegistrationDocumentData" />
             <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
@@ -220,6 +222,11 @@
           <AssociationSet Name="FK_VehicleRegistrations_ClientRegistrationDocumentData" Association="TOfficeModel.FK_VehicleRegistrations_ClientRegistrationDocumentData">
             <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
             <End Role="VehicleRegistrations" EntitySet="VehicleRegistrations" />
+          </AssociationSet>
+          <EntitySet Name="Clients" EntityType="TOfficeModel.Clients" />
+          <AssociationSet Name="FK_ClientRegistrationDocumentData_Clients" Association="TOfficeModel.FK_ClientRegistrationDocumentData_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="ClientRegistrationDocumentData" EntitySet="ClientRegistrationDocumentData" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="RegistrationDocumentData">
@@ -279,21 +286,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Clients">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JMBG" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="PIB" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="RecommendedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ClientRegistrationDocumentData" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" FromRole="Clients" ToRole="ClientRegistrationDocumentData" />
-        </EntityType>
         <EntityType Name="VehicleRegistrations">
           <Key>
             <PropertyRef Name="ID" />
@@ -325,22 +317,10 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientID" Type="Int32" Nullable="false" />
           <Property Name="RegistrationDocumentDataID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Clients" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" FromRole="ClientRegistrationDocumentData" ToRole="Clients" />
           <NavigationProperty Name="RegistrationDocumentData" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" FromRole="ClientRegistrationDocumentData" ToRole="RegistrationDocumentData" />
           <NavigationProperty Name="VehicleRegistrations" Relationship="TOfficeModel.FK_VehicleRegistrations_ClientRegistrationDocumentData" FromRole="ClientRegistrationDocumentData" ToRole="VehicleRegistrations" />
+          <NavigationProperty Name="Clients" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" FromRole="ClientRegistrationDocumentData" ToRole="Clients" />
         </EntityType>
-        <Association Name="FK_ClientRegistrationDocumentData_Clients">
-          <End Type="TOfficeModel.Clients" Role="Clients" Multiplicity="1" />
-          <End Type="TOfficeModel.ClientRegistrationDocumentData" Role="ClientRegistrationDocumentData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clients">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ClientRegistrationDocumentData">
-              <PropertyRef Name="ClientID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ClientRegistrationDocumentData_RegistrationDocumentData">
           <End Type="TOfficeModel.RegistrationDocumentData" Role="RegistrationDocumentData" Multiplicity="1" />
           <End Type="TOfficeModel.ClientRegistrationDocumentData" Role="ClientRegistrationDocumentData" Multiplicity="*" />
@@ -362,6 +342,40 @@
             </Principal>
             <Dependent Role="VehicleRegistrations">
               <PropertyRef Name="ClientRegistrationDocumentDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerPersonalNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerPIB" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerSurnameOrBusinessName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerAddress" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserPersonalNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserPIB" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="UserSurnameOrBusinessName" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="UserAddress" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="UserPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RecommendedBy" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientRegistrationDocumentData" Relationship="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" FromRole="Clients" ToRole="ClientRegistrationDocumentData" />
+        </EntityType>
+        <Association Name="FK_ClientRegistrationDocumentData_Clients">
+          <End Type="TOfficeModel.Clients" Role="Clients" Multiplicity="1" />
+          <End Type="TOfficeModel.ClientRegistrationDocumentData" Role="ClientRegistrationDocumentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClientRegistrationDocumentData">
+              <PropertyRef Name="ClientID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -427,21 +441,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="TOfficeModel.Clients">
-              <MappingFragment StoreEntitySet="Clients">
-                <ScalarProperty Name="RecommendedBy" ColumnName="RecommendedBy" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="PIB" ColumnName="PIB" />
-                <ScalarProperty Name="JMBG" ColumnName="JMBG" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VehicleRegistrations">
             <EntityTypeMapping TypeName="TOfficeModel.VehicleRegistrations">
               <MappingFragment StoreEntitySet="VehicleRegistrations">
@@ -458,6 +457,28 @@
               <MappingFragment StoreEntitySet="ClientRegistrationDocumentData">
                 <ScalarProperty Name="RegistrationDocumentDataID" ColumnName="RegistrationDocumentDataID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="TOfficeModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="RecommendedBy" ColumnName="RecommendedBy" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPhone" ColumnName="UserPhone" />
+                <ScalarProperty Name="UserAddress" ColumnName="UserAddress" />
+                <ScalarProperty Name="UserSurnameOrBusinessName" ColumnName="UserSurnameOrBusinessName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPIB" ColumnName="UserPIB" />
+                <ScalarProperty Name="UserPersonalNo" ColumnName="UserPersonalNo" />
+                <ScalarProperty Name="OwnerEmail" ColumnName="OwnerEmail" />
+                <ScalarProperty Name="OwnerPhone" ColumnName="OwnerPhone" />
+                <ScalarProperty Name="OwnerAddress" ColumnName="OwnerAddress" />
+                <ScalarProperty Name="OwnerSurnameOrBusinessName" ColumnName="OwnerSurnameOrBusinessName" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="OwnerPIB" ColumnName="OwnerPIB" />
+                <ScalarProperty Name="OwnerPersonalNo" ColumnName="OwnerPersonalNo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

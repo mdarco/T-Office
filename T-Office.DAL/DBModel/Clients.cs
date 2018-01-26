@@ -21,13 +21,20 @@ namespace T_Office.DAL.DBModel
         }
     
         public int ID { get; set; }
-        public string JMBG { get; set; }
-        public string PIB { get; set; }
-        public string CompanyName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
+        public string OwnerPersonalNo { get; set; }
+        public string OwnerPIB { get; set; }
+        public string OwnerName { get; set; }
+        public string OwnerSurnameOrBusinessName { get; set; }
+        public string OwnerAddress { get; set; }
+        public string OwnerPhone { get; set; }
+        public string OwnerEmail { get; set; }
+        public string UserPersonalNo { get; set; }
+        public string UserPIB { get; set; }
+        public string UserName { get; set; }
+        public string UserSurnameOrBusinessName { get; set; }
+        public string UserAddress { get; set; }
+        public string UserPhone { get; set; }
+        public string UserEmail { get; set; }
         public string RecommendedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

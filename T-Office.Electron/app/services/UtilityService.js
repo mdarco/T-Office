@@ -10,7 +10,9 @@
     function serviceFn($http, WebApiBaseUrl) {
         var service = {
             convertISODateStringToDate: convertISODateStringToDate,
-            convertDateToISODateString: convertDateToISODateString
+            convertDateToISODateString: convertDateToISODateString,
+            convertSerbianDateStringToISODateString: convertSerbianDateStringToISODateString,
+            convertSerbianJoinedDateStringToISODateString: convertSerbianJoinedDateStringToISODateString
         };
 
         return service;
@@ -34,6 +36,17 @@
                 var day = date.getDate();
                 return year + '-' + month + '-' + day;
             }
+        }
+
+        function convertSerbianDateStringToISODateString(serbianDateString) {
+            // serbian date string: dd.mm.yyyy
+            var parts = serbianDateString.split('.');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+
+        function convertSerbianJoinedDateStringToISODateString(serbianDateString) {
+            // serbian joined date string: ddmmyyyy
+            return serbianDateString[4] + serbianDateString[5] + serbianDateString[6] + serbianDateString[7] + '-' + serbianDateString[2] + serbianDateString[3] + '-' + serbianDateString[0] + serbianDateString[1];
         }
     }
 })();

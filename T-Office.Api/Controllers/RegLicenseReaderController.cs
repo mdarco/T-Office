@@ -26,7 +26,7 @@ namespace T_Office.Api.Controllers
                     new HttpResponseMessage()
                     {
                         StatusCode = HttpStatusCode.InternalServerError,
-                        ReasonPhrase = "Nije zadata putanja do programa za čitanje podataka sa saobraćajne dozvole."
+                        ReasonPhrase = "Nije zadata putanja do programa za citanje podataka sa saobracajne dozvole."
                     });
 
                 // TODO: log error
@@ -60,7 +60,7 @@ namespace T_Office.Api.Controllers
                     new HttpResponseMessage()
                     {
                         StatusCode = HttpStatusCode.InternalServerError,
-                        ReasonPhrase = string.Format("{0}\n\n{1}", "Došlo je do greške prilikom čitanja podataka sa saobraćajne dozvole", "[GREŠKA] --> " + ex.Message)
+                        ReasonPhrase = string.Format("{0} | {1}", "Doslo je do greske prilikom citanja podataka sa saobracajne dozvole", "[GRESKA] --> " + ex.Message)
                     });
 
                 // TODO: log error

@@ -51,12 +51,12 @@ namespace T_Office.DAL
                         filter.OrderByClause = "OwnerName, UserName, OwnerSurnameOrBusinessName, UserSurnameOrBusinessName";
                     }
 
-                    if (filter.PageNo < 1)
+                    if (!filter.PageNo.HasValue || filter.PageNo < 1)
                     {
                         filter.PageNo = 1;
                     }
 
-                    if (filter.RecordsPerPage < 1)
+                    if (!filter.RecordsPerPage.HasValue || filter.RecordsPerPage < 1)
                     {
                         // unlimited
                         filter.RecordsPerPage = 1000000;

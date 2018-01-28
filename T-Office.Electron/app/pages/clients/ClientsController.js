@@ -133,7 +133,7 @@
                                             function (existingClientsArray) {
                                                 var existingClients = [];
                                                 _.each(existingClientsArray, function (item) {
-                                                    existingClients.push(item.data.Data || []);
+                                                    _.concat(existingClients, item.data.Data || []);
                                                 });
 
                                                 insertClient(data.Result, existingClients || []);
@@ -234,7 +234,7 @@
                     OwnerPersonalNo: data.PersonalData.ownersPersonalNo.replace(/\0/g, ''),
                     OwnerName: data.PersonalData.ownerName.replace(/\0/g, ''),
                     OwnerSurnameOrBusinessName: data.PersonalData.ownersSurnameOrBusinessName.replace(/\0/g, ''),
-                    OwnerAddress: ownerAddress.replace(/\0/g, ''),
+                    OwnerAddress: data.PersonalData.ownerAddress.replace(/\0/g, ''),
                     UserPersonalNo: data.PersonalData.usersPersonalNo.replace(/\0/g, ''),
                     UserName: data.PersonalData.usersName.replace(/\0/g, ''),
                     UserSurnameOrBusinessName: data.PersonalData.usersSurnameOrBusinessName.replace(/\0/g, ''),

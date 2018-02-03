@@ -124,10 +124,12 @@
                                             return item.replace(/\0/g, '').length > 3;
                                         });
 
-                                        var clientNameFilters = [
-                                            ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
-                                            ...filters_usersName, ...filters_usersSurnameOrBusinessName
-                                        ];
+                                        //var clientNameFilters = [
+                                        //    ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
+                                        //    ...filters_usersName, ...filters_usersSurnameOrBusinessName
+                                        //];
+
+                                        var clientNameFilters = _.concat(filters_ownerName, filters_ownersSurnameOrBusinessName, filters_usersName, filters_usersSurnameOrBusinessName);
 
                                         getExistingClients(clientNameFilters).then(
                                             function (existingClientsArray) {

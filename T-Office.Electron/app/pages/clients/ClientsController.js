@@ -129,8 +129,6 @@
                                             ...filters_usersName, ...filters_usersSurnameOrBusinessName
                                         ];
 
-                                        //var clientNameFilters = _.concat(filters_ownerName, filters_ownersSurnameOrBusinessName, filters_usersName, filters_usersSurnameOrBusinessName);
-
                                         getExistingClients(clientNameFilters).then(
                                             function (existingClientsArray) {
                                                 var existingClients = [];

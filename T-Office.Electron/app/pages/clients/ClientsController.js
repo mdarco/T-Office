@@ -136,6 +136,8 @@
                                                     existingClients = _.concat(existingClients, item.data.Data || []);
                                                 });
 
+                                                existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
+
                                                 insertClient(data.Result, existingClients || []);
                                             },
                                             function (error) {

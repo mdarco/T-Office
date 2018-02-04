@@ -257,7 +257,7 @@
                         className: 'btn-primary'
                     },
                     addClient: {
-                        label: 'Upiši klijenta',
+                        label: 'Upiši novog klijenta',
                         className: 'btn-success',
                         callback: function () {
                             ClientsService.addClientFull(model).then(

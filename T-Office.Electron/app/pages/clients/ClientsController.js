@@ -189,8 +189,8 @@
 
             _.each(existingClients, function (existingClient) {
                 dialogHtml += '<tr>';
-                dialogHtml += '<td>Vlasnik: ' + existingClient.FullOwnerName + '<br />';
-                dialogHtml += 'Korisnik: ' + existingClient.FullUserName + '</td>';
+                dialogHtml += '<td>Vlasnik: [' + existingClient.OwnerJMBGMB + '] ' + existingClient.FullOwnerName + '(' + existingClient.OwnerAddress + ')<br />';
+                dialogHtml += 'Korisnik: [' + existingClient.UserJMBGMB + '] ' + existingClient.FullUserName + '(' + existingClient.UserAddress + ')</td>';
                 dialogHtml += '</tr>';
             });
 
@@ -248,6 +248,7 @@
             };
 
             bootbox.dialog({
+                size: 'large',
                 title: '<span style="font-weight: bold;">Novi klijent</span>',
                 message: dialogHtml,
                 buttons: {

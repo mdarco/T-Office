@@ -29,6 +29,7 @@ namespace T_Office.Models
 
         public string FullOwnerName { get; set; }
         public string FullUserName { get; set; }
-        public string JMBGPIB { get; set; }
+        public string OwnerJMBGMB { get; set; }
+        public string UserJMBGMB { get; set; }
     }
 }

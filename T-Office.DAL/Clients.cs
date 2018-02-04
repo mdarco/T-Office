@@ -188,21 +188,21 @@ namespace T_Office.DAL
                 // use cases:
                 // person owner - person user
                 // person owner only
-                if (!string.IsNullOrEmpty(clientModel.OwnerPersonalNo) && !string.IsNullOrEmpty(clientModel.UserPersonalNo))
+                if (!string.IsNullOrEmpty(clientModel.OwnerName) && !string.IsNullOrEmpty(clientModel.UserName))
                 {
                     // person owner - person user
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerPersonalNo.ToLower() == clientModel.OwnerPersonalNo.ToLower() &&
-                                        x.UserPersonalNo.ToLower() == clientModel.UserPersonalNo.ToLower()
+                                        x.OwnerName.ToLower() == clientModel.OwnerName.ToLower() &&
+                                        x.UserName.ToLower() == clientModel.UserName.ToLower()
                                     );
                 }
-                else if (!string.IsNullOrEmpty(clientModel.OwnerPersonalNo))
+                else if (!string.IsNullOrEmpty(clientModel.OwnerName))
                 {
                     // person owner only
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerPersonalNo.ToLower() == clientModel.OwnerPersonalNo.ToLower()
+                                        x.OwnerName.ToLower() == clientModel.OwnerName.ToLower()
                                     );
                 }
 
@@ -225,7 +225,7 @@ namespace T_Office.DAL
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
                                         x.OwnerSurnameOrBusinessName.ToLower() == clientModel.OwnerSurnameOrBusinessName.ToLower() &&
-                                        x.UserPersonalNo.ToLower() == clientModel.UserPersonalNo.ToLower()
+                                        x.UserName.ToLower() == clientModel.UserName.ToLower()
                                     );
                 }
                 else if (!string.IsNullOrEmpty(clientModel.OwnerSurnameOrBusinessName))

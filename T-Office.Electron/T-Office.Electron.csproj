@@ -365,6 +365,8 @@
     <Content Include="app\main.js" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\pages\client-file\client-file.html" />
+    <Content Include="app\pages\client-file\ClientFileController.js" />
     <Content Include="app\pages\clients\clients.html" />
     <Content Include="app\pages\clients\ClientsController.js" />
     <Content Include="app\pages\common\checkbox-tree-dialog\checkbox-tree-dialog.html" />

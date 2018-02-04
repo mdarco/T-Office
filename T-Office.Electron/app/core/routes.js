@@ -30,6 +30,13 @@
                 }
             )
 
+            .when('/client-file/:id',
+                {
+                    controller: 'ClientFileController',
+                    templateUrl: 'pages/client-file/client-file.html?nd=' + Date.now()
+                }
+            )
+
             //.when('/members',
             //    {
             //        controller: 'MembersController',

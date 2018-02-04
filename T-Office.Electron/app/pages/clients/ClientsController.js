@@ -191,6 +191,7 @@
                 dialogHtml += '<tr>';
                 dialogHtml += '<td>Vlasnik: [' + existingClient.OwnerJMBGMB + '] ' + existingClient.FullOwnerName + '(' + existingClient.OwnerAddress + ')<br />';
                 dialogHtml += 'Korisnik: [' + existingClient.UserJMBGMB + '] ' + existingClient.FullUserName + '(' + existingClient.UserAddress + ')</td>';
+                dialogHtml += '<td><a href="#/client-file/' + existingClient.ID + '" class="btn btn-xs btn-primary" onclick="bootbox.hideAll()">Detalji</></td>';
                 dialogHtml += '</tr>';
             });
 
@@ -247,9 +248,9 @@
                 }
             };
 
-            bootbox.dialog({
+            var dlg = bootbox.dialog({
                 size: 'large',
-                title: '<span style="font-weight: bold;">Novi klijent</span>',
+                title: '<span style="font-weight: bold;">Klijent</span>',
                 message: dialogHtml,
                 buttons: {
                     cancel: {
@@ -274,6 +275,8 @@
                     }
                 }
             });
+
+            dlg.showAlert = function () { alert('TEST'); };
         }
 
         function getExistingClients(filters) {

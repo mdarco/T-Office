@@ -133,7 +133,7 @@
                                             function (existingClientsArray) {
                                                 var existingClients = [];
                                                 _.each(existingClientsArray, function (item) {
-                                                    _.concat(existingClients, item.data.Data || []);
+                                                    existingClients = _.concat(existingClients, item.data.Data || []);
                                                 });
 
                                                 insertClient(data.Result, existingClients || []);
@@ -186,7 +186,10 @@
             `;
 
             _.each(existingClients, function (existingClient) {
-                dialogHtml += '<tr><td>' + existingClient.FullName + '</td></tr>';
+                dialogHtml += '<tr>';
+                dialogHtml += '<td>Vlasnik: ' + existingClient.FullOwnerName + '<br />';
+                dialogHtml += 'Korisnik: ' + existingClient.FullUserName + '</td>';
+                dialogHtml += '</tr>';
             });
 
             dialogHtml += `

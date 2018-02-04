@@ -91,6 +91,7 @@ namespace T_Office.DAL
                                     FullUserName = x.UserName + "" + x.UserSurnameOrBusinessName,
                                     OwnerJMBGMB = x.OwnerPersonalNo,
                                     UserJMBGMB = x.UserPersonalNo,
+                                    RecommendedBy = x.RecommendedBy,
 
                                     Vehicles = 
                                         x.ClientRegistrationDocumentData

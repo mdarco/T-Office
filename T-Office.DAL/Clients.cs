@@ -41,7 +41,7 @@ namespace T_Office.DAL
 
                     if (!string.IsNullOrEmpty(filter.VehicleRegNo))
                     {
-                        q = q.Where(x => x.ClientRegistrationDocumentData.Any(crdd => crdd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber.ToLower() == filter.VehicleRegNo.ToLower()));
+                        q = q.Where(x => x.ClientRegistrationDocumentData.Any(crdd => crdd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber.ToLower().Contains(filter.VehicleRegNo.ToLower())));
                     }
 
                     // paging & sorting

@@ -72,20 +72,25 @@
                     <tbody>
                         <tr ng-repeat="client in $data">
                             <td data-title="'Naziv'" header-class="'text-left'">
-                                <span>Vlasnik: {{ client.FullOwnerName }}</span><br />
-                                <span style="color: darkgray;">Korisnik: {{ client.FullUserName }}</span>
+                                <span class="font-xs">VLASNIK:</span> {{ client.FullOwnerName }}<br />
+                                <span class="font-xs" style="color: darkgray;">KORISNIK: {{ client.FullUserName }}</span>
                             </td>
                             <td data-title="'JMBG/MB'" header-class="''" style="text-align: center;">
                                 <span>{{ client.OwnerJMBGMB }}</span><br />
                                 <span style="color: darkgray;">{{ client.UserJMBGMB }}</span>
                             </td>
-                            <td data-title="'Adresa'" header-class="''" style="text-align: center;">
+                            <td data-title="'Adresa'" header-class="''">
                                 <span>{{ client.OwnerAddress }}</span><br />
                                 <span style="color: darkgray;">{{ client.UserAddress }}</span>
                             </td>
                             <td data-title="'Telefon'" header-class="''" style="text-align: center;">
                                 <span>{{ client.OwnerPhone }}</span><br />
                                 <span style="color: darkgray;">{{ client.UserPhone }}</span>
+                            </td>
+                            <td data-title="'Vozila'" header-class="'text-left'">
+                                <div ng-repeat="v in client.Vehicles">
+                                    [{{ v.RegistrationNumber }}] {{ v.Make }} {{ v.Model }}
+                                </div>
                             </td>
                             <td data-title="'Preporuka'" header-class="''" style="text-align: center;">{{ client.RecommendedBy }}</td>
                             <td header-class="''">

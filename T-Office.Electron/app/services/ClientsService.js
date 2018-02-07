@@ -12,7 +12,8 @@
 
         var service = {
             getFiltered: getFiltered,
-            addClientFull: addClientFull
+            addClientFull: addClientFull,
+            addClient: addClient
         };
 
         return service;
@@ -24,6 +25,11 @@
 
         function addClientFull(model) {
             var url = WebApiBaseUrl + urlRoot + '/full';
+            return $http.post(url, model);
+        }
+
+        function addClient(model) {
+            var url = WebApiBaseUrl + urlRoot;
             return $http.post(url, model);
         }
     }

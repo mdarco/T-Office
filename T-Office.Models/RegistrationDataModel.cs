@@ -10,6 +10,6 @@ namespace T_Office.Models
     {
         public DocumentDataModel DocumentData { get; set; }
         public VehicleDataModel VehicleData { get; set; }
-        public PersonalDataModel PersonalData { get; set; }
+        public ClientModel PersonalData { get; set; }
     }
 }

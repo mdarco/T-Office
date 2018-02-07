@@ -20,11 +20,30 @@ namespace T_Office.Api.Controllers
 
         [Route("full")]
         [HttpPost]
-        public void AddClient(RegistrationDataModel model)
+        public void AddClientFull(RegistrationDataModel model)
         {
             try
             {
                 DAL.Clients.AddClientFull(model);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.Forbidden,
+                        ReasonPhrase = ex.Message
+                    });
+            }
+        }
+
+        [Route("")]
+        [HttpPost]
+        public void AddClient(ClientModel model)
+        {
+            try
+            {
+                DAL.Clients.AddClient(model);
             }
             catch (Exception ex)
             {

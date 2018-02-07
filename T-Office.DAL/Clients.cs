@@ -182,7 +182,58 @@ namespace T_Office.DAL
             }
         }
 
-        public static bool Exist(PersonalDataModel clientModel)
+        public static void AddClient(ClientModel model)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                if (model != null)
+                {
+                    bool clientExists = Exist(model);
+                    if (clientExists)
+                    {
+                        throw new Exception("Klijent vec postoji.");
+                    }
+
+                    DBModel.Clients client = new DBModel.Clients()
+                    {
+                        OwnerPersonalNo = model.OwnerPersonalNo,
+                        OwnerPIB = model.OwnerPIB,
+                        OwnerName = model.OwnerName,
+                        OwnerSurnameOrBusinessName = model.OwnerSurnameOrBusinessName,
+                        OwnerAddress = model.OwnerAddress,
+                        OwnerPhone = model.OwnerPhone,
+                        OwnerEmail = model.OwnerEmail,
+
+                        UserPersonalNo = model.UserPersonalNo,
+                        UserPIB = model.UserPIB,
+                        UserName = model.UserName,
+                        UserSurnameOrBusinessName = model.UserSurnameOrBusinessName,
+                        UserAddress = model.UserAddress,
+                        UserPhone = model.UserPhone,
+                        UserEmail = model.UserEmail,
+
+                        RecommendedBy = model.RecommendedBy
+                    };
+
+                    ctx.Clients.Add(client);
+
+                    try
+                    {
+                        ctx.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Ne postoje podaci o klijentu.");
+                }
+            }
+        }
+
+        public static bool Exist(ClientModel clientModel)
         {
             using (var ctx = new TOfficeEntities())
             {

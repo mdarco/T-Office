@@ -1,1 +1,190 @@
-﻿Client-file...
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
+            <div class="panel-body">
+                <span style="font-weight: bold; font-size: large;">Klijent: {{ client.OwnerName }} {{ client.OwnerSurnameOrBusinessName }}</span><br />
+                <span style="font-weight: bold; font-size: small;">(Preporuka: {{ client.RecommendedBy || '-' }})</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
+            <div class="panel-heading" style="background-color: #3a3633; font-weight: bold;">Vlasnik</div>
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30%;"><strong>JMBG/MB</strong></td>
+                            <td>{{ client.OwnerPersonalNo }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerPersonalNo')"
+                                        title="Ažuriranje JMBG/MB">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>PIB</strong></td>
+                            <td>{{ client.OwnerPIB }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerPIB')"
+                                        title="Ažuriranje PIB">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Ime</strong></td>
+                            <td>{{ client.OwnerName }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerName')"
+                                        title="Ažuriranje imena">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Prezime/Naziv firme</strong></td>
+                            <td>{{ client.OwnerSurnameOrBusinessName }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerSurnameOrBusinessName')"
+                                        title="Ažuriranje prezimena/naziva firme">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Adresa</strong></td>
+                            <td>{{ client.OwnerAddress }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerAddress')"
+                                        title="Ažuriranje adrese">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Telefon</strong></td>
+                            <td>{{ client.OwnerPhone }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerPhone')"
+                                        title="Ažuriranje broja telefona">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>E-mail</strong></td>
+                            <td>{{ client.OwnerEmail }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('OwnerEmail')"
+                                        title="Ažuriranje e-mail adrese">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
+            <div class="panel-heading" style="background-color: #3a3633; font-weight: bold;">Korisnik</div>
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30%;"><strong>JMBG/MB</strong></td>
+                            <td>{{ client.UserPersonalNo }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserPersonalNo')"
+                                        title="Ažuriranje JMBG/MB">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>PIB</strong></td>
+                            <td>{{ client.UserPIB }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserPIB')"
+                                        title="Ažuriranje PIB">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Ime</strong></td>
+                            <td>{{ client.UserName }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserName')"
+                                        title="Ažuriranje imena">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Prezime/Naziv firme</strong></td>
+                            <td>{{ client.UserSurnameOrBusinessName }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserSurnameOrBusinessName')"
+                                        title="Ažuriranje prezimena/naziva firme">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Adresa</strong></td>
+                            <td>{{ client.UserAddress }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserAddress')"
+                                        title="Ažuriranje adrese">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>Telefon</strong></td>
+                            <td>{{ client.UserPhone }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserPhone')"
+                                        title="Ažuriranje broja telefona">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;"><strong>E-mail</strong></td>
+                            <td>{{ client.UserEmail }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary pull-right"
+                                        ng-click="editClient('UserEmail')"
+                                        title="Ažuriranje e-mail adrese">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

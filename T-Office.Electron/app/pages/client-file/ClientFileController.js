@@ -12,6 +12,6 @@
 
         $scope.client = client;
 
-        alert(JSON.stringify(client, null, 2));
+        
     }
 })();

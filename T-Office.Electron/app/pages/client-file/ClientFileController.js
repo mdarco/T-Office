@@ -15,7 +15,7 @@
         calculateVehicleNextRegDate();
 
         $scope.editClient = function (dataField) {
-            openTextFieldDialog($scope.client[dataField]).then(
+            openTextFieldDialog(dataField, $scope.client[dataField]).then(
                 function (result) {
                     var editObj = {};
                     editObj[dataField] = result;
@@ -29,11 +29,12 @@
                             toastr.error(error.statusText);
                         }
                     );
-                }
+                },
+                function (error) {}
             );
         };
 
-        function openTextFieldDialog(text) {
+        function openTextFieldDialog(dataField, text) {
             var dialogOpts = {
                 backdrop: 'static',
                 keyboard: false,
@@ -43,7 +44,9 @@
                 resolve: {
                     settings: function () {
                         return {
-                            FieldValue: text
+                            FieldValue: text,
+                            DisplayTitle: 'T-Office',
+                            FieldLabel: resolveDataFieldLabel(dataField)
                         };
                     }
                 }
@@ -64,6 +67,44 @@
                         vehicle.NextRegistrationDate = (date_FirstReg.add(diff, 'y')).toDate();
                     }
                 });
+            }
+        }
+
+        function resolveDataFieldLabel(dataField) {
+            switch (dataField) {
+                case 'OwnerPersonalNo':
+                case 'UserPersonalNo':
+                    return 'JMBG/MB';
+
+                case 'OwnerPIB':
+                case 'UserPIB':
+                    return 'PIB';
+
+                case 'OwnerName':
+                case 'UserName':
+                    return 'Ime';
+
+                case 'OwnerSurnameOrBusinessName':
+                case 'UserSurnameOrBusinessName':
+                    return 'Prezime/Naziv firme';
+
+                case 'OwnerAddress':
+                case 'UserAddress':
+                    return 'Adresa';
+
+                case 'OwnerPhone':
+                case 'UserPhone':
+                    return 'Telefon';
+
+                case 'OwnerEmail':
+                case 'UserEmail':
+                    return 'E-mail';
+
+                case 'RecommendedBy':
+                    return 'Preporuka';
+
+                default:
+                    return '';
             }
         }
     }

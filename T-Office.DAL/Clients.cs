@@ -102,7 +102,8 @@ namespace T_Office.DAL
                                                     VehicleIDNumber = dd.RegistrationDocumentData.RegistrationVehicleData.VehicleIDNumber,
                                                     Make = dd.RegistrationDocumentData.RegistrationVehicleData.Make,
                                                     Model = dd.RegistrationDocumentData.RegistrationVehicleData.Model,
-                                                    RegistrationNumber = dd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber
+                                                    RegistrationNumber = dd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber,
+                                                    FirstRegistrationDate = dd.RegistrationDocumentData.RegistrationVehicleData.FirstRegistrationDate
                                                 }
                                             )
                                             .ToList()
@@ -165,7 +166,8 @@ namespace T_Office.DAL
                                             VehicleIDNumber = dd.RegistrationDocumentData.RegistrationVehicleData.VehicleIDNumber,
                                             Make = dd.RegistrationDocumentData.RegistrationVehicleData.Make,
                                             Model = dd.RegistrationDocumentData.RegistrationVehicleData.Model,
-                                            RegistrationNumber = dd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber
+                                            RegistrationNumber = dd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber,
+                                            FirstRegistrationDate = dd.RegistrationDocumentData.RegistrationVehicleData.FirstRegistrationDate
                                         }
                                     )
                                     .ToList()

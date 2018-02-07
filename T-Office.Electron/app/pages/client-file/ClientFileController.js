@@ -12,6 +12,19 @@
 
         $scope.client = client;
 
-        
+        calculateVehicleNextRegDate();
+
+        function calculateVehicleNextRegDate() {
+            var vehicles = $scope.client.Vehicles;
+            if (vehicles.length > 0) {
+                _.each(vehicles, function (vehicle) {
+                    if (vehicle.FirstRegistrationDate) {
+                        var diff = (new Date()).getFullYear() - moment(vehicle.FirstRegistrationDate).year();
+                        var date_FirstReg = moment(vehicle.FirstRegistrationDate);
+                        vehicle.NextRegistrationDate = (date_FirstReg.add(diff, 'y')).toDate();
+                    }
+                });
+            }
+        }
     }
 })();

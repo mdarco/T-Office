@@ -25,6 +25,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetClient(id);
         }
 
+        [Route("{id}")]
+        [HttpPut]
+        public void EditClient(int id, ClientModel model)
+        {
+            DAL.Clients.EditClient(id, model);
+        }
+
         [Route("full")]
         [HttpPost]
         public void AddClientFull(RegistrationDataModel model)

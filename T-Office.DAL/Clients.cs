@@ -294,6 +294,117 @@ namespace T_Office.DAL
             }
         }
 
+        public static void EditClient(int id, ClientModel model)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var client = ctx.Clients.FirstOrDefault(c => c.ID == id);
+                if (client != null)
+                {
+                    if (!string.IsNullOrEmpty(model.OwnerPersonalNo))
+                    {
+                        var existingOwnerPersonalNo = ctx.Clients.FirstOrDefault(x => x.OwnerPersonalNo.ToLower() == model.OwnerPersonalNo.ToLower());
+                        if (existingOwnerPersonalNo != null)
+                        {
+                            throw new Exception("Klijent vec postoji (JMBG/MB).");
+                        }
+
+                        client.OwnerPersonalNo = model.OwnerPersonalNo;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.OwnerPIB))
+                    {
+                        var existingOwnerPIB = ctx.Clients.FirstOrDefault(x => x.OwnerPIB.ToLower() == model.OwnerPIB.ToLower());
+                        if (existingOwnerPIB != null)
+                        {
+                            throw new Exception("Klijent vec postoji (PIB).");
+                        }
+
+                        client.OwnerPIB = model.OwnerPIB;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.OwnerName))
+                    {
+                        bool existingOwnerName = Exist(model);
+                        if (existingOwnerName)
+                        {
+                            throw new Exception("Klijent vec postoji.");
+                        }
+
+                        client.OwnerName = model.OwnerName;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.OwnerSurnameOrBusinessName))
+                    {
+                        bool existingOwnerSurname = Exist(model);
+                        if (existingOwnerSurname)
+                        {
+                            throw new Exception("Klijent vec postoji.");
+                        }
+
+                        client.OwnerSurnameOrBusinessName = model.OwnerSurnameOrBusinessName;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.OwnerAddress))
+                    {
+                        client.OwnerAddress = model.OwnerAddress;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.OwnerPhone))
+                    {
+                        client.OwnerPhone = model.OwnerPhone;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.OwnerEmail))
+                    {
+                        client.OwnerEmail = model.OwnerEmail;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserPersonalNo))
+                    {
+                        client.UserPersonalNo = model.UserPersonalNo;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserPIB))
+                    {
+                        client.UserPIB = model.UserPIB;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserName))
+                    {
+                        client.UserName = model.UserName;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserSurnameOrBusinessName))
+                    {
+                        client.UserSurnameOrBusinessName = model.UserSurnameOrBusinessName;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserAddress))
+                    {
+                        client.UserAddress = model.UserAddress;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserPhone))
+                    {
+                        client.UserPhone = model.UserPhone;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.UserEmail))
+                    {
+                        client.UserEmail = model.UserEmail;
+                    }
+
+                    if (!string.IsNullOrEmpty(model.RecommendedBy))
+                    {
+                        client.RecommendedBy = model.RecommendedBy;
+                    }
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
         public static bool Exist(ClientModel clientModel)
         {
             using (var ctx = new TOfficeEntities())

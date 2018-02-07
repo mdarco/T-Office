@@ -16,6 +16,7 @@
 
             addClientFull: addClientFull,
             addClient: addClient,
+            editClient: editClient
         };
 
         return service;
@@ -38,6 +39,11 @@
         function addClient(model) {
             var url = WebApiBaseUrl + urlRoot;
             return $http.post(url, model);
+        }
+
+        function editClient(id, model) {
+            var url = WebApiBaseUrl + urlRoot + '/' + id;
+            return $http.put(url, model);
         }
     }
 })();

@@ -289,7 +289,34 @@
         }
 
         $scope.addClientManually = function () {
-            alert('U razvoju..');
+            var dialogOpts = {
+                //size: 'lg',
+                backdrop: 'static',
+                keyboard: false,
+                backdropClick: false,
+                templateUrl: 'pages/clients/client-dialog/client-dialog.html',
+                controller: 'ClientDialogController'//,
+                //resolve: {
+                //    ageCategories: function (LookupsService) {
+                //        return LookupsService.getAgeCategories().then(
+                //            function (result) {
+                //                return result.data;
+                //            }
+                //        );
+                //    }
+                //}
+            };
+
+            var dialog = $uibModal.open(dialogOpts);
+
+            dialog.result.then(
+                function () {
+                    $scope.applyFilter();
+                },
+                function () {
+                    // modal dismissed => do nothing
+                }
+            );
         };
 
         $scope.openClientDossier = function (client) {

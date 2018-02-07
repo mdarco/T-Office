@@ -12,8 +12,10 @@
 
         var service = {
             getFiltered: getFiltered,
+            getClient: getClient,
+
             addClientFull: addClientFull,
-            addClient: addClient
+            addClient: addClient,
         };
 
         return service;
@@ -21,6 +23,11 @@
         function getFiltered(filter) {
             var url = WebApiBaseUrl + urlRoot + '/filtered?nd=' + Date.now();
             return $http.post(url, filter);
+        }
+
+        function getClient(id) {
+            var url = WebApiBaseUrl + urlRoot + '/' + id + '?nd=' + Date.now();
+            return $http.get(url);
         }
 
         function addClientFull(model) {

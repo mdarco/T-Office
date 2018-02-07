@@ -33,69 +33,22 @@
             .when('/client-file/:id',
                 {
                     controller: 'ClientFileController',
-                    templateUrl: 'pages/client-file/client-file.html?nd=' + Date.now()
+                    templateUrl: 'pages/client-file/client-file.html?nd=' + Date.now(),
+                    resolve: {
+                        client: function ($route, ClientsService, toastr) {
+                            var id = $route.current.params.id;
+                            return ClientsService.getClient(id).then(
+                                function (result) {
+                                    return result.data;
+                                },
+                                function (error) {
+                                    toastr.error(error.statusText);
+                                }
+                            );
+                        }
+                    }
                 }
             )
-
-            //.when('/members',
-            //    {
-            //        controller: 'MembersController',
-            //        templateUrl: 'pages/members/members.html?nd=' + Date.now(),
-            //        resolve: {
-            //            choreos: function (ChoreosService) {
-            //                return ChoreosService.getLookup().then(
-            //                    function (result) {
-            //                        return result.data;
-            //                    }
-            //                );
-            //            },
-            //            danceGroups: function (DanceGroupsService) {
-            //                return DanceGroupsService.getLookup().then(
-            //                    function (result) {
-            //                        return result.data;
-            //                    }
-            //                );
-            //            },
-            //            danceSelections: function (DanceSelectionsService) {
-            //                return DanceSelectionsService.getLookup().then(
-            //                    function (result) {
-            //                        return result.data;
-            //                    }
-            //                );
-            //            },
-            //            events: function (EventsService) {
-            //                return EventsService.getLookup().then(
-            //                    function (result) {
-            //                        return result.data;
-            //                    }
-            //                );
-            //            }
-            //        },
-            //        access: {
-            //            loginRequired: true
-            //        }
-            //    }
-            //)
-
-            //.when('/member-file/:id',
-            //    {
-            //        controller: 'MemberFileController',
-            //        templateUrl: 'pages/members/member-file/member-file.html?nd=' + Date.now(),
-            //        resolve: {
-            //            member: function ($route, MembersService) {
-            //                var id = $route.current.params.id;
-            //                return MembersService.get(id).then(
-            //                    function (result) {
-            //                        return result.data;
-            //                    }
-            //                );
-            //            }
-            //        },
-            //        access: {
-            //            loginRequired: true
-            //        }
-            //    }
-            //)
 
             .otherwise({ redirectTo: '/home' });
     }

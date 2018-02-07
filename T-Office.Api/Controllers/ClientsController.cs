@@ -18,6 +18,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetClientsFiltered(filter);
         }
 
+        [Route("{id}")]
+        [HttpGet]
+        public ClientModel GetClient(int id)
+        {
+            return DAL.Clients.GetClient(id);
+        }
+
         [Route("full")]
         [HttpPost]
         public void AddClientFull(RegistrationDataModel model)

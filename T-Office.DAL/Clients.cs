@@ -119,6 +119,65 @@ namespace T_Office.DAL
             }
         }
 
+        public static ClientModel GetClient(int id)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var client = ctx.Clients
+                                    .Include("ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData")
+                                    .FirstOrDefault(c => c.ID == id);
+
+                if (client != null)
+                {
+                    return
+                        new ClientModel()
+                        {
+                            ID = client.ID,
+
+                            OwnerPersonalNo = client.OwnerPersonalNo,
+                            OwnerPIB = client.OwnerPIB,
+                            OwnerName = client.OwnerName,
+                            OwnerSurnameOrBusinessName = client.OwnerSurnameOrBusinessName,
+                            OwnerAddress = client.OwnerAddress,
+                            OwnerPhone = client.OwnerPhone,
+                            OwnerEmail = client.OwnerEmail,
+
+                            UserPersonalNo = client.UserPersonalNo,
+                            UserPIB = client.UserPIB,
+                            UserName = client.UserName,
+                            UserSurnameOrBusinessName = client.UserSurnameOrBusinessName,
+                            UserAddress = client.UserAddress,
+                            UserPhone = client.UserPhone,
+                            UserEmail = client.UserEmail,
+
+                            FullOwnerName = client.OwnerName + "" + client.OwnerSurnameOrBusinessName,
+                            FullUserName = client.UserName + "" + client.UserSurnameOrBusinessName,
+                            OwnerJMBGMB = client.OwnerPersonalNo,
+                            UserJMBGMB = client.UserPersonalNo,
+                            RecommendedBy = client.RecommendedBy,
+
+                            Vehicles =
+                                client.ClientRegistrationDocumentData
+                                    .Select(dd =>
+                                        new VehicleDataModel()
+                                        {
+                                            ID = dd.RegistrationDocumentData.RegistrationVehicleData.ID,
+                                            VehicleIDNumber = dd.RegistrationDocumentData.RegistrationVehicleData.VehicleIDNumber,
+                                            Make = dd.RegistrationDocumentData.RegistrationVehicleData.Make,
+                                            Model = dd.RegistrationDocumentData.RegistrationVehicleData.Model,
+                                            RegistrationNumber = dd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber
+                                        }
+                                    )
+                                    .ToList()
+                        };
+                }
+                else
+                {
+                    throw new Exception("Klijent ne postoji.");
+                }
+            }
+        }
+
         public static void AddClientFull(RegistrationDataModel model)
         {
             using (var ctx = new TOfficeEntities())

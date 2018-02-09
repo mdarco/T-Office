@@ -13,10 +13,11 @@
         var service = {
             getFiltered: getFiltered,
             getClient: getClient,
-
             addClientFull: addClientFull,
             addClient: addClient,
-            editClient: editClient
+            editClient: editClient,
+
+            addVehicleFull: addVehicleFull
         };
 
         return service;
@@ -45,5 +46,14 @@
             var url = WebApiBaseUrl + urlRoot + '/' + id;
             return $http.put(url, model);
         }
+
+        //#region Vehicles
+
+        function addVehicleFull(clientID, model) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/full';
+            return $http.post(url, model);
+        }
+
+        //#endregion
     }
 })();

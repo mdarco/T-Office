@@ -69,5 +69,16 @@ namespace T_Office.Api.Controllers
                     });
             }
         }
+
+        #region Vehicles
+
+        [Route("{clientID}/vehicles/full")]
+        [HttpPost]
+        public void AddVehicleFull(int clientID, RegistrationDataModel model)
+        {
+            DAL.Vehicles.AddFromFullModel(clientID, model);
+        }
+
+        #endregion
     }
 }

@@ -34,6 +34,49 @@
             );
         };
 
+        $scope.addVehicle = function () {
+            bootbox.confirm({
+                message: "<span style='font-weight: bold; font-size: large;'>Stavite saobraćajnu dozvolu u čitač.</span>",
+                buttons: {
+                    confirm: {
+                        label: 'Ok',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Odustani',
+                        className: 'btn-primary'
+                    }
+                },
+                callback: function (dialogResult) {
+                    if (dialogResult) {
+                        RegLicenseReaderService.readData().then(
+                            function (result) {
+                                if (result && result.data) {
+                                    var data = JSON.parse(result.data);
+                                    if (data.IsError) {
+                                        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                        return;
+                                    } else {
+                                        var licenseData = data.Result;
+                                        // TODO: check if the reg license belongs to the correct client
+                                    }
+                                } else {
+                                    toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                    return;
+                                }
+                            },
+                            function (error) {
+                                toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                toastr.error('[GREŠKA] --> ' + error.statusText);
+                                return;
+                            }
+                        );
+                    }
+                }
+            });
+        };
+
         function openTextFieldDialog(dataField, text) {
             var dialogOpts = {
                 backdrop: 'static',

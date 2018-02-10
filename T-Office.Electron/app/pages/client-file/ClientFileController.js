@@ -160,15 +160,15 @@
                         className: 'btn-success',
                         callback: function () {
                             // check if the client already has the vehicle with the same reg no.
-                            var existingVehicle = _.find($scope.client.Vehicles, { 'RegistrationNumber': data.VehicleData.RegistrationNumber });
+                            var existingVehicle = _.find($scope.client.Vehicles, { 'RegistrationNumber': model.VehicleData.RegistrationNumber });
                             if (existingVehicle) {
-                                toastr.warning('Vozilo ' + data.VehicleData.RegistrationNumber + ' već postoji.');
+                                toastr.warning('Vozilo ' + model.VehicleData.RegistrationNumber + ' već postoji.');
                                 bootbox.hideAll();
                                 return;
                             }
 
                             // check if the client from the reg license is the same as the current client
-                            var isClientOk = checkForTheSameClient(data);
+                            var isClientOk = !clientExists(model);
                             if (!isClientOk) {
                                 // ask for confirmation
                                 bootbox.confirm({
@@ -217,8 +217,7 @@
             );
         }
 
-        function checkForTheSameClient(licenseData) {
-            var data = licenseData.Result;
+        function clientExists(model) {
             return false;
         }
 

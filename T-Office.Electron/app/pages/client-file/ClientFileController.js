@@ -168,7 +168,7 @@
                             }
 
                             // check if the client from the reg license is the same as the current client
-                            var isClientOk = !clientExists(model);
+                            var isClientOk = clientMatch(model);
                             if (!isClientOk) {
                                 // ask for confirmation
                                 bootbox.confirm({
@@ -217,8 +217,27 @@
             );
         }
 
-        function clientExists(model) {
-            return false;
+        function clientMatch(model) {
+            var currentClient = $scope.client;
+            var regLicenseClient = model.PersonalData;
+
+            if (currentClient.OwnerPersonalNo.toLowerCase() !== regLicenseClient.OwnerPersonalNo.toLowerCase()) {
+                return false;
+            }
+
+            if ((currentClient.OwnerName + ' ' + currentClient.OwnerSurnameOrBusinessName).toLowerCase() !== (regLicenseClient.OwnerName + ' ' + regLicenseClient.OwnerSurnameOrBusinessName).toLowerCase()) {
+                return false;
+            }
+
+            if (currentClient.UserPersonalNo.toLowerCase() !== regLicenseClient.UserPersonalNo.toLowerCase()) {
+                return false;
+            }
+
+            if ((currentClient.UserName + ' ' + currentClient.UserSurnameOrBusinessName).toLowerCase() !== (regLicenseClient.UserName + ' ' + regLicenseClient.UserSurnameOrBusinessName).toLowerCase()) {
+                return false;
+            }
+
+            return true;
         }
 
         function openTextFieldDialog(dataField, text) {

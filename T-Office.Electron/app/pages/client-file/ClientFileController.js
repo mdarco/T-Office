@@ -207,7 +207,9 @@
                     toastr.success('Novo vozilo uspešno upisano.');
                     bootbox.hideAll();
 
-                    // TODO: refresh client-file data
+                    // refresh vehicles list
+                    getVehicles();
+
                 },
                 function (error) {
                     toastr.error('Došlo je do greške prilikom upisa novog vozila.');
@@ -312,6 +314,21 @@
                 default:
                     return '';
             }
+        }
+
+        function getVehicles() {
+            ClientsService.getVehicles($scope.client.ID).then(
+                (result) => {
+                    if (result && result.data) {
+                        $scope.client.Vehicles = result.data;
+                        calculateVehicleNextRegDate();
+                    }
+                },
+                (error) => {
+                    toastr.error('Došlo je do greške na serveru prilikom ažuriranja spiska vozila.');
+                    toastr.error(error.statusText);
+                }
+            );
         }
     }
 })();

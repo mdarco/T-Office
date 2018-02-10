@@ -17,6 +17,7 @@
             addClient: addClient,
             editClient: editClient,
 
+            getVehicles: getVehicles,
             addVehicleFull: addVehicleFull
         };
 
@@ -48,6 +49,11 @@
         }
 
         //#region Vehicles
+
+        function getVehicles(clientID) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles?nd=' + Date.now();
+            return $http.get(url);
+        }
 
         function addVehicleFull(clientID, model) {
             var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/full';

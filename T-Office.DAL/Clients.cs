@@ -466,5 +466,36 @@ namespace T_Office.DAL
                 return (existing != null);
             }
         }
+
+        public static List<VehicleDataModel> GetVehicles(int clientID)
+        {
+            List<VehicleDataModel> result = new List<VehicleDataModel>();
+
+            using (var ctx = new TOfficeEntities())
+            {
+                var client = ctx.Clients
+                            .Include("ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData")
+                            .FirstOrDefault(c => c.ID == clientID);
+
+                if (client != null)
+                {
+                    result = client.ClientRegistrationDocumentData
+                                .Select(dd =>
+                                    new VehicleDataModel()
+                                    {
+                                        ID = dd.RegistrationDocumentData.RegistrationVehicleData.ID,
+                                        VehicleIDNumber = dd.RegistrationDocumentData.RegistrationVehicleData.VehicleIDNumber,
+                                        Make = dd.RegistrationDocumentData.RegistrationVehicleData.Make,
+                                        Model = dd.RegistrationDocumentData.RegistrationVehicleData.Model,
+                                        RegistrationNumber = dd.RegistrationDocumentData.RegistrationVehicleData.RegistrationNumber,
+                                        FirstRegistrationDate = dd.RegistrationDocumentData.RegistrationVehicleData.FirstRegistrationDate
+                                    }
+                                )
+                                .ToList();
+                }
+            }
+
+            return result;
+        }
     }
 }

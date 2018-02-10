@@ -72,6 +72,13 @@ namespace T_Office.Api.Controllers
 
         #region Vehicles
 
+        [Route("{clientID}/vehicles")]
+        [HttpGet]
+        public List<VehicleDataModel> GetVehicles(int clientID)
+        {
+            return DAL.Clients.GetVehicles(clientID);
+        }
+
         [Route("{clientID}/vehicles/full")]
         [HttpPost]
         public void AddVehicleFull(int clientID, RegistrationDataModel model)

@@ -275,8 +275,6 @@
                     }
                 }
             });
-
-            dlg.showAlert = function () { alert('TEST'); };
         }
 
         function getExistingClients(filters) {

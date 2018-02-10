@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientFileController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'toastr', 'client' /* , 'AuthenticationService' */];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'RegLicenseReaderService', 'UtilityService', 'toastr', 'client' /* , 'AuthenticationService' */];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, toastr, client /* , AuthenticationService */) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, RegLicenseReaderService, UtilityService, toastr, client /* , AuthenticationService */) {
         //var currentUser = AuthenticationService.getCurrentUser();
 
         $scope.client = client;
@@ -58,8 +58,7 @@
                                         toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                         return;
                                     } else {
-                                        var licenseData = data.Result;
-                                        // TODO: check if the reg license belongs to the correct client
+                                        insertVehicle(data);
                                     }
                                 } else {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
@@ -76,6 +75,152 @@
                 }
             });
         };
+
+        function insertVehicle(licenseData) {
+            var data = licenseData.Result;
+
+            var dialogHtml = `
+                <table class="table table-condensed table-striped">
+                    <tbody>
+                        <tr>
+                            <td style="color: blue;">Vlasnik</td>
+                            <td>${data.PersonalData.ownersName || ''} ${data.PersonalData.ownersSurnameOrBusinessName || ''}, ${data.PersonalData.ownerAddress || ''}</td>
+                        </tr>
+                        <tr>
+                            <td style="color: blue;">Korisnik</td>
+                            <td>${data.PersonalData.usersName || ''} ${data.PersonalData.usersSurnameOrBusinessName || ''}, ${data.PersonalData.usersAddress || ''}</td>
+                        </tr>
+                        <tr>
+                            <td style="color: blue;">Vozilo</td>
+                            <td>${data.VehicleData.vehicleMake || ''} ${data.VehicleData.commercialDescription || ''} (${data.VehicleData.registrationNumberOfVehicle || ''})</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            var model = {
+                DocumentData: {
+                    IssuingState: data.DocumentData.stateIssuing.replace(/\0/g, ''),
+                    CompetentAuthority: data.DocumentData.competentAuthority.replace(/\0/g, ''),
+                    IssuingAuthority: data.DocumentData.authorityIssuing.replace(/\0/g, ''),
+                    UnambiguousNumber: data.DocumentData.unambiguousNumber.replace(/\0/g, ''),
+                    IssuingDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.issuingDate.replace(/\0/g, '')),
+                    ExpiryDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.expiryDate.replace(/\0/g, '')),
+                    SerialNumber: data.DocumentData.serialNumber.replace(/\0/g, '')
+                },
+
+                VehicleData: {
+                    RegistrationNumber: data.VehicleData.registrationNumberOfVehicle.replace(/\0/g, ''),
+                    FirstRegistrationDate: UtilityService.convertSerbianDateStringToISODateString(data.VehicleData.dateOfFirstRegistration.replace(/\0/g, '')),
+                    ProductionYear: data.VehicleData.yearOfProduction.replace(/\0/g, ''),
+                    Make: data.VehicleData.vehicleMake.replace(/\0/g, ''),
+                    Model: data.VehicleData.commercialDescription.replace(/\0/g, ''),
+                    Type: data.VehicleData.vehicleType.replace(/\0/g, ''),
+                    EnginePowerKW: data.VehicleData.maximumNetPower.replace(/\0/g, ''),
+                    EngineCapacity: data.VehicleData.engineCapacity.replace(/\0/g, ''),
+                    FuelType: data.VehicleData.typeOfFuel.replace(/\0/g, ''),
+                    PowerWeightRatio: data.VehicleData.powerWeightRatio.replace(/\0/g, ''),
+                    Mass: data.VehicleData.vehicleMass.replace(/\0/g, ''),
+                    MaxPermissibleLadenMass: data.VehicleData.maximumPermissibleLadenMass.replace(/\0/g, ''),
+                    TypeApprovalNumber: data.VehicleData.typeApprovalNumber.replace(/\0/g, ''),
+                    NumberOfSeats: data.VehicleData.numberOfSeats.replace(/\0/g, ''),
+                    NumberOfStandingPlaces: data.VehicleData.numberOfStandingPlaces.replace(/\0/g, ''),
+                    EngineIDNumber: data.VehicleData.engineIDNumber.replace(/\0/g, ''),
+                    VehicleIDNumber: data.VehicleData.vehicleIDNumber.replace(/\0/g, ''),
+                    NumberOfAxles: data.VehicleData.numberOfAxles.replace(/\0/g, ''),
+                    Category: data.VehicleData.vehicleCategory.replace(/\0/g, ''),
+                    Color: data.VehicleData.colourOfVehicle.replace(/\0/g, ''),
+                    RestrictionToChangeOwner: UtilityService.convertSerbianJoinedDateStringToISODateString(data.VehicleData.restrictionToChangeOwner.replace(/\0/g, '')),
+                    Load: data.VehicleData.vehicleLoad.replace(/\0/g, '')
+                },
+
+                PersonalData: {
+                    OwnerPersonalNo: data.PersonalData.ownersPersonalNo.replace(/\0/g, ''),
+                    OwnerName: data.PersonalData.ownerName.replace(/\0/g, ''),
+                    OwnerSurnameOrBusinessName: data.PersonalData.ownersSurnameOrBusinessName.replace(/\0/g, ''),
+                    OwnerAddress: data.PersonalData.ownerAddress.replace(/\0/g, ''),
+                    UserPersonalNo: data.PersonalData.usersPersonalNo.replace(/\0/g, ''),
+                    UserName: data.PersonalData.usersName.replace(/\0/g, ''),
+                    UserSurnameOrBusinessName: data.PersonalData.usersSurnameOrBusinessName.replace(/\0/g, ''),
+                    UserAddress: data.PersonalData.usersAddress.replace(/\0/g, '')
+                }
+            };
+
+            var dlg = bootbox.dialog({
+                size: 'large',
+                title: '<span style="font-weight: bold;">Vozilo za klijenta</span>',
+                message: dialogHtml,
+                buttons: {
+                    cancel: {
+                        label: 'Odustani',
+                        className: 'btn-primary'
+                    },
+                    addVehicle: {
+                        label: 'Upiši novo vozilo',
+                        className: 'btn-success',
+                        callback: function () {
+                            // check if the client already has the vehicle with the same reg no.
+                            var existingVehicle = _.find($scope.client.Vehicles, { 'RegistrationNumber': data.VehicleData.RegistrationNumber });
+                            if (existingVehicle) {
+                                toastr.warning('Vozilo ' + data.VehicleData.RegistrationNumber + ' već postoji.');
+                                bootbox.hideAll();
+                                return;
+                            }
+
+                            // check if the client from the reg license is the same as the current client
+                            var isClientOk = checkForTheSameClient(data);
+                            if (!isClientOk) {
+                                // ask for confirmation
+                                bootbox.confirm({
+                                    title: 'T-Office',
+                                    message: 'Izgleda da klijent na saobraćajnoj dozvoli nije isti kao trenutno izabrani klijent.<br />Da li ste sigurni da želite da unesete novo vozilo?',
+                                    buttons: {
+                                        cancel: {
+                                            label: 'Odustani',
+                                            className: 'btn-primary'
+                                        },
+                                        confirm: {
+                                            label: 'Upiši',
+                                            className: 'btn-success'
+                                        }
+                                    },
+                                    callback: function (confirmResult) {
+                                        if (confirmResult) {
+                                            _insertVehicle(model);
+                                        } else {
+                                            bootbox.hideAll();
+                                        }
+                                    }
+                                });
+                            } else {
+                                _insertVehicle(model);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function _insertVehicle(model) {
+            ClientsService.addVehicleFull($scope.client.ID, model).then(
+                function () {
+                    toastr.success('Novo vozilo uspešno upisano.');
+                    bootbox.hideAll();
+
+                    // TODO: refresh client-file data
+                },
+                function (error) {
+                    toastr.error('Došlo je do greške prilikom upisa novog vozila.');
+                    toastr.error(error.statusText);
+                    return false;
+                }
+            );
+        }
+
+        function checkForTheSameClient(licenseData) {
+            var data = licenseData.Result;
+            return false;
+        }
 
         function openTextFieldDialog(dataField, text) {
             var dialogOpts = {

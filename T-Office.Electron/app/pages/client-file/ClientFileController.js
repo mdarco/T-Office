@@ -17,6 +17,8 @@
             visible: false
         };
 
+        $scope.vehicleRegistrations = [];
+
         calculateVehicleNextRegDate();
 
         $scope.editClient = function (dataField) {
@@ -334,6 +336,11 @@
                     if (result && result.data) {
                         $scope.client.Vehicles = result.data;
                         calculateVehicleNextRegDate();
+
+                        $scope.selectedVehicle = {
+                            vehicle: null,
+                            visible: false
+                        };
                     }
                 },
                 (error) => {

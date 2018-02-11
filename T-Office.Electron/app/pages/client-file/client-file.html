@@ -254,7 +254,8 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed table-hover">
+                <p style="font-variant:small-caps; margin-left: 10px" ng-show="vehicleRegistrations.length === 0">nema podataka.</p>
+                <table class="table table-condensed table-hover"  ng-show="vehicleRegistrations.length > 0">
                     <thead>
                         <tr>
                             <td><strong>Datum registracije</strong></td>

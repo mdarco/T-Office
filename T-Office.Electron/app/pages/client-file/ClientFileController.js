@@ -267,6 +267,10 @@
             );
         };
 
+        $scope.showInstallments = function (installments) {
+            alert('Show installments..');
+        };
+
         function openTextFieldDialog(dataField, text) {
             var dialogOpts = {
                 backdrop: 'static',

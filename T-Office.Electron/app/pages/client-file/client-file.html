@@ -261,6 +261,7 @@
                             <td><strong>Datum registracije</strong></td>
                             <td><strong>Cena</strong></td>
                             <td><strong>Broj rata</strong></td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -268,6 +269,9 @@
                             <td>{{ reg.RegistrationDate | date: 'dd.MM.yyyy' }}</td>
                             <td>{{ reg.TotalAmount }}</td>
                             <td>{{ reg.NumberOfInstallments }}</td>
+                            <td>
+                                <button class="btn btn-primary btn-xs pull-right margin-right-5" title="Pregled rata" ng-click="showInstallments(reg.Installments)"><i class="fa fa-dollar"></i></button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

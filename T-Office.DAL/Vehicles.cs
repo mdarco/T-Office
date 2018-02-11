@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using T_Office.DAL.DBModel;
 using T_Office.Models;
 
@@ -80,7 +81,52 @@ namespace T_Office.DAL
 
         #region Registrations
 
+        public static List<VehicleRegistrationModel> GetRegistrations(int vehicleID)
+        {
+            List<VehicleRegistrationModel> result = new List<VehicleRegistrationModel>();
 
+            using (var ctx = new TOfficeEntities())
+            {
+                var vehicleRegistrations = ctx.VehicleRegistrations
+                                                .Include("ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData")
+                                                .Include(t => t.VehicleRegistrationInstallments)
+                                                .Where(x => x.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.ID == vehicleID);
+
+                if (vehicleRegistrations != null && vehicleRegistrations.Count() > 0)
+                {
+                    result =
+                        vehicleRegistrations.Select(x =>
+                            new VehicleRegistrationModel()
+                            {
+                                ID = x.ID,
+                                RegistrationDate = x.RegistrationDate,
+                                TotalAmount = x.TotalAmount,
+                                NumberOfInstallments = x.NumberOfInstallments,
+
+                                Installments = 
+                                    x.VehicleRegistrationInstallments.Select(vri =>
+                                        new InstallmentModel()
+                                        {
+                                            ID = vri.ID,
+                                            InstallmentDate = vri.InstallmentDate,
+                                            Amount = vri.Amount,
+                                            IsPaid = vri.IsPaid,
+                                            PaymentDate = vri.PaymentDate,
+                                            IsAdminBan = vri.IsAdminBan,
+                                            Note = vri.Note
+                                        }
+                                    )
+                                    .OrderByDescending(order => order.InstallmentDate)
+                                    .ToList()
+                            }
+                        )
+                        .OrderByDescending(order => order.RegistrationDate)
+                        .ToList();
+                }
+            }
+
+            return result;
+        }
 
         #endregion
     }

@@ -20,6 +20,8 @@ namespace T_Office.DAL.DBModel
         public decimal Amount { get; set; }
         public bool IsAdminBan { get; set; }
         public string Note { get; set; }
+        public bool IsPaid { get; set; }
+        public Nullable<System.DateTime> PaymentDate { get; set; }
     
         public virtual VehicleRegistrations VehicleRegistrations { get; set; }
     }

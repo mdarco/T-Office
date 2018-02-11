@@ -87,5 +87,16 @@ namespace T_Office.Api.Controllers
         }
 
         #endregion
+
+        #region Registrations
+
+        [Route("{clientID}/vehicles/{vehicleID}/registrations")]
+        [HttpGet]
+        public List<VehicleRegistrationModel> GetVehicleRegistrations(int vehicleID)
+        {
+            return DAL.Vehicles.GetRegistrations(vehicleID);
+        }
+
+        #endregion
     }
 }

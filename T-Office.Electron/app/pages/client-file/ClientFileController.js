@@ -12,6 +12,11 @@
 
         $scope.client = client;
 
+        $scope.selectedVehicle = {
+            vehicle: null,
+            visible: false
+        };
+
         calculateVehicleNextRegDate();
 
         $scope.editClient = function (dataField) {
@@ -242,8 +247,11 @@
             return true;
         }
 
-        $scope.loadVehicleRegistrations = function (vehicle) {
-            alert('Clicked..');
+        $scope.getVehicleRegistrations = function (vehicle) {
+            $scope.selectedVehicle = {
+                vehicle: vehicle,
+                visible: true
+            };
         };
 
         function openTextFieldDialog(dataField, text) {

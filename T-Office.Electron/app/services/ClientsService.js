@@ -18,7 +18,8 @@
             editClient: editClient,
 
             getVehicles: getVehicles,
-            addVehicleFull: addVehicleFull
+            addVehicleFull: addVehicleFull,
+            getVehicleRegistrations: getVehicleRegistrations
         };
 
         return service;
@@ -58,6 +59,15 @@
         function addVehicleFull(clientID, model) {
             var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/full';
             return $http.post(url, model);
+        }
+
+        //#endregion
+
+        //#region Registrations
+
+        function getVehicleRegistrations(vehicleID) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles' + vehicleID + '/registrations' + '?nd=' + Date.now();
+            return $http.get(url);
         }
 
         //#endregion

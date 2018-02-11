@@ -77,5 +77,11 @@ namespace T_Office.DAL
 
             return regVehicleData.ID;
         }
+
+        #region Registrations
+
+
+
+        #endregion
     }
 }

@@ -250,10 +250,21 @@
         }
 
         $scope.getVehicleRegistrations = function (vehicle) {
-            $scope.selectedVehicle = {
-                vehicle: vehicle,
-                visible: true
-            };
+            ClientsService.getVehicleRegistrations($scope.client.ID, vehicle.ID).then(
+                (result) => {
+                    if (result && result.data) {
+                        $scope.selectedVehicle = {
+                            vehicle: vehicle,
+                            visible: true
+                        };
+
+                        $scope.vehicleRegistrations = result.data;
+                    }
+                },
+                (error) => {
+                    toastr.error('Došlo je do greške prilikom preuzimanja registracija za vozilo ' + vehicle.RegistrationNumber);
+                }
+            );
         };
 
         function openTextFieldDialog(dataField, text) {

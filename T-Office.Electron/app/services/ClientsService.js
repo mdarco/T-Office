@@ -65,8 +65,8 @@
 
         //#region Registrations
 
-        function getVehicleRegistrations(vehicleID) {
-            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles' + vehicleID + '/registrations' + '?nd=' + Date.now();
+        function getVehicleRegistrations(clientID, vehicleID) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations' + '?nd=' + Date.now();
             return $http.get(url);
         }
 

@@ -242,6 +242,10 @@
             return true;
         }
 
+        $scope.loadVehicleRegistrations = function (vehicle) {
+            alert('Clicked..');
+        };
+
         function openTextFieldDialog(dataField, text) {
             var dialogOpts = {
                 backdrop: 'static',

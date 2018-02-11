@@ -214,7 +214,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed">
+                <table class="table table-condensed table-hover">
                     <thead>
                         <tr>
                             <td><strong>Registracija</strong></td>
@@ -224,7 +224,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="vehicle in client.Vehicles">
+                        <tr ng-repeat="vehicle in client.Vehicles" ng-click="loadVehicleRegistrations(vehicle)" style="cursor: pointer;">
                             <td>{{ vehicle.RegistrationNumber }}</td>
                             <td>{{ vehicle.Make }} {{ vehicle.Model }}</td>
                             <td>{{ vehicle.FirstRegistrationDate | date: 'dd.MM.yyyy' }}</td>

@@ -12,7 +12,7 @@ namespace T_Office.Models
         public int? ClientRegistrationDocumentDataID { get; set; }
         public decimal TotalAmount { get; set; }
         public int? NumberOfInstallments { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
 
         public List<InstallmentModel> Installments { get; set; }
     }

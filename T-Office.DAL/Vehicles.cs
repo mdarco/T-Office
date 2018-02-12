@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using T_Office.DAL.DBModel;
 using T_Office.Models;
+using System.Configuration;
 
 namespace T_Office.DAL
 {
     public static class Vehicles
     {
+        const int FIRST_INSTALLMENT_DUE_PERIOD = 5;
+
         public static void AddFromFullModel(int clientID, RegistrationDataModel model)
         {
             var vehicleDataModel = model.VehicleData;
@@ -126,6 +129,42 @@ namespace T_Office.DAL
             }
 
             return result;
+        }
+
+        public static void AddRegistration(int clientID, int vehicleID, VehicleRegistrationModel model)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var clientRegDocData = ctx.ClientRegistrationDocumentData
+                                            .Include(t => t.RegistrationDocumentData.RegistrationVehicleData)
+                                            .FirstOrDefault(c => c.ClientID == clientID && c.RegistrationDocumentData.RegistrationVehicleData.ID == vehicleID);
+
+                if (clientRegDocData != null)
+                {
+                    int firstInstallmentDuePeriod = FIRST_INSTALLMENT_DUE_PERIOD;
+
+                    try
+                    {
+                        firstInstallmentDuePeriod = Int32.Parse(ConfigurationManager.AppSettings["toffice:FirstInstallmentDuePeriod"]);
+                    }
+                    catch (Exception) {}
+
+                    // add new registration
+                    VehicleRegistrations vehicleReg = new VehicleRegistrations()
+                    {
+                        ClientRegistrationDocumentDataID = clientRegDocData.ID,
+                        RegistrationDate = model.RegistrationDate.HasValue ? (DateTime)model.RegistrationDate : DateTime.Now,
+                        TotalAmount = model.TotalAmount,
+                        NumberOfInstallments = model.NumberOfInstallments
+                    };
+                    ctx.VehicleRegistrations.Add(vehicleReg);
+
+                    // add installments
+
+
+                    ctx.SaveChanges();
+                }
+            }
         }
 
         #endregion

@@ -91,7 +91,7 @@ namespace T_Office.DAL
             using (var ctx = new TOfficeEntities())
             {
                 var vehicleRegistrations = ctx.VehicleRegistrations
-                                                .Include("ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData")
+                                                .Include(t => t.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData)
                                                 .Include(t => t.VehicleRegistrationInstallments)
                                                 .Where(x => x.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.ID == vehicleID);
 
@@ -181,6 +181,30 @@ namespace T_Office.DAL
 
                         ctx.VehicleRegistrationInstallments.Add(installment);
                     };
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
+        public static void DeleteRegistration(int vehicleRegistrationID)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var reg = ctx.VehicleRegistrations
+                                    .Include(t => t.VehicleRegistrationInstallments)
+                                    .FirstOrDefault(x => x.ID == vehicleRegistrationID);
+
+                if (reg != null)
+                {
+                    // delete installments
+                    for (int i = reg.VehicleRegistrationInstallments.ToList().Count() - 1; i >= 0; i--)
+                    {
+                        ctx.VehicleRegistrationInstallments.Remove(reg.VehicleRegistrationInstallments.ElementAt(i));
+                    }
+
+                    // delete registration
+                    ctx.VehicleRegistrations.Remove(reg);
 
                     ctx.SaveChanges();
                 }

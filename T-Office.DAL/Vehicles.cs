@@ -160,10 +160,53 @@ namespace T_Office.DAL
                     ctx.VehicleRegistrations.Add(vehicleReg);
 
                     // add installments
+                    int monthAdditionFactor = 1;
+                    for (int i = 1; i <= model.NumberOfInstallments; i++)
+                    {
+                        VehicleRegistrationInstallments installment = new VehicleRegistrationInstallments()
+                        {
+                            IsPaid = false,
+                            IsAdminBan = false,
+                            Amount = (decimal)(model.TotalAmount / model.NumberOfInstallments)
+                        };
 
+                        if (i == 1)
+                        {
+                            installment.InstallmentDate = DateTime.Now.AddDays(firstInstallmentDuePeriod);
+                        }
+                        else
+                        {
+                            installment.InstallmentDate = DateTime.Now.AddMonths(monthAdditionFactor++);
+                        }
+
+                        ctx.VehicleRegistrationInstallments.Add(installment);
+                    };
 
                     ctx.SaveChanges();
                 }
+            }
+        }
+
+        public static List<InstallmentModel> GetRegistrationInstallments(int vehicleRegistrationID)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                return ctx.VehicleRegistrationInstallments
+                            .Where(i => i.VehicleRegistrationID == vehicleRegistrationID)
+                            .Select(x =>
+                                new InstallmentModel()
+                                {
+                                    ID = x.ID,
+                                    InstallmentDate = x.InstallmentDate,
+                                    Amount = x.Amount,
+                                    IsAdminBan = x.IsAdminBan,
+                                    IsPaid = x.IsPaid,
+                                    Note = x.Note,
+                                    PaymentDate = x.PaymentDate
+                                }
+                            )
+                            .OrderBy(x => x.InstallmentDate)
+                            .ToList();
             }
         }
 

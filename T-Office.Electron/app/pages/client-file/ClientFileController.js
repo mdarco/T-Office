@@ -288,7 +288,7 @@
 
             dialog.result.then(
                 function () {
-                    
+                    $scope.getVehicleRegistrations($scope.selectedVehicle.vehicle);
                 },
                 function () {
                     // modal dismissed => do nothing
@@ -297,7 +297,29 @@
         };
 
         $scope.showInstallments = function (installments) {
-            alert('Show installments..');
+            var dialogOpts = {
+                backdrop: 'static',
+                keyboard: false,
+                backdropClick: false,
+                templateUrl: 'pages/client-file/installments-list-dialog/installments-list-dialog.html',
+                controller: 'InstallmentsListDialogController',
+                resolve: {
+                    installments: function () {
+                        return angular.copy(installments);
+                    }
+                }
+            };
+
+            var dialog = $uibModal.open(dialogOpts);
+
+            dialog.result.then(
+                function () {
+
+                },
+                function () {
+                    // modal dismissed => do nothing
+                }
+            );
         };
 
         function openTextFieldDialog(dataField, text) {

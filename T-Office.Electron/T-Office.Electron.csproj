@@ -368,6 +368,8 @@
   <ItemGroup>
     <Content Include="app\pages\client-file\client-file.html" />
     <Content Include="app\pages\client-file\ClientFileController.js" />
+    <Content Include="app\pages\client-file\installments-list-dialog\installments-list-dialog.html" />
+    <Content Include="app\pages\client-file\installments-list-dialog\InstallmentsListDialogController.js" />
     <Content Include="app\pages\client-file\reg-dialog\reg-dialog.html" />
     <Content Include="app\pages\client-file\reg-dialog\RegDialogController.js" />
     <Content Include="app\pages\clients\client-dialog\client-dialog.html" />

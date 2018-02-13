@@ -267,6 +267,35 @@
             );
         };
 
+        $scope.addVehicleRegistration = function () {
+            var dialogOpts = {
+                backdrop: 'static',
+                keyboard: false,
+                backdropClick: false,
+                templateUrl: 'pages/client-file/reg-dialog/reg-dialog.html',
+                controller: 'RegDialogController',
+                resolve: {
+                    client: function () {
+                        return angular.copy($scope.client);
+                    },
+                    vehicle: function () {
+                        return angular.copy($scope.selectedVehicle.vehicle);
+                    }
+                }
+            };
+
+            var dialog = $uibModal.open(dialogOpts);
+
+            dialog.result.then(
+                function () {
+                    
+                },
+                function () {
+                    // modal dismissed => do nothing
+                }
+            );
+        };
+
         $scope.showInstallments = function (installments) {
             alert('Show installments..');
         };

@@ -17,6 +17,7 @@
         'sprintf',
 		'ngFileSaver',
         'ngTagsInput',
-        'ngCacheBuster'
+        'ngCacheBuster',
+        'purplefox.numeric'
     ]);
 })();

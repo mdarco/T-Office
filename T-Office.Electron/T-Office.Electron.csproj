@@ -354,6 +354,7 @@
     <Content Include="app\directives\abn-tree\abntree.js" />
     <Content Include="app\directives\checklist-model\checklist-model.js" />
     <Content Include="app\directives\filestyle\filestyle.js" />
+    <Content Include="app\directives\input-numeric-directive\numeric-directive.js" />
     <Content Include="app\fonts\fontawesome-webfont.svg" />
     <Content Include="app\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="app\images\logo.jpg" />

@@ -298,6 +298,7 @@
 
         $scope.showInstallments = function (installments) {
             var dialogOpts = {
+                size: 'lg',
                 backdrop: 'static',
                 keyboard: false,
                 backdropClick: false,

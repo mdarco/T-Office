@@ -6,12 +6,12 @@
     <table class="table table-hover table-striped">
         <thead>
             <tr>
-                <td>Rok za plaćanje</td>
-                <td>Suma</td>
-                <td>Status</td>
-                <td>Datum plaćanja</td>
-                <td>Admin. zabrana</td>
-                <td>Komentar</td>
+                <td style="font-weight: bold">Rok za plaćanje</td>
+                <td style="font-weight: bold">Suma</td>
+                <td style="font-weight: bold">Status</td>
+                <td style="font-weight: bold">Datum plaćanja</td>
+                <td style="font-weight: bold">Admin. zabrana</td>
+                <td style="font-weight: bold">Komentar</td>
             </tr>
         </thead>
         <tbody>
@@ -19,14 +19,20 @@
                 <td>{{ installment.InstallmentDate | date: 'dd.MM.yyyy' }}</td>
                 <td>{{ installment.Amount }}</td>
                 <td>
-                    <span>{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>
+                    <span ng-class="{ 'label label-success': installment.IsPaid, 'label label-danger': !installment.IsPaid }">{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>&nbsp;&nbsp;
                     <span><i class="fa fa-pencil"></i></span>
                 </td>
-                <td>{{ installment.PaymentDate | date: 'dd.MM.yyyy' }}</td>
-                <td><i ng-class="{ 'fa fa-check': installment.IsAdminBan, 'fa fa-times': !installment.IsAdminBan }"></i></td>
-                <td>{{ installment.Note }}</td>
                 <td>
-                    <!--<button type="button" class="btn btn-primary btn-xs pull-right margin-right-5" ng-click="editInstallment('IsPaid')"><i class="fa fa-user-plus"></i> Nov klijent</button>-->
+                    <span>{{ installment.PaymentDate | date: 'dd.MM.yyyy' }}</span>&nbsp;&nbsp;
+                    <span><i class="fa fa-pencil"></i></span>
+                </td>
+                <td>
+                    <i ng-class="{ 'fa fa-check': installment.IsAdminBan, 'fa fa-minus': !installment.IsAdminBan }"></i>&nbsp;&nbsp;
+                    <span><i class="fa fa-pencil"></i></span>
+                </td>
+                <td>
+                    <span>{{ installment.Note }}</span>&nbsp;&nbsp;
+                    <span><i class="fa fa-pencil"></i></span>
                 </td>
             </tr>
         </tbody>

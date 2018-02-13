@@ -19,7 +19,12 @@
 
             getVehicles: getVehicles,
             addVehicleFull: addVehicleFull,
-            getVehicleRegistrations: getVehicleRegistrations
+
+            getVehicleRegistrations: getVehicleRegistrations,
+            addVehicleRegistration: addVehicleRegistration,
+            deleteVehicleRegistration: deleteVehicleRegistration,
+            getVehicleRegistrationInstallments: getVehicleRegistrationInstallments,
+            editVehicleRegistrationInstallment: editVehicleRegistrationInstallment
         };
 
         return service;
@@ -68,6 +73,26 @@
         function getVehicleRegistrations(clientID, vehicleID) {
             var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations' + '?nd=' + Date.now();
             return $http.get(url);
+        }
+
+        function addVehicleRegistration(clientID, vehicleID, model) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations';
+            return $http.post(url, model);
+        }
+
+        function deleteVehicleRegistration(clientID, vehicleID, vehicleRegistrationID) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID;
+            return $http.delete(url);
+        }
+
+        function getVehicleRegistrationInstallments(clientID, vehicleID, vehicleRegistrationID) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID + '/installments' + '?nd=' + Date.now();
+            return $http.get(url);
+        }
+
+        function editVehicleRegistrationInstallment(clientID, vehicleID, vehicleRegistrationID, installmentID, model) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID + '/installments/' + installmentID;
+            return $http.put(url, model);
         }
 
         //#endregion

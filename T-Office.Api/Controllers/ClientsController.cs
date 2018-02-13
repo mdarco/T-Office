@@ -97,6 +97,34 @@ namespace T_Office.Api.Controllers
             return DAL.Vehicles.GetRegistrations(vehicleID);
         }
 
+        [Route("{clientID}/vehicles/{vehicleID}/registrations")]
+        [HttpPost]
+        public void AddVehicleRegistration(int clientID, int vehicleID, VehicleRegistrationModel model)
+        {
+            DAL.Vehicles.AddRegistration(clientID, vehicleID, model);
+        }
+
+        [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}")]
+        [HttpDelete]
+        public void DeleteVehicleRegistration(int clientID, int vehicleID, int vehicleRegistrationID)
+        {
+            DAL.Vehicles.DeleteRegistration(vehicleRegistrationID);
+        }
+
+        [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}/installments")]
+        [HttpGet]
+        public List<InstallmentModel> GetVehicleRegistrationInstallments(int vehicleRegistrationID)
+        {
+            return DAL.Vehicles.GetRegistrationInstallments(vehicleRegistrationID);
+        }
+
+        [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}/installments/{installmentID}")]
+        [HttpPut]
+        public void EditVehicleRegistrationInstallment(int installmentID, InstallmentModel model)
+        {
+            DAL.Vehicles.EditInstallment(installmentID, model);
+        }
+
         #endregion
     }
 }

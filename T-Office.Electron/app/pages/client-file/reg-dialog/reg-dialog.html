@@ -4,19 +4,15 @@
 
 <div class="modal-body">
     <form class="smart-form" novalidate="novalidate">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <section>
-                    <label class="control-label">Ukupna suma</label>
-                    <label class="input"><input type="text" class="form-control" style="width: 100%;" ng-model="model.TotalAmount" numeric decimals="2" /></label>
-                </section>
+        <section>
+            <label class="control-label">Ukupna suma</label>
+            <label class="input"><input type="text" class="form-control" ng-model="model.TotalAmount" numeric decimals="2" /></label>
+        </section>
 
-                <section>
-                    <label class="control-label">Broj rata</label>
-                    <label class="input"><input type="text" class="form-control" style="width: 100%;" ng-model="model.NumberOfInstallments" numeric decimals="0" /></label>
-                </section>
-            </div>
-        </div>
+        <section>
+            <label class="control-label">Broj rata</label>
+            <label class="input"><input type="text" class="form-control" ng-model="model.NumberOfInstallments" numeric decimals="0" /></label>
+        </section>
     </form>
 </div>
 

@@ -6,9 +6,30 @@
     <table class="table table-hover table-striped">
         <thead>
             <tr>
+                <td>Rok za plaćanje</td>
+                <td>Suma</td>
+                <td>Status</td>
                 <td>Datum plaćanja</td>
+                <td>Admin. zabrana</td>
+                <td>Komentar</td>
             </tr>
         </thead>
+        <tbody>
+            <tr ng-repeat="installment in installments">
+                <td>{{ installment.InstallmentDate | date: 'dd.MM.yyyy' }}</td>
+                <td>{{ installment.Amount }}</td>
+                <td>
+                    <span>{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>
+                    <span><i class="fa fa-pencil"></i></span>
+                </td>
+                <td>{{ installment.PaymentDate | date: 'dd.MM.yyyy' }}</td>
+                <td><i ng-class="{ 'fa fa-check': installment.IsAdminBan, 'fa fa-times': !installment.IsAdminBan }"></i></td>
+                <td>{{ installment.Note }}</td>
+                <td>
+                    <!--<button type="button" class="btn btn-primary btn-xs pull-right margin-right-5" ng-click="editInstallment('IsPaid')"><i class="fa fa-user-plus"></i> Nov klijent</button>-->
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
 

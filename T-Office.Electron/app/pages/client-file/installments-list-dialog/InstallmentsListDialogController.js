@@ -16,7 +16,28 @@
 
             } else if (dataField === 'PaymentDate') {
                 // date field
+                if (!installment.IsPaid) {
+                    toastr.warning('Rata nije plaćena.');
+                    return;
+                }
 
+                openDateFieldDialog(dataField, installment[dataField]).then(
+                    function (result) {
+                        var editObj = {};
+                        editObj[dataField] = UtilityService.convertDateToISODateString(result.Value);
+
+                        ClientsService.editVehicleRegistrationInstallment(context.ClientID, context.VehicleID, context.VehicleRegistrationID, installment.ID, editObj).then(
+                            function () {
+                                toastr.success('Podatak uspešno ažuriran.');
+                                installment[dataField] = result.Value;
+                            },
+                            function (error) {
+                                toastr.error(error.statusText);
+                            }
+                        );
+                    },
+                    function (error) { }
+                );
             } else {
                 // text field
                 openTextFieldDialog(dataField, installment[dataField]).then(
@@ -73,6 +94,29 @@
                             FieldValue: text,
                             DisplayTitle: 'T-Office',
                             FieldLabel: resolveDataFieldLabel(dataField)
+                        };
+                    }
+                }
+            };
+
+            var dialog = $uibModal.open(dialogOpts);
+
+            return dialog.result;
+        }
+
+        function openDateFieldDialog(dataField, date) {
+            var dialogOpts = {
+                backdrop: 'static',
+                keyboard: false,
+                backdropClick: false,
+                templateUrl: 'pages/common/date-dialog/date-dialog.html',
+                controller: 'DateDialogController',
+                resolve: {
+                    settings: function () {
+                        return {
+                            DisplayTitle: 'T-Office',
+                            LabelTitle: 'Datum plaćanja',
+                            DateValue: _.isDate(date) ? date : UtilityService.convertISODateStringToDate(date)
                         };
                     }
                 }

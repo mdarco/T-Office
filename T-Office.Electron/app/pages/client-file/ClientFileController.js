@@ -406,6 +406,31 @@
             }
         }
 
+        $scope.resolveVehicleRegistrationCssClass = function (registration) {
+            var installments = registration.Installments;
+
+            if (installments && installments.length > 0) {
+                var isProblematic = false;
+                _.each(installments, installment => {
+                    if (!installment.IsPaid) {
+                        var today = moment(Date.now());
+                        var installmentDate = moment(installment.InstallmentDate);
+
+                        if (installmentDate < today) {
+                            isProblematic = true;
+                            return false; // this breaks the _.each() loop
+                        }
+                    }
+                });
+
+                if (isProblematic) {
+                    return 'toffice-background-alert';
+                }
+            }
+
+            return '';
+        };
+
         function getVehicles() {
             ClientsService.getVehicles($scope.client.ID).then(
                 (result) => {

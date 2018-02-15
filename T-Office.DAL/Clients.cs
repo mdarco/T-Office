@@ -508,8 +508,8 @@ namespace T_Office.DAL
                                         .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData)
                                         .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
                                         .Where(x => 
-                                            (x.InstallmentDate.Date <= DateTime.Now.Date.AddDays(numberOfDays)) && !x.IsPaid &&
-                                            (x.InstallmentDate.Date >= DateTime.Now.Date)
+                                            (DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(DbFunctions.AddDays(DateTime.Now, numberOfDays))) && !x.IsPaid &&
+                                            (DbFunctions.TruncateTime(x.InstallmentDate) >= DbFunctions.TruncateTime(DateTime.Now))
                                          )
                                         .ToList();
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.App", "T-Office.App\T-Office.App.csproj", "{35E5D37A-C1E0-45D5-BC1E-B3027581CF00}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Api", "T-Office.Api\T-Office.Api.csproj", "{D5F61615-E273-4231-9112-696FA2515697}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Electron", "T-Office.Electron\T-Office.Electron.csproj", "{6F3DE819-6AEC-4E56-A920-668445C620A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Test", "T-Office.Test\T-Office.Test.csproj", "{E6771438-1390-4D18-900D-0A4AFA296424}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -53,6 +55,9 @@ Global
 		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6771438-1390-4D18-900D-0A4AFA296424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6771438-1390-4D18-900D-0A4AFA296424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6771438-1390-4D18-900D-0A4AFA296424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

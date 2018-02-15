@@ -55,6 +55,12 @@
                                 function () {
                                     toastr.success('Podatak uspešno ažuriran.');
                                     installment[dataField] = newFieldValue;
+
+                                    if (newFieldValue) {
+                                        installment.PaymentDate = new Date();
+                                    } else {
+                                        installment.PaymentDate = null;
+                                    }
                                 },
                                 function (error) {
                                     toastr.error(error.statusText);

@@ -5,15 +5,64 @@
         .module('TOfficeApp')
         .controller('InstallmentsListDialogController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$uibModalInstance', 'ClientsService', 'toastr', 'installments', 'context'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$uibModalInstance', 'ClientsService', 'UtilityService', 'toastr', 'installments', 'context'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $uibModalInstance, ClientsService, toastr, installments, context) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $uibModalInstance, ClientsService, UtilityService, toastr, installments, context) {
         $scope.installments = installments;
 
         $scope.editInstallment = function (installment, dataField) {
             if (dataField === 'IsPaid' || dataField === 'IsAdminBan') {
                 // boolean fields
+                var msg = null;
+                var newFieldValue = null;
 
+                if (dataField === 'IsPaid') {
+                    if (!installment.IsPaid) {
+                        msg = 'Rata je plaćena?';
+                    } else {
+                        msg = 'Poništavate plaćanje rate?';
+                    }
+
+                    newFieldValue = !installment.IsPaid;
+                } else {
+                    if (!installment.IsAdminBan) {
+                        msg = 'Aktivirati administrativnu zabranu?';
+                    } else {
+                        msg = 'Deaktivirati administrativnu zabranu?';
+                    }
+
+                    newFieldValue = !installment.IsAdminBan;
+                }
+
+                bootbox.confirm({
+                    message: msg,
+                    buttons: {
+                        confirm: {
+                            label: 'Da',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Ne',
+                            className: 'btn-primary'
+                        }
+                    },
+                    callback: function (confirmResult) {
+                        if (confirmResult) {
+                            var editObj = {};
+                            editObj[dataField] = newFieldValue;
+
+                            ClientsService.editVehicleRegistrationInstallment(context.ClientID, context.VehicleID, context.VehicleRegistrationID, installment.ID, editObj).then(
+                                function () {
+                                    toastr.success('Podatak uspešno ažuriran.');
+                                    installment[dataField] = newFieldValue;
+                                },
+                                function (error) {
+                                    toastr.error(error.statusText);
+                                }
+                            );
+                        }
+                    }
+                });
             } else if (dataField === 'PaymentDate') {
                 // date field
                 if (!installment.IsPaid) {

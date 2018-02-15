@@ -9,6 +9,8 @@
 
     function ctrlFn($rootScope, $scope, $location, $uibModal, $uibModalInstance, ClientsService, UtilityService, toastr, installments, context) {
         $scope.installments = installments;
+        $scope.vehicle = context.Vehicle;
+        $scope.vehicleRegistration = context.VehicleRegistration;
 
         $scope.editInstallment = function (installment, dataField) {
             if (dataField === 'IsPaid' || dataField === 'IsAdminBan') {

@@ -312,7 +312,9 @@
                         return {
                             ClientID: $scope.client.ID,
                             VehicleID: $scope.selectedVehicle.vehicle.ID,
-                            VehicleRegistrationID: vehicleRegistration.ID
+                            VehicleRegistrationID: vehicleRegistration.ID,
+                            Vehicle: angular.copy($scope.selectedVehicle.vehicle),
+                            VehicleRegistration: angular.copy(vehicleRegistration)
                         };
                     }
                 }

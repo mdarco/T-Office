@@ -306,7 +306,6 @@
                 controller: 'InstallmentsListDialogController',
                 resolve: {
                     installments: function () {
-                        //return angular.copy(vehicleRegistration.Installments);
                         return vehicleRegistration.Installments;
                     },
                     context: function () {

@@ -10,7 +10,7 @@
                 <td style="font-weight: bold">Suma</td>
                 <td style="font-weight: bold">Status</td>
                 <td style="font-weight: bold">Datum plaćanja</td>
-                <td style="font-weight: bold">Admin. zabrana</td>
+                <td style="font-weight: bold; text-align: center;">Admin. zabrana</td>
                 <td style="font-weight: bold">Komentar</td>
             </tr>
         </thead>
@@ -19,20 +19,24 @@
                 <td>{{ installment.InstallmentDate | date: 'dd.MM.yyyy' }}</td>
                 <td>{{ installment.Amount }}</td>
                 <td>
-                    <span ng-class="{ 'label label-success': installment.IsPaid, 'label label-danger': !installment.IsPaid }">{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>&nbsp;&nbsp;
-                    <span><i class="fa fa-pencil"></i></span>
+                    <span ng-class="resolveStatusCssClass()">{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>
+                    <span><i class="fa fa-pencil pull-right"></i></span>
                 </td>
                 <td>
-                    <span>{{ installment.PaymentDate | date: 'dd.MM.yyyy' }}</span>&nbsp;&nbsp;
-                    <span><i class="fa fa-pencil"></i></span>
+                    <span ng-class="{ 'toffice-text-gray-smallcaps' : !installment.PaymentDate }">
+                        {{ installment.PaymentDate ? (installment.PaymentDate | date: 'dd.MM.yyyy') : 'rata nije plaćena' }}
+                    </span>
+                    <span><i class="fa fa-pencil pull-right"></i></span>
+                </td>
+                <td style="text-align: center;">
+                    <span>{{ installment.IsAdminBan ? 'Da' : 'Ne' }}</span>
+                    <span><i class="fa fa-pencil pull-right"></i></span>
                 </td>
                 <td>
-                    <i ng-class="{ 'fa fa-check': installment.IsAdminBan, 'fa fa-minus': !installment.IsAdminBan }"></i>&nbsp;&nbsp;
-                    <span><i class="fa fa-pencil"></i></span>
-                </td>
-                <td>
-                    <span>{{ installment.Note }}</span>&nbsp;&nbsp;
-                    <span><i class="fa fa-pencil"></i></span>
+                    <span ng-class="{ 'toffice-text-gray-smallcaps' : !installment.PaymentDate }">
+                        {{ installment.Note ? installment.Note : 'nema komentara' }}
+                    </span>
+                    <span><i class="fa fa-pencil pull-right"></i></span>
                 </td>
             </tr>
         </tbody>

@@ -296,7 +296,7 @@
             );
         };
 
-        $scope.showInstallments = function (installments) {
+        $scope.showInstallments = function (vehicleRegistration) {
             var dialogOpts = {
                 size: 'lg',
                 backdrop: 'static',
@@ -306,7 +306,14 @@
                 controller: 'InstallmentsListDialogController',
                 resolve: {
                     installments: function () {
-                        return angular.copy(installments);
+                        return angular.copy(vehicleRegistration.Installments);
+                    },
+                    context: function () {
+                        return {
+                            ClientID: $scope.client.ID,
+                            VehicleID: $scope.selectedVehicle.vehicle.ID,
+                            VehicleRegistrationID: vehicleRegistration.ID
+                        };
                     }
                 }
             };

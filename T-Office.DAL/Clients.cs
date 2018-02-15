@@ -497,5 +497,41 @@ namespace T_Office.DAL
 
             return result;
         }
+
+        #region Analytics
+
+        public static List<ClientDueModel> GetClientsDue(int numberOfDays)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var installments = ctx.VehicleRegistrationInstallments
+                                        .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData)
+                                        .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+                                        .Where(x => 
+                                            (x.InstallmentDate.Date <= DateTime.Now.Date.AddDays(numberOfDays)) && !x.IsPaid &&
+                                            (x.InstallmentDate.Date >= DateTime.Now.Date)
+                                         )
+                                        .ToList();
+
+                return installments.Select(x =>
+                    new ClientDueModel()
+                    {
+                        ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
+                        FullOwnerName = 
+                            x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName,
+                        FullUserName =
+                            x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.UserName + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName,
+                        RegistrationDate = x.VehicleRegistrations.RegistrationDate,
+                        FullVehicleName =
+                            x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Make + x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Model,
+                        InstallmentAmount = x.Amount,
+                        InstallmentDate = x.InstallmentDate
+                    }
+                )
+                .ToList();
+            }
+        }
+
+        #endregion
     }
 }

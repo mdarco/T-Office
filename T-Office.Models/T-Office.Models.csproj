@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiTableResponseModel.cs" />
+    <Compile Include="ClientDueModel.cs" />
     <Compile Include="ClientFilterModel.cs" />
     <Compile Include="ClientModel.cs" />
     <Compile Include="DocumentDataModel.cs" />

@@ -126,5 +126,16 @@ namespace T_Office.Api.Controllers
         }
 
         #endregion
+
+        #region Analytics
+
+        [Route("analytics/clients-due/{numberOfDays}")]
+        [HttpGet]
+        public List<ClientDueModel> GetClientsDue(int numberOfDays)
+        {
+            return DAL.Clients.GetClientsDue(numberOfDays);
+        }
+
+        #endregion
     }
 }

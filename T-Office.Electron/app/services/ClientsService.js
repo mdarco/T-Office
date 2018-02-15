@@ -24,7 +24,9 @@
             addVehicleRegistration: addVehicleRegistration,
             deleteVehicleRegistration: deleteVehicleRegistration,
             getVehicleRegistrationInstallments: getVehicleRegistrationInstallments,
-            editVehicleRegistrationInstallment: editVehicleRegistrationInstallment
+            editVehicleRegistrationInstallment: editVehicleRegistrationInstallment,
+
+            getClientsDue: getClientsDue
         };
 
         return service;
@@ -93,6 +95,15 @@
         function editVehicleRegistrationInstallment(clientID, vehicleID, vehicleRegistrationID, installmentID, model) {
             var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID + '/installments/' + installmentID;
             return $http.put(url, model);
+        }
+
+        //#endregion
+
+        //#region Analytics
+
+        function getClientsDue(numberOfDays) {
+            var url = WebApiBaseUrl + urlRoot + '/analytics/clients-due/' + numberOfDays + '?nd=' + Date.now();
+            return $http.get(url);
         }
 
         //#endregion

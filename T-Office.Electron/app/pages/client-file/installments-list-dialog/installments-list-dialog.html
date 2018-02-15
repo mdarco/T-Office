@@ -19,7 +19,7 @@
                 <td>{{ installment.InstallmentDate | date: 'dd.MM.yyyy' }}</td>
                 <td>{{ installment.Amount }}</td>
                 <td>
-                    <span ng-class="resolveStatusCssClass()">{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>
+                    <span ng-class="resolveStatusCssClass(installment)">{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>
                     <span><i class="fa fa-pencil pull-right"></i></span>
                 </td>
                 <td>

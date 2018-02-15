@@ -143,8 +143,13 @@ caption {
     font-variant: small-caps;
 }
 
-.toffice-background-alert {
+.toffice-alert-row {
     color: red;
+    font-weight: bold;
+}
+
+.toffice-ok-row {
+    color: green;
     font-weight: bold;
 }
 

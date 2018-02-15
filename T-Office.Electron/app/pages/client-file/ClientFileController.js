@@ -411,20 +411,30 @@
 
             if (installments && installments.length > 0) {
                 var isProblematic = false;
+                var isCompleted = true;
+
+                // return false; breaks the _.each() loop
                 _.each(installments, installment => {
                     if (!installment.IsPaid) {
-                        var today = moment(Date.now());
-                        var installmentDate = moment(installment.InstallmentDate);
+                        isCompleted = false;
 
-                        if (installmentDate < today) {
-                            isProblematic = true;
-                            return false; // this breaks the _.each() loop
+                        if (!isProblematic) {
+                            var today = moment(Date.now());
+                            var installmentDate = moment(installment.InstallmentDate);
+
+                            if (installmentDate < today) {
+                                isProblematic = true;
+                            }
                         }
                     }
                 });
 
                 if (isProblematic) {
-                    return 'toffice-background-alert';
+                    return 'toffice-alert-row';
+                }
+
+                if (isCompleted) {
+                    return 'toffice-ok-row';
                 }
             }
 

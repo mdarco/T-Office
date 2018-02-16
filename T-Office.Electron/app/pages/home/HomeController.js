@@ -31,5 +31,9 @@
                 }
             );
         }
+
+        $scope.openClientDossier = function (client) {
+            $location.path('/client-file/' + client.ClientID);
+        };
     }
 })();

@@ -15,5 +15,11 @@ namespace T_Office.Test
 
             List<ClientDueModel> clientsDue = DAL.Clients.GetClientsDue(NUMBER_OF_DAYS);
         }
+
+        [TestMethod]
+        public void GetClientsOutstandingTotal()
+        {
+            List<ClientTotalOutstandingModel> clientsOutstandingTotal = DAL.Clients.GetClientsOutstandingTotal();
+        }
     }
 }

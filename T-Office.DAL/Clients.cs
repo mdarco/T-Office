@@ -533,6 +533,34 @@ namespace T_Office.DAL
             }
         }
 
+        public static List<ClientTotalOutstandingModel> GetClientsOutstandingTotal()
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                return ctx.VehicleRegistrationInstallments
+                            .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+                            .Where(x => !x.IsPaid && DbFunctions.TruncateTime(x.InstallmentDate) < DbFunctions.TruncateTime(DateTime.Now))
+                            .GroupBy(x =>
+                                new
+                                {
+                                    ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
+                                    Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+                                    User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+                                }
+                            )
+                            .Select(gr =>
+                                new ClientTotalOutstandingModel()
+                                {
+                                    ClientID = gr.Key.ClientID,
+                                    Owner = gr.Key.Owner,
+                                    User = gr.Key.User,
+                                    TotalAmount = gr.Sum(item => item.Amount)
+                                }
+                            )
+                            .ToList();
+            }
+        }
+
         #endregion
     }
 }

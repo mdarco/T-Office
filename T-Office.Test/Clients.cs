@@ -28,7 +28,7 @@ namespace T_Office.Test
             CostsByPeriodFilter filter = new CostsByPeriodFilter()
             {
                 DateFrom = null,
-                DateTo =null
+                DateTo = new DateTime(2016, 1, 21)
             };
 
             List<CostsByPeriodModel> costsByPeriod = DAL.Clients.GetCostsByPeriod(filter);

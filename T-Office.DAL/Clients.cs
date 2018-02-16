@@ -631,19 +631,26 @@ namespace T_Office.DAL
                                     )
                                     .ToList();
 
-                return credits.Join(debts,
+                // perform left outer join (done with GroupJoin() in EF)
+                return credits.GroupJoin(debts,
                             c => c.ClientID,
                             d => d.ClientID,
+                            (c, d) => new { c, d }
+                       )
+                       .SelectMany(
+                            x => x.d.DefaultIfEmpty(),
                             (c, d) => new CostsByPeriodModel()
                             {
-                                ClientID = c.ClientID,
-                                Owner = c.Owner,
-                                User = c.User,
-                                TotalCreditAmount = c.TotalCreditAmount,
-                                TotalDebtAmount = d.TotalDebtAmount
+                                ClientID = c.c.ClientID,
+                                Owner = c.c.Owner,
+                                User = c.c.User,
+                                TotalCreditAmount = c.c.TotalCreditAmount,
+                                TotalDebtAmount = (d != null) ? d.TotalDebtAmount : 0
                             }
-                       )
-                       .ToList();
+                        )
+                        .Where(x => x.TotalDebtAmount > 0)
+                        .OrderByDescending(x => x.TotalDebtAmount)
+                        .ToList();
             }
         }
 

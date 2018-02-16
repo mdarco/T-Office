@@ -50,6 +50,13 @@
                 }
             )
 
+            .when('/reports/costs-by-period',
+                {
+                    controller: 'CostsByPeriodController',
+                    templateUrl: 'pages/reports/costs-by-period/costs-by-period.html?nd=' + Date.now()
+                }
+            )
+
             .otherwise({ redirectTo: '/home' });
     }
 })();

@@ -391,6 +391,8 @@
     <Content Include="app\pages\home\home.html" />
     <Content Include="app\pages\home\HomeController.js" />
     <Content Include="app\pages\NavigationController.js" />
+    <Content Include="app\pages\reports\costs-by-period\costs-by-period.html" />
+    <Content Include="app\pages\reports\costs-by-period\CostsByPeriodController.js" />
     <Content Include="app\Scripts\angular-base64\angular-base64.min.js" />
     <Content Include="app\Scripts\angular-block-ui\angular-block-ui.js" />
     <Content Include="app\Scripts\angular-block-ui\angular-block-ui.min.js" />
@@ -551,7 +553,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\node_modules\" />
-    <Folder Include="app\pages\reports\" />
     <Folder Include="app\pages\settings\" />
   </ItemGroup>
   <PropertyGroup>

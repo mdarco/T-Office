@@ -61,7 +61,12 @@
 
                 <!-- Izvestaji -->
                 <li id="menuReports">
-                    <a ng-href="#/reports"><i class="fa fa-lg fa-fw fa-sticky-note"></i> <span class="menu-item-parent">Izveštaji</span></a>
+                    <a href><i class="fa fa-lg fa-fw fa-sticky-note"></i> <span class="menu-item-parent">Izveštaji</span></a>
+                    <ul>
+                        <li id="menuReport_CostsByPeriod">
+                            <a ng-href="#/reports/costs-by-period"><i class="fa fa-lg fa-fw fa-dollar"></i> Troškovi za period</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <!-- Settings -->
@@ -88,7 +93,6 @@
         </nav>
     </aside>
     <!-- End left panel : END NAVIGATION AREA -->
-
     <!-- MAIN PANEL -->
     <div id="main" role="main" ng-view></div>
 
@@ -162,7 +166,6 @@
 
     <!-- User authentication module -->
     <!--<script src="modules/user-auth/user-auth.module.js"></script>-->
-
     <!-- DIRECTIVES -->
     <!-- <script src="directives/checklist-model/checklist-model.js"></script> -->
     <script src="directives/abn-tree/abntree.js"></script>
@@ -192,6 +195,7 @@
     <script src="pages/client-file/ClientFileController.js"></script>
     <script src="pages/client-file/reg-dialog/RegDialogController.js"></script>
     <script src="pages/client-file/installments-list-dialog/InstallmentsListDialogController.js"></script>
+    <script src="pages/reports/costs-by-period/CostsByPeriodController.js"></script>
     <!--<script src="pages/choreographies/ChoreosController.js"></script>
     <script src="pages/costumes/CostumesController.js"></script>
     <script src="pages/events/EventsController.js"></script>

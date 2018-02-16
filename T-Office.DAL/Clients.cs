@@ -557,7 +557,93 @@ namespace T_Office.DAL
                                     TotalAmount = gr.Sum(item => item.Amount)
                                 }
                             )
+                            .OrderByDescending(x => x.TotalAmount)
                             .ToList();
+            }
+        }
+
+        #endregion
+
+        #region Reports
+
+        public static List<CostsByPeriodModel> GetCostsByPeriod(CostsByPeriodFilter filter)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                if (!filter.DateFrom.HasValue)
+                {
+                    // set min date
+                    filter.DateFrom = new DateTime(1950, 1, 1);
+                }
+
+                if (!filter.DateTo.HasValue)
+                {
+                    filter.DateTo = DateTime.Now;
+                }
+
+                var credits = ctx.VehicleRegistrations
+                                    .Include(t => t.ClientRegistrationDocumentData.Clients)
+                                    .Where(vr =>
+                                        (DbFunctions.TruncateTime(vr.RegistrationDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+                                        DbFunctions.TruncateTime(vr.RegistrationDate) <= DbFunctions.TruncateTime(filter.DateTo)
+                                    )
+                                    .GroupBy(x =>
+                                        new
+                                        {
+                                            ClientID = x.ClientRegistrationDocumentData.ClientID,
+                                            Owner = (x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+                                            User = (x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+                                        }
+                                    )
+                                    .Select(gr =>
+                                        new CostsByPeriodModel()
+                                        {
+                                            ClientID = gr.Key.ClientID,
+                                            Owner = gr.Key.Owner,
+                                            User = gr.Key.User,
+                                            TotalCreditAmount = gr.Sum(item => item.TotalAmount)
+                                        }
+                                    )
+                                    .ToList();
+
+                var debts = ctx.VehicleRegistrationInstallments
+                                    .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+                                    .Where(vri => !vri.IsPaid &&
+                                        (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+                                        (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
+                                    )
+                                    .GroupBy(x =>
+                                        new
+                                        {
+                                            ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
+                                            Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+                                            User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+                                        }
+                                    )
+                                    .Select(gr =>
+                                        new CostsByPeriodModel()
+                                        {
+                                            ClientID = gr.Key.ClientID,
+                                            Owner = gr.Key.Owner,
+                                            User = gr.Key.User,
+                                            TotalDebtAmount = gr.Sum(item => item.Amount)
+                                        }
+                                    )
+                                    .ToList();
+
+                return credits.Join(debts,
+                            c => c.ClientID,
+                            d => d.ClientID,
+                            (c, d) => new CostsByPeriodModel()
+                            {
+                                ClientID = c.ClientID,
+                                Owner = c.Owner,
+                                User = c.User,
+                                TotalCreditAmount = c.TotalCreditAmount,
+                                TotalDebtAmount = d.TotalDebtAmount
+                            }
+                       )
+                       .ToList();
             }
         }
 

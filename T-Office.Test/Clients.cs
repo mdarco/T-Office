@@ -21,5 +21,17 @@ namespace T_Office.Test
         {
             List<ClientTotalOutstandingModel> clientsOutstandingTotal = DAL.Clients.GetClientsOutstandingTotal();
         }
+
+        [TestMethod]
+        public void GetCostsByPeriod()
+        {
+            CostsByPeriodFilter filter = new CostsByPeriodFilter()
+            {
+                DateFrom = null,
+                DateTo =null
+            };
+
+            List<CostsByPeriodModel> costsByPeriod = DAL.Clients.GetCostsByPeriod(filter);
+        }
     }
 }

@@ -49,6 +49,8 @@
     <Compile Include="ClientFilterModel.cs" />
     <Compile Include="ClientModel.cs" />
     <Compile Include="ClientTotalOutstandingModel.cs" />
+    <Compile Include="CostsByPeriodFilter.cs" />
+    <Compile Include="CostsByPeriodModel.cs" />
     <Compile Include="DocumentDataModel.cs" />
     <Compile Include="InstallmentModel.cs" />
     <Compile Include="PersonalDataModel.cs" />

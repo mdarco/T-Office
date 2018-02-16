@@ -8,6 +8,10 @@
     ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'RegLicenseReaderService', 'UtilityService', 'toastr', 'client' /* , 'AuthenticationService' */];
 
     function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, RegLicenseReaderService, UtilityService, toastr, client /* , AuthenticationService */) {
+        // set active menu item
+        $("#left-panel nav ul li").removeClass("active");
+        $("#menuClients").addClass("active");
+
         //var currentUser = AuthenticationService.getCurrentUser();
 
         $scope.client = client;

@@ -27,7 +27,9 @@
             editVehicleRegistrationInstallment: editVehicleRegistrationInstallment,
 
             getClientsDue: getClientsDue,
-            getClientsOutstandingTotal: getClientsOutstandingTotal
+            getClientsOutstandingTotal: getClientsOutstandingTotal,
+
+            getCostsByPeriod: getCostsByPeriod
         };
 
         return service;
@@ -110,6 +112,15 @@
         function getClientsOutstandingTotal() {
             var url = WebApiBaseUrl + urlRoot + '/analytics/clients-outstanding-total?nd=' + Date.now();
             return $http.get(url);
+        }
+
+        //#endregion
+
+        //#region Reports
+
+        function getCostsByPeriod(filter) {
+            var url = WebApiBaseUrl + urlRoot + '/reports/costs-by-period?nd=' + Date.now();
+            return $http.post(url, filter);
         }
 
         //#endregion

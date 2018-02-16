@@ -528,6 +528,7 @@ namespace T_Office.DAL
                         InstallmentDate = x.InstallmentDate
                     }
                 )
+                .OrderByDescending(x => x.InstallmentDate)
                 .ToList();
             }
         }

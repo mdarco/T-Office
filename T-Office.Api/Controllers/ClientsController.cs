@@ -144,5 +144,16 @@ namespace T_Office.Api.Controllers
         }
 
         #endregion
+
+        #region Reports
+
+        [Route("reports/costs-by-period")]
+        [HttpPost]
+        public List<CostsByPeriodModel> GetCostsByPeriod(CostsByPeriodFilter filter)
+        {
+            return DAL.Clients.GetCostsByPeriod(filter);
+        }
+
+        #endregion
     }
 }

@@ -136,6 +136,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetClientsDue(numberOfDays);
         }
 
+        [Route("analytics/clients-outstanding-total")]
+        [HttpGet]
+        public List<ClientTotalOutstandingModel> GetClientsOutstandingTotal()
+        {
+            return DAL.Clients.GetClientsOutstandingTotal();
+        }
+
         #endregion
     }
 }

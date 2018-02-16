@@ -19,11 +19,27 @@
         $scope.clientsDue = [];
         getClientsDue();
 
+        $scope.clientsOutstandingTotal = [];
+        getClientsOutstandingTotal();
+
         function getClientsDue() {
             ClientsService.getClientsDue($scope.CLIENTS_DUE_NUMBER_OF_DAYS).then(
                 (result) => {
                     if (result && result.data) {
                         $scope.clientsDue = result.data;
+                    }
+                },
+                (error) => {
+                    toastr.error(error.statusText);
+                }
+            );
+        }
+
+        function getClientsOutstandingTotal() {
+            ClientsService.getClientsOutstandingTotal().then(
+                (result) => {
+                    if (result && result.data) {
+                        $scope.clientsOutstandingTotal = result.data;
                     }
                 },
                 (error) => {

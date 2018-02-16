@@ -26,7 +26,8 @@
             getVehicleRegistrationInstallments: getVehicleRegistrationInstallments,
             editVehicleRegistrationInstallment: editVehicleRegistrationInstallment,
 
-            getClientsDue: getClientsDue
+            getClientsDue: getClientsDue,
+            getClientsOutstandingTotal: getClientsOutstandingTotal
         };
 
         return service;
@@ -103,6 +104,11 @@
 
         function getClientsDue(numberOfDays) {
             var url = WebApiBaseUrl + urlRoot + '/analytics/clients-due/' + numberOfDays + '?nd=' + Date.now();
+            return $http.get(url);
+        }
+
+        function getClientsOutstandingTotal() {
+            var url = WebApiBaseUrl + urlRoot + '/analytics/clients-outstanding-total?nd=' + Date.now();
             return $http.get(url);
         }
 

@@ -357,6 +357,7 @@
     <Content Include="app\directives\input-numeric-directive\numeric-directive.js" />
     <Content Include="app\fonts\fontawesome-webfont.svg" />
     <Content Include="app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\images\icons\main-icon.ico" />
     <Content Include="app\images\logo.jpg" />
     <Content Include="app\images\main-icon.png" />
     <Content Include="app\images\reg-license.jpg" />

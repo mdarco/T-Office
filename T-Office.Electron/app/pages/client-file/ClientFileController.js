@@ -87,6 +87,10 @@
             });
         };
 
+        $scope.addVehicleManually = function() {
+            toastr.info('Opcija je u fazi izrade...');
+        };
+
         function insertVehicle(licenseData) {
             var data = licenseData.Result;
 

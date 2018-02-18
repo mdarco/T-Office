@@ -335,7 +335,8 @@
 
                 },
                 function () {
-                    // modal dismissed => do nothing
+                    // modal dismissed => re-calculate total outstanding amount for vehicle registration
+                    calculateTotalOutstandingAmount(vehicleRegistration);
                 }
             );
         };
@@ -467,6 +468,18 @@
                     toastr.error(error.statusText);
                 }
             );
+        }
+
+        function calculateTotalOutstandingAmount(reg) {
+            var installments = reg.Installments;
+            if (installments && installments.length > 0) {
+                reg.TotalOutstandingAmount = 0;
+                _.each(installments, (installment) => {
+                    if (!installment.IsPaid) {
+                        reg.TotalOutstandingAmount += installment.Amount;
+                    }
+                });
+            }
         }
     }
 })();

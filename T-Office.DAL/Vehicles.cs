@@ -154,7 +154,7 @@ namespace T_Office.DAL
                     {
                         ClientRegistrationDocumentDataID = clientRegDocData.ID,
                         RegistrationDate = model.RegistrationDate.HasValue ? (DateTime)model.RegistrationDate : DateTime.Now,
-                        TotalAmount = model.TotalAmount,
+                        TotalAmount = (decimal)model.TotalAmount,
                         NumberOfInstallments = model.NumberOfInstallments
                     };
                     ctx.VehicleRegistrations.Add(vehicleReg);

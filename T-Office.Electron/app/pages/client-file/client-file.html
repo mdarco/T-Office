@@ -261,6 +261,7 @@
                         <tr>
                             <td><strong>Datum registracije</strong></td>
                             <td><strong>Cena</strong></td>
+                            <td><strong>Preostali iznos</strong></td>
                             <td><strong>Broj rata</strong></td>
                             <td></td>
                         </tr>
@@ -269,6 +270,7 @@
                         <tr ng-repeat="reg in vehicleRegistrations" ng-class="resolveVehicleRegistrationCssClass(reg)">
                             <td>{{ reg.RegistrationDate | date: 'dd.MM.yyyy' }}</td>
                             <td>{{ reg.TotalAmount }}</td>
+                            <td>{{ reg.TotalOutstandingAmount }}</td>
                             <td>{{ reg.NumberOfInstallments }}</td>
                             <td>
                                 <button class="btn btn-primary btn-xs pull-right margin-right-5" title="Pregled rata" ng-click="showInstallments(reg)"><i class="fa fa-dollar"></i></button>

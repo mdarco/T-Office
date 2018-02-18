@@ -10,9 +10,27 @@ namespace T_Office.Models
     {
         public int? ID { get; set; }
         public int? ClientRegistrationDocumentDataID { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal? TotalAmount { get; set; }
         public int? NumberOfInstallments { get; set; }
         public DateTime? RegistrationDate { get; set; }
+
+        public decimal? TotalOutstandingAmount
+        {
+            get
+            {
+                decimal sum = 0;
+
+                foreach (var installment in this.Installments)
+                {
+                    if (!(bool)installment.IsPaid)
+                    {
+                        sum += (decimal)installment.Amount;
+                    }
+                }
+
+                return sum;
+            }
+        }
 
         public List<InstallmentModel> Installments { get; set; }
     }

@@ -87,8 +87,8 @@ namespace T_Office.DAL
                                     UserPhone = x.UserPhone,
                                     UserEmail = x.UserEmail,
 
-                                    FullOwnerName = x.OwnerName + "" + x.OwnerSurnameOrBusinessName,
-                                    FullUserName = x.UserName + "" + x.UserSurnameOrBusinessName,
+                                    FullOwnerName = x.OwnerName + " " + x.OwnerSurnameOrBusinessName,
+                                    FullUserName = x.UserName + " " + x.UserSurnameOrBusinessName,
                                     OwnerJMBGMB = x.OwnerPersonalNo,
                                     UserJMBGMB = x.UserPersonalNo,
                                     RecommendedBy = x.RecommendedBy,
@@ -151,8 +151,8 @@ namespace T_Office.DAL
                             UserPhone = client.UserPhone,
                             UserEmail = client.UserEmail,
 
-                            FullOwnerName = client.OwnerName + "" + client.OwnerSurnameOrBusinessName,
-                            FullUserName = client.UserName + "" + client.UserSurnameOrBusinessName,
+                            FullOwnerName = client.OwnerName + " " + client.OwnerSurnameOrBusinessName,
+                            FullUserName = client.UserName + " " + client.UserSurnameOrBusinessName,
                             OwnerJMBGMB = client.OwnerPersonalNo,
                             UserJMBGMB = client.UserPersonalNo,
                             RecommendedBy = client.RecommendedBy,
@@ -518,12 +518,12 @@ namespace T_Office.DAL
                     {
                         ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
                         FullOwnerName = 
-                            x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName,
+                            x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName,
                         FullUserName =
-                            x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.UserName + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName,
+                            x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.UserName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName,
                         RegistrationDate = x.VehicleRegistrations.RegistrationDate,
                         FullVehicleName =
-                            x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Make + x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Model,
+                            x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Make + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Model,
                         InstallmentAmount = x.Amount,
                         InstallmentDate = x.InstallmentDate
                     }

@@ -4,7 +4,3 @@ packages
 
 bin
 obj
-
-*.FileListAbsolute.txt
-
-/*.cache

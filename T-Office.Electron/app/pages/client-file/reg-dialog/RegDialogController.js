@@ -42,5 +42,13 @@
 
             return { error: false };
         }
+
+        $scope.chkboxOneTimePaymentClicked = function () {
+            if ($scope.model.OneTimePayment === true) {
+                $scope.model.NumberOfInstallments = 1;
+            } else {
+                $scope.model.NumberOfInstallments = '';
+            }
+        };
     }
 })();

@@ -13,6 +13,7 @@ namespace T_Office.Models
         public string FullUserName { get; set; }
         public string FullVehicleName { get; set; }
         public DateTime? RegistrationDate { get; set; }
+        public DateTime? NextRegistrationDate { get; set; }
         public DateTime? InstallmentDate { get; set; }
         public decimal? InstallmentAmount { get; set; }
     }

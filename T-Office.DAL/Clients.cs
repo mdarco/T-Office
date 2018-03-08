@@ -562,6 +562,39 @@ namespace T_Office.DAL
             }
         }
 
+        public static List<ClientDueModel> GetVehiclesWithIncomingRegistrations(int numberOfDays)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var registrations = ctx.VehicleRegistrations
+                                            .Include(t => t.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData)
+                                            .Include(t => t.ClientRegistrationDocumentData.Clients)
+                                            .Where(x => 
+                                                (DbFunctions.TruncateTime(x.NextRegistrationDate) <= DbFunctions.TruncateTime(DbFunctions.AddDays(DateTime.Now, numberOfDays))) &&
+                                                (DbFunctions.TruncateTime(x.NextRegistrationDate) >= DbFunctions.TruncateTime(DateTime.Now))
+                                            )
+                                            .OrderByDescending(x => x.NextRegistrationDate)
+                                            .ToList();
+
+                return registrations.Select(x =>
+                    new ClientDueModel()
+                    {
+                        ClientID = x.ClientRegistrationDocumentData.ClientID,
+                        FullOwnerName =
+                            x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName,
+                        FullUserName =
+                            x.ClientRegistrationDocumentData.Clients.UserName + " " + x.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName,
+                        RegistrationDate = x.RegistrationDate,
+                        NextRegistrationDate = x.NextRegistrationDate,
+                        FullVehicleName =
+                            x.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Make + " " + x.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Model
+                    }
+                )
+                .OrderByDescending(x => x.InstallmentDate)
+                .ToList();
+            }
+        }
+
         #endregion
 
         #region Reports

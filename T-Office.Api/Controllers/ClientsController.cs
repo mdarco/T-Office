@@ -105,6 +105,13 @@ namespace T_Office.Api.Controllers
         }
 
         [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}")]
+        [HttpPut]
+        public void EditVehicleRegistration(int vehicleRegistrationID, VehicleRegistrationModel model)
+        {
+            DAL.Vehicles.EditRegistration(vehicleRegistrationID, model);
+        }
+
+        [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}")]
         [HttpDelete]
         public void DeleteVehicleRegistration(int clientID, int vehicleID, int vehicleRegistrationID)
         {
@@ -141,6 +148,13 @@ namespace T_Office.Api.Controllers
         public List<ClientTotalOutstandingModel> GetClientsOutstandingTotal()
         {
             return DAL.Clients.GetClientsOutstandingTotal();
+        }
+
+        [Route("analytics/incoming-registrations/{numberOfDays}")]
+        [HttpGet]
+        public List<ClientDueModel> GetIncomingRegistrations(int numberOfDays)
+        {
+            return DAL.Clients.GetVehiclesWithIncomingRegistrations(numberOfDays);
         }
 
         #endregion

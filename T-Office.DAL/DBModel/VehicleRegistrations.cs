@@ -25,6 +25,7 @@ namespace T_Office.DAL.DBModel
         public decimal TotalAmount { get; set; }
         public Nullable<int> NumberOfInstallments { get; set; }
         public System.DateTime RegistrationDate { get; set; }
+        public Nullable<System.DateTime> NextRegistrationDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VehicleRegistrationInstallments> VehicleRegistrationInstallments { get; set; }

@@ -21,11 +21,14 @@ namespace T_Office.Models
             {
                 decimal sum = 0;
 
-                foreach (var installment in this.Installments)
+                if (this.Installments != null && this.Installments.Count() > 0)
                 {
-                    if (!(bool)installment.IsPaid)
+                    foreach (var installment in this.Installments)
                     {
-                        sum += (decimal)installment.Amount;
+                        if (!(bool)installment.IsPaid)
+                        {
+                            sum += (decimal)installment.Amount;
+                        }
                     }
                 }
 

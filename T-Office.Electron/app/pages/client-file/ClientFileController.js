@@ -23,8 +23,6 @@
 
         $scope.vehicleRegistrations = [];
 
-        calculateVehicleNextRegDate();
-
         $scope.editClient = function (dataField) {
             openTextFieldDialog(dataField, $scope.client[dataField]).then(
                 function (result) {
@@ -304,6 +302,28 @@
             );
         };
 
+        $scope.editVehicleRegistration = function (reg, dataField) {
+            if (dataField === 'NextRegistrationDate') {
+                openDateFieldDialog(dataField, reg[dataField]).then(
+                    function (result) {
+                        var editObj = {};
+                        editObj[dataField] = UtilityService.convertDateToISODateString(result.Value);
+
+                        ClientsService.editVehicleRegistration(client.ClientID, $scope.selectedVehicle.vehicle.VehicleID, reg.ID, editObj).then(
+                            function () {
+                                toastr.success('Podatak uspešno ažuriran.');
+                                reg[dataField] = result.Value;
+                            },
+                            function (error) {
+                                toastr.error(error.statusText);
+                            }
+                        );
+                    },
+                    function (error) { }
+                );
+            }
+        };
+
         $scope.showInstallments = function (vehicleRegistration) {
             var dialogOpts = {
                 size: 'lg',
@@ -455,7 +475,6 @@
                 (result) => {
                     if (result && result.data) {
                         $scope.client.Vehicles = result.data;
-                        calculateVehicleNextRegDate();
 
                         $scope.selectedVehicle = {
                             vehicle: null,
@@ -479,6 +498,40 @@
                         reg.TotalOutstandingAmount += installment.Amount;
                     }
                 });
+            }
+        }
+
+        // helpers
+        function openDateFieldDialog(dataField, date) {
+            var dialogOpts = {
+                backdrop: 'static',
+                keyboard: false,
+                backdropClick: false,
+                templateUrl: 'pages/common/date-dialog/date-dialog.html',
+                controller: 'DateDialogController',
+                resolve: {
+                    settings: function () {
+                        return {
+                            DisplayTitle: 'T-Office',
+                            LabelTitle: resolveDataFieldLabel(),
+                            DateValue: _.isDate(date) ? date : UtilityService.convertISODateStringToDate(date)
+                        };
+                    }
+                }
+            };
+
+            var dialog = $uibModal.open(dialogOpts);
+
+            return dialog.result;
+        }
+
+        function resolveDataFieldLabel(dataField) {
+            switch (dataField) {
+                case 'NextRegistrationDate':
+                    return 'Datum isteka registracije';
+
+                default:
+                    return dataField;
             }
         }
     }

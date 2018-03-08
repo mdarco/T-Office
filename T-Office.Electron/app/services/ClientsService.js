@@ -29,6 +29,7 @@
 
             getClientsDue: getClientsDue,
             getClientsOutstandingTotal: getClientsOutstandingTotal,
+            getIncomingRegistrations: getIncomingRegistrations,
 
             getCostsByPeriod: getCostsByPeriod
         };
@@ -117,6 +118,11 @@
 
         function getClientsOutstandingTotal() {
             var url = WebApiBaseUrl + urlRoot + '/analytics/clients-outstanding-total?nd=' + Date.now();
+            return $http.get(url);
+        }
+
+        function getIncomingRegistrations(numberOfDays) {
+            var url = WebApiBaseUrl + urlRoot + '/analytics/incoming-registrations/' + numberOfDays + '?nd=' + Date.now();
             return $http.get(url);
         }
 

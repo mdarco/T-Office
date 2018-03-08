@@ -150,6 +150,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetClientsOutstandingTotal();
         }
 
+        [Route("analytics/incoming-registrations/{numberOfDays}")]
+        [HttpGet]
+        public List<ClientDueModel> GetIncomingRegistrations(int numberOfDays)
+        {
+            return DAL.Clients.GetVehiclesWithIncomingRegistrations(numberOfDays);
+        }
+
         #endregion
 
         #region Reports

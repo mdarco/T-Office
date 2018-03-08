@@ -98,6 +98,7 @@
           <Property Name="TotalAmount" Type="decimal" Precision="15" Scale="2" Nullable="false" />
           <Property Name="NumberOfInstallments" Type="int" />
           <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
+          <Property Name="NextRegistrationDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_ClientRegistrationDocumentData_Clients">
           <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
@@ -301,6 +302,7 @@
           <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="VehicleRegistrationInstallments" Relationship="TOfficeModel.FK_VehicleRegistrationInstallments_VehicleRegistrations" FromRole="VehicleRegistrations" ToRole="VehicleRegistrationInstallments" />
           <NavigationProperty Name="ClientRegistrationDocumentData" Relationship="TOfficeModel.FK_VehicleRegistrations_ClientRegistrationDocumentData" FromRole="VehicleRegistrations" ToRole="ClientRegistrationDocumentData" />
+          <Property Name="NextRegistrationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_VehicleRegistrationInstallments_VehicleRegistrations">
           <End Type="TOfficeModel.VehicleRegistrations" Role="VehicleRegistrations" Multiplicity="1" />
@@ -450,6 +452,7 @@
           <EntitySetMapping Name="VehicleRegistrations">
             <EntityTypeMapping TypeName="TOfficeModel.VehicleRegistrations">
               <MappingFragment StoreEntitySet="VehicleRegistrations">
+                <ScalarProperty Name="NextRegistrationDate" ColumnName="NextRegistrationDate" />
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="NumberOfInstallments" ColumnName="NumberOfInstallments" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />

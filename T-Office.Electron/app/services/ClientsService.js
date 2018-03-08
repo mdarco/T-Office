@@ -22,6 +22,7 @@
 
             getVehicleRegistrations: getVehicleRegistrations,
             addVehicleRegistration: addVehicleRegistration,
+            editVehicleRegistration: editVehicleRegistration,
             deleteVehicleRegistration: deleteVehicleRegistration,
             getVehicleRegistrationInstallments: getVehicleRegistrationInstallments,
             editVehicleRegistrationInstallment: editVehicleRegistrationInstallment,
@@ -83,6 +84,11 @@
         function addVehicleRegistration(clientID, vehicleID, model) {
             var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations';
             return $http.post(url, model);
+        }
+
+        function editVehicleRegistration(clientID, vehicleID, vehicleRegistrationID, model) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID;
+            return $http.put(url, model);
         }
 
         function deleteVehicleRegistration(clientID, vehicleID, vehicleRegistrationID) {

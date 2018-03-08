@@ -13,6 +13,7 @@ namespace T_Office.Models
         public decimal? TotalAmount { get; set; }
         public int? NumberOfInstallments { get; set; }
         public DateTime? RegistrationDate { get; set; }
+        public DateTime? NextRegistrationDate { get; set; }
 
         public decimal? TotalOutstandingAmount
         {

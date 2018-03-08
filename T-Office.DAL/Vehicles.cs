@@ -103,6 +103,7 @@ namespace T_Office.DAL
                             {
                                 ID = x.ID,
                                 RegistrationDate = x.RegistrationDate,
+                                NextRegistrationDate = x.NextRegistrationDate,
                                 TotalAmount = x.TotalAmount,
                                 NumberOfInstallments = x.NumberOfInstallments,
 
@@ -153,9 +154,10 @@ namespace T_Office.DAL
                     VehicleRegistrations vehicleReg = new VehicleRegistrations()
                     {
                         ClientRegistrationDocumentDataID = clientRegDocData.ID,
-                        RegistrationDate = model.RegistrationDate.HasValue ? (DateTime)model.RegistrationDate : DateTime.Now,
+                        RegistrationDate = model.RegistrationDate.HasValue ? (DateTime)model.RegistrationDate : DateTime.Now.Date,
                         TotalAmount = (decimal)model.TotalAmount,
-                        NumberOfInstallments = model.NumberOfInstallments
+                        NumberOfInstallments = model.NumberOfInstallments,
+                        NextRegistrationDate = model.RegistrationDate.HasValue ? ((DateTime)model.RegistrationDate).AddYears(1) : DateTime.Now.Date.AddYears(1)
                     };
                     ctx.VehicleRegistrations.Add(vehicleReg);
 
@@ -181,6 +183,23 @@ namespace T_Office.DAL
 
                         ctx.VehicleRegistrationInstallments.Add(installment);
                     };
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
+        public static void EditRegistration(int vehicleRegistrationID, VehicleRegistrationModel model)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var vr = ctx.VehicleRegistrations.FirstOrDefault(x => x.ID == vehicleRegistrationID);
+                if (vr != null)
+                {
+                    if (model.NextRegistrationDate.HasValue)
+                    {
+                        vr.NextRegistrationDate = ((DateTime)model.NextRegistrationDate).Date;
+                    }
 
                     ctx.SaveChanges();
                 }

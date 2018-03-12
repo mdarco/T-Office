@@ -168,6 +168,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetCostsByPeriod(filter);
         }
 
+        [Route("reports/total-installments-amount")]
+        [HttpPost]
+        public decimal GetTotalInstallmentsAmount(TotalInstallmentsAmountFilter filter)
+        {
+            return DAL.Clients.GetTotalInstallmentsAmount(filter.StartDate, filter.EndDate, filter.IsPaid);
+        }
+
         #endregion
     }
 }

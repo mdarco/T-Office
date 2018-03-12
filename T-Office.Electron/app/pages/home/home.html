@@ -4,6 +4,7 @@
         <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
             <div class="panel-heading" style="background-color: #1B1E24;">
                 <span>Dospeće rata u narednih {{ CLIENTS_DUE_NUMBER_OF_DAYS }} dana</span>
+                <span class="pull-right">Ukupno u neplaćenim ratama: {{ totalUnpaidInstallmentsAmount | currency:'':2 }}</span>
             </div>
             <div class="panel-body">
                 <p style="font-variant:small-caps; margin-left: 10px" ng-show="clientsDue.length === 0">nema podataka.</p>
@@ -22,7 +23,7 @@
                     <tbody>
                         <tr ng-repeat="clientDue in clientsDue">
                             <td>{{ clientDue.InstallmentDate | date : 'dd.MM.yyyy' }}</td>
-                            <td>{{ clientDue.InstallmentAmount }}</td>
+                            <td>{{ clientDue.InstallmentAmount | currency:'':2 }}</td>
                             <td>
                                 <span class="font-xs">VLASNIK:</span> {{ clientDue.FullOwnerName }}<br />
                                 <span class="font-xs" style="color: darkgray;">KORISNIK: {{ clientDue.FullUserName }}</span>
@@ -64,7 +65,7 @@
                                 <span class="font-xs">VLASNIK:</span> {{ clientOutstanding.Owner }}<br />
                                 <span class="font-xs" style="color: darkgray;">KORISNIK: {{ clientOutstanding.User }}</span>
                             </td>
-                            <td>{{ clientOutstanding.TotalAmount }}</td>
+                            <td>{{ clientOutstanding.TotalAmount | currency:'':2 }}</td>
                             <td>
                                 <button class="btn btn-primary btn-xs" style="float: right; margin-left: 5px;" ng-click="openClientDossier(clientOutstanding)">Detalji</button>
                             </td>

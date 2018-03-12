@@ -641,7 +641,7 @@ namespace T_Office.DAL
 
                 var debts = ctx.VehicleRegistrationInstallments
                                     .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
-                                    .Where(vri => !vri.IsPaid &&
+                                    .Where(vri => !vri.IsPaid && vri.VehicleRegistrations.NumberOfInstallments > 1 &&
                                         (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
                                         (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
                                     )
@@ -684,6 +684,34 @@ namespace T_Office.DAL
                         .Where(x => x.TotalDebtAmount > 0)
                         .OrderByDescending(x => x.TotalDebtAmount)
                         .ToList();
+            }
+        }
+
+        public static decimal GetTotalInstallmentsAmount(DateTime? startDate, DateTime? endDate, bool? isPaid)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var q = ctx.VehicleRegistrationInstallments
+                                .Include(t => t.VehicleRegistrations)
+                                .Where(x => x.VehicleRegistrations.NumberOfInstallments > 1)
+                                .AsQueryable();
+
+                if (isPaid.HasValue)
+                {
+                    q = q.Where(x => x.IsPaid == isPaid);
+                }
+
+                if (startDate.HasValue)
+                {
+                    q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) >= DbFunctions.TruncateTime(startDate));
+                }
+
+                if (endDate.HasValue)
+                {
+                    q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(endDate));
+                }
+
+                return q.Sum(x => x.Amount);
             }
         }
 

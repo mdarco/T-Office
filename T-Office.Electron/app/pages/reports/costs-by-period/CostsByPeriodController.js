@@ -19,15 +19,46 @@
 
         $scope.totalCredit = 0;
         $scope.totalDebt = 0;
+        $scope.totalInstallmentsPaid = 0;
 
         $scope.applyFilter = function () {
             getCostsByPeriod();
+            getTotalInstallmentsPaid();
         };
 
         $scope.clearFilter = function () {
             $scope.filter = {};
             $scope.costsByPeriod = [];
+
+            $scope.totalCredit = 0;
+            $scope.totalDebt = 0;
+            $scope.totalInstallmentsPaid = 0;
         };
+
+        function getTotalInstallmentsPaid() {
+            var model = {
+                IsPaid: true
+            };
+
+            if ($scope.filter.DateFrom_Temp) {
+                model.StartDate = UtilityService.convertDateToISODateString($scope.filter.DateFrom_Temp);
+            }
+
+            if ($scope.filter.DateTo_Temp) {
+                model.EndDate = UtilityService.convertDateToISODateString($scope.filter.DateTo_Temp);
+            }
+
+            ClientsService.getTotalInstallmentsAmount(model).then(
+                (result) => {
+                    if (result && result.data) {
+                        $scope.totalInstallmentsPaid = result.data;
+                    }
+                },
+                (error) => {
+                    toastr.error(error.statusText);
+                }
+            );
+        }
 
         function getCostsByPeriod() {
             if ($scope.filter.DateFrom_Temp) {

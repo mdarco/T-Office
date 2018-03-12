@@ -26,6 +26,9 @@
         $scope.incomingRegistrations = [];
         getIncomingRegistrations();
 
+        $scope.totalUnpaidInstallmentsAmount = 0;
+        getTotalUnpaidInstallmentsAmount();
+
         function getClientsDue() {
             ClientsService.getClientsDue($scope.CLIENTS_DUE_NUMBER_OF_DAYS).then(
                 (result) => {
@@ -57,6 +60,20 @@
                 (result) => {
                     if (result && result.data) {
                         $scope.incomingRegistrations = result.data;
+                    }
+                },
+                (error) => {
+                    toastr.error(error.statusText);
+                }
+            );
+        }
+
+        function getTotalUnpaidInstallmentsAmount() {
+            var filter = { IsPaid: false };
+            ClientsService.getTotalInstallmentsAmount(filter).then(
+                (result) => {
+                    if (result && result.data) {
+                        $scope.totalUnpaidInstallmentsAmount = result.data;
                     }
                 },
                 (error) => {

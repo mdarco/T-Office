@@ -31,7 +31,8 @@
             getClientsOutstandingTotal: getClientsOutstandingTotal,
             getIncomingRegistrations: getIncomingRegistrations,
 
-            getCostsByPeriod: getCostsByPeriod
+            getCostsByPeriod: getCostsByPeriod,
+            getTotalInstallmentsAmount: getTotalInstallmentsAmount
         };
 
         return service;
@@ -132,6 +133,11 @@
 
         function getCostsByPeriod(filter) {
             var url = WebApiBaseUrl + urlRoot + '/reports/costs-by-period?nd=' + Date.now();
+            return $http.post(url, filter);
+        }
+
+        function getTotalInstallmentsAmount(filter) {
+            var url = WebApiBaseUrl + urlRoot + '/reports/total-installments-amount?nd=' + Date.now();
             return $http.post(url, filter);
         }
 

@@ -58,6 +58,7 @@
     <Compile Include="RegistrationDataModel.cs" />
     <Compile Include="RegLicenseData.cs" />
     <Compile Include="RegLicenseReaderResponse.cs" />
+    <Compile Include="TotalInstallmentsAmountFilter.cs" />
     <Compile Include="VehicleDataModel.cs" />
     <Compile Include="VehicleRegistrationModel.cs" />
   </ItemGroup>

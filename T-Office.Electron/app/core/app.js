@@ -18,6 +18,7 @@
 		'ngFileSaver',
         'ngTagsInput',
         'ngCacheBuster',
-        'purplefox.numeric'
+        'purplefox.numeric',
+        'AngularPrint'
     ]);
 })();

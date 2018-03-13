@@ -76,6 +76,7 @@
     <Content Include="app\Content\angular-block-ui\angular-block-ui.css.map" />
     <Content Include="app\Content\angular-block-ui\angular-block-ui.min.css" />
     <Content Include="app\Content\angular-csp.css" />
+    <Content Include="app\Content\angular-print\angularPrint.css" />
     <Content Include="app\Content\angular-toastr\angular-toastr.css" />
     <Content Include="app\Content\angular-toastr\angular-toastr.min.css" />
     <Content Include="app\Content\angular-ui\angular-ui.css" />
@@ -409,6 +410,7 @@
     <Content Include="app\Scripts\angular-moment\moment-with-locales.min.js" />
     <Content Include="app\Scripts\angular-moment\moment.js" />
     <Content Include="app\Scripts\angular-moment\moment.min.js" />
+    <Content Include="app\Scripts\angular-print\angularPrint.js" />
     <Content Include="app\Scripts\angular-toastr\angular-toastr.js" />
     <Content Include="app\Scripts\angular-toastr\angular-toastr.min.js" />
     <Content Include="app\Scripts\angular-toastr\angular-toastr.tpls.js" />

@@ -17,6 +17,10 @@
         $scope.CLIENTS_DUE_NUMBER_OF_DAYS = 10;
         $scope.INCOMING_REGISTRATIONS_NUMBER_OF_DAYS = 10;
 
+        $scope.printClientsDue = false;
+        $scope.printClientsOutstandingTotal = false;
+        $scope.printIncomingRegistrations = false;
+
         $scope.clientsDue = [];
         getClientsDue();
 
@@ -84,6 +88,31 @@
 
         $scope.openClientDossier = function (client) {
             $location.path('/client-file/' + client.ClientID);
+        };
+
+        $scope.print = function (printType) {
+            switch (printType) {
+                case 'clientsDue':
+                    $scope.printClientsDue = true;
+                    $scope.printClientsOutstandingTotal = false;
+                    $scope.printIncomingRegistrations = false;
+                    break;
+
+                case 'clientsOutstandingTotal':
+                    $scope.printClientsDue = false;
+                    $scope.printClientsOutstandingTotal = true;
+                    $scope.printIncomingRegistrations = false;
+                    break;
+
+                case 'incomingRegistrations':
+                    $scope.printClientsDue = false;
+                    $scope.printClientsOutstandingTotal = false;
+                    $scope.printIncomingRegistrations = true;
+                    break;
+
+                default:
+                    break;
+            }
         };
     }
 })();

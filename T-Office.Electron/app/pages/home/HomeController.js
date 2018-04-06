@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('HomeController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$window', '$uibModal', 'ClientsService', 'PdfService', 'Blob', 'FileSaver', 'toastr' /* , 'AuthenticationService' */];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$window', '$filter', '$uibModal', 'ClientsService', 'PdfService', 'Blob', 'FileSaver', 'toastr' /* , 'AuthenticationService' */];
 
-    function ctrlFn($rootScope, $scope, $location, $window, $uibModal, ClientsService, PdfService, Blob, FileSaver, toastr /* , AuthenticationService */) {
+    function ctrlFn($rootScope, $scope, $location, $window, $filter, $uibModal, ClientsService, PdfService, Blob, FileSaver, toastr /* , AuthenticationService */) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuHome").addClass("active");
@@ -98,7 +98,11 @@
             var columnData = [];
             _.each($scope.clientsDue, item => {
                 var column = [
-                    item.InstallmentDate, item.InstallmentAmount, item.FullOwnerName, item.FullVehicleName, item.RegistrationDate
+                    $filter('date')(item.InstallmentDate, 'dd.MM.yyyy'),
+                    $filter('currency')(item.InstallmentAmount, '', 2),
+                    'Vlasnik: ' + item.FullOwnerName + '\nKorisnik: ' + item.FullUserName,
+                    item.FullVehicleName,
+                    $filter('date')(item.RegistrationDate, 'dd.MM.yyyy')
                 ];
                 columnData.push(column);
             });
@@ -126,7 +130,8 @@
             var columnData = [];
             _.each($scope.clientsOutstandingTotal, item => {
                 var column = [
-                    item.Owner, item.TotalAmount
+                    'Vlasnik: ' + item.Owner + '\nKorisnik: ' + item.User,
+                    $filter('currency')(item.TotalAmount, '', 2)
                 ];
                 columnData.push(column);
             });
@@ -154,7 +159,9 @@
             var columnData = [];
             _.each($scope.clientsDue, item => {
                 var column = [
-                    item.FullOwnerName, item.FullVehicleName, item.NextRegistrationDate
+                    'Vlasnik: ' + item.FullOwnerName + '\nKorisnik: ' + item.FullUserName,
+                    item.FullVehicleName,
+                    $filter('date')(item.NextRegistrationDate, 'dd.MM.yyyy')
                 ];
                 columnData.push(column);
             });

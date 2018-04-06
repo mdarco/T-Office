@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('CostsByPeriodController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'UtilityService', 'toastr' /* , 'AuthenticationService' */];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$window', '$filter', '$uibModal', 'ClientsService', 'UtilityService', 'PdfService', 'Blob', 'FileSaver', 'toastr' /* , 'AuthenticationService' */];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, UtilityService, toastr /* , AuthenticationService */) {
+    function ctrlFn($rootScope, $scope, $location, $window, $filter, $uibModal, ClientsService, UtilityService, PdfService, Blob, FileSaver, toastr /* , AuthenticationService */) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuReport_CostsByPeriod").addClass("active");
@@ -94,6 +94,42 @@
 
         $scope.openClientDossier = function (cost) {
             $location.path('/client-file/' + cost.ClientID);
+        };
+
+        function openPdf(pdfData) {
+            var file = new Blob([pdfData], { type: 'application/pdf' });
+            var fileURL = URL.createObjectURL(file);
+            $window.open(fileURL);
+        }
+
+        $scope.print = function () {
+            var headerData = ['Klijent', 'Suma', 'Dugovanje'];
+
+            var columnData = [];
+            _.each($scope.costsByPeriod, item => {
+                var column = [
+                    'Vlasnik: ' + item.Owner + '\nKorisnik: ' + item.User,
+                    $filter('currency')(item.TotalCreditAmount, '', 2),
+                    $filter('currency')(item.TotalDebtAmount, '', 2)
+                ];
+                columnData.push(column);
+            });
+
+            var model = {
+                Title: 'Troškovi za period',
+                HeaderData: headerData,
+                ColumnData: columnData
+            };
+
+            PdfService.createSimplePdf(model).then(
+                (response) => {
+                    openPdf(response.data);
+                },
+                (error) => {
+                    toastr.error('Došlo je do greške prilikom generisanja PDF dokumenta.');
+                    toastr.error(error.statusText);
+                }
+            );
         };
 
         // date picker support

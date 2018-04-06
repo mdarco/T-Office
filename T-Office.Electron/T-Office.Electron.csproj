@@ -497,6 +497,7 @@
     <Content Include="app\Scripts\sweet-alert\sweet-alert.js" />
     <Content Include="app\Scripts\sweet-alert\sweet-alert.min.js" />
     <Content Include="app\services\ClientsService.js" />
+    <Content Include="app\services\PdfService.js" />
     <Content Include="app\services\RegLicenseReaderService.js" />
     <Content Include="app\services\UtilityService.js" />
     <Content Include="app\Content\ngTable%403.0.1\ng-table.css" />

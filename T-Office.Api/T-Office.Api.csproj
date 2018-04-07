@@ -137,6 +137,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Templates\Temp\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PDFController.cs" />
     <Compile Include="Controllers\RegLicenseReaderController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -187,6 +189,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="img\logo.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -232,6 +235,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\T-Office.BL\T-Office.BL.csproj">
+      <Project>{77f4ad72-597f-4cf9-b619-878973dd9939}</Project>
+      <Name>T-Office.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\T-Office.DAL\T-Office.DAL.csproj">
       <Project>{2d71f902-6f61-4e7f-afe4-ff78549bd6cc}</Project>
       <Name>T-Office.DAL</Name>

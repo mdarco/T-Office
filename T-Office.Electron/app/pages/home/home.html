@@ -4,7 +4,7 @@
         <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
             <div class="panel-heading" style="background-color: #1B1E24;">
                 <span>Dospeće rata u narednih {{ CLIENTS_DUE_NUMBER_OF_DAYS }} dana | Ukupno u neplaćenim ratama: {{ totalUnpaidInstallmentsAmount | currency:'':2 }}</span>
-                <button class="btn btn-xs btn-info pull-right" ng-print print-element-id="tableClientsDue"><i class="fa fa-print"></i></button>
+                <button class="btn btn-xs btn-info pull-right" ng-click="printClientsDue()"><i class="fa fa-print"></i></button>
             </div>
             <div class="panel-body">
                 <p style="font-variant:small-caps; margin-left: 10px" ng-show="clientsDue.length === 0">nema podataka.</p>
@@ -47,7 +47,7 @@
         <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
             <div class="panel-heading" style="background-color: #1B1E24;">
                 <span>Dospele rate</span>
-                <button class="btn btn-xs btn-info pull-right" ng-print print-element-id="tableClientsOutstandingTotal"><i class="fa fa-print"></i></button>
+                <button class="btn btn-xs btn-info pull-right" ng-click="printClientsOutstandingTotal()"><i class="fa fa-print"></i></button>
             </div>
             <div class="panel-body">
                 <p style="font-variant:small-caps; margin-left: 10px" ng-show="clientsOutstandingTotal.length === 0" print-remove>nema podataka.</p>
@@ -84,7 +84,7 @@
         <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
             <div class="panel-heading" style="background-color: #1B1E24;">
                 <span>Istek registracija u narednih {{ INCOMING_REGISTRATIONS_NUMBER_OF_DAYS }} dana</span>
-                <button class="btn btn-xs btn-info pull-right" ng-print print-element-id="tableIncomingRegistrations"><i class="fa fa-print"></i></button>
+                <button class="btn btn-xs btn-info pull-right" ng-click="printIncomingRegistrations()"><i class="fa fa-print"></i></button>
             </div>
             <div class="panel-body">
                 <p style="font-variant:small-caps; margin-left: 10px" ng-show="incomingRegistrations.length === 0" print-remove>nema podataka.</p>

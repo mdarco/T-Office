@@ -52,7 +52,9 @@
     <Compile Include="CostsByPeriodFilter.cs" />
     <Compile Include="CostsByPeriodModel.cs" />
     <Compile Include="DocumentDataModel.cs" />
+    <Compile Include="FileTemplateModel.cs" />
     <Compile Include="InstallmentModel.cs" />
+    <Compile Include="PdfSimpleDataModel.cs" />
     <Compile Include="PersonalDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationDataModel.cs" />

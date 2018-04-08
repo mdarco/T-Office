@@ -28,7 +28,7 @@ namespace T_Office.BL
             keyValues.Add("<<DATUM_PLACANJA>>", model.PaymentDate.HasValue ? ((DateTime)model.PaymentDate).ToString("dd.MM.yyyy") : string.Empty);
         }
 
-        public static string CreateFileDocumentFromTemplate(string templateName, FileTemplateModel model)
+        public static MemoryStream CreateFileDocumentFromTemplate(string templateName, FileTemplateModel model)
         {
             string templatePath = TEMPLATE_FOLDER + @"\" + templateName;
 
@@ -45,30 +45,30 @@ namespace T_Office.BL
             string documentText = string.Empty;
             byte[] byteArray = File.ReadAllBytes(filePath);
 
-            using (MemoryStream stream = new MemoryStream())
+            MemoryStream stream = new MemoryStream();
+            stream.Write(byteArray, 0, byteArray.Length);
+
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filePath, true))
             {
-                stream.Write(byteArray, 0, byteArray.Length);
-
-                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(filePath, true))
+                foreach (KeyValuePair<string, string> dataItem in keyValues)
                 {
-                    foreach (KeyValuePair<string, string> dataItem in keyValues)
-                    {
-                        OpenXmlHelper.SearchAndReplace(wordDoc, dataItem.Key, dataItem.Value, true);
-                    }
+                    OpenXmlHelper.SearchAndReplace(wordDoc, dataItem.Key, dataItem.Value, true);
+                }
 
-                    using (StreamReader reader = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
-                    {
-                        documentText = reader.ReadToEnd();
-                    }
+                using (StreamReader reader = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                {
+                    documentText = reader.ReadToEnd();
+                }
 
-                    using (StreamWriter writer = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        writer.Write(documentText);
-                    }
+                using (StreamWriter writer = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+                {
+                    writer.Write(documentText);
                 }
             }
 
-            return string.Format("{0}/{1}", TEMP_FOLDER_VIRTUAL_ROOT, fileName);
+            return stream;
+
+            //return string.Format("{0}/{1}", TEMP_FOLDER_VIRTUAL_ROOT, fileName);
         }
     }
 }

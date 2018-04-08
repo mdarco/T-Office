@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using T_Office.Models;
 
@@ -21,7 +22,7 @@ namespace T_Office.Test
                 PaymentDate = DateTime.Now.Date
             };
 
-            string result = BL.FileGenerator.CreateFileDocumentFromTemplate(templateName, model);
+            MemoryStream stream = BL.FileGenerator.CreateFileDocumentFromTemplate(templateName, model);
         }
     }
 }

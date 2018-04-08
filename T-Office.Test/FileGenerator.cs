@@ -22,7 +22,7 @@ namespace T_Office.Test
                 PaymentDate = DateTime.Now.Date
             };
 
-            MemoryStream stream = BL.FileGenerator.CreateFileDocumentFromTemplate(templateName, model);
+            string filePath = BL.FileGenerator.CreateFileDocumentFromTemplate(templateName, model);
         }
     }
 }

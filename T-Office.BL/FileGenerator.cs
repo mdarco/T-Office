@@ -28,7 +28,7 @@ namespace T_Office.BL
             keyValues.Add("<<DATUM_PLACANJA>>", model.PaymentDate.HasValue ? ((DateTime)model.PaymentDate).ToString("dd.MM.yyyy") : string.Empty);
         }
 
-        public static MemoryStream CreateFileDocumentFromTemplate(string templateName, FileTemplateModel model)
+        public static string CreateFileDocumentFromTemplate(string templateName, FileTemplateModel model)
         {
             string templatePath = TEMPLATE_FOLDER + @"\" + templateName;
 
@@ -66,9 +66,7 @@ namespace T_Office.BL
                 }
             }
 
-            return stream;
-
-            //return string.Format("{0}/{1}", TEMP_FOLDER_VIRTUAL_ROOT, fileName);
+            return filePath;
         }
     }
 }

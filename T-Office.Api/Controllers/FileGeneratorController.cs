@@ -13,11 +13,15 @@ namespace T_Office.Api.Controllers
     [RoutePrefix("file-generator")]
     public class FileGeneratorController : ApiController
     {
-        [Route("generate-file-from-template/{templateName}")]
+        [Route("generate-file-from-template")]
         [HttpPost]
-        public HttpResponseMessage GenerateFileFromTemplate(string templateName, FileTemplateModel model)
+        public HttpResponseMessage GenerateFileFromTemplate(FileTemplateModel model)
         {
-            MemoryStream stream = BL.FileGenerator.CreateFileDocumentFromTemplate(templateName, model);
+            string filePath = BL.FileGenerator.CreateFileDocumentFromTemplate(model.TemplateName, model);
+
+            MemoryStream stream = new MemoryStream();
+            byte[] byteArray = File.ReadAllBytes(filePath);
+            stream.Write(byteArray, 0, byteArray.Length);
 
             HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK);
             result.Content = new ByteArrayContent(stream.GetBuffer());

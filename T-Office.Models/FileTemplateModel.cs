@@ -8,6 +8,8 @@ namespace T_Office.Models
 {
     public class FileTemplateModel
     {
+        public string TemplateName { get; set; }
+
         public string Owner { get; set; }
         public string User { get; set; }
         public string Vehicle { get; set; }

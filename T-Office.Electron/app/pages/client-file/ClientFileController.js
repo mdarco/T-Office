@@ -341,6 +341,7 @@
                             ClientID: $scope.client.ID,
                             VehicleID: $scope.selectedVehicle.vehicle.ID,
                             VehicleRegistrationID: vehicleRegistration.ID,
+                            Client: angular.copy($scope.client),
                             Vehicle: angular.copy($scope.selectedVehicle.vehicle),
                             VehicleRegistration: angular.copy(vehicleRegistration)
                         };

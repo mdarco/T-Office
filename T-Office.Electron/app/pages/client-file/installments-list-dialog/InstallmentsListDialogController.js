@@ -5,12 +5,13 @@
         .module('TOfficeApp')
         .controller('InstallmentsListDialogController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$uibModalInstance', 'ClientsService', 'UtilityService', 'toastr', 'installments', 'context'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$uibModalInstance', 'ClientsService', 'UtilityService', 'FileGeneratorService', 'Blob', 'FileSaver', 'toastr', 'installments', 'context'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $uibModalInstance, ClientsService, UtilityService, toastr, installments, context) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $uibModalInstance, ClientsService, UtilityService, FileGeneratorService, Blob, FileSaver, toastr, installments, context) {
         $scope.installments = installments;
         $scope.vehicle = context.Vehicle;
         $scope.vehicleRegistration = context.VehicleRegistration;
+        $scope.client = context.Client;
 
         $scope.editInstallment = function (installment, dataField) {
             if (dataField === 'IsPaid' || dataField === 'IsAdminBan') {
@@ -136,6 +137,28 @@
 
         $scope.close = function () {
             $uibModalInstance.dismiss();
+        };
+
+        $scope.printReceipt = function (installment) {
+            var model = {
+                Owner: $scope.client.FullOwnerName,
+                User: $scope.client.FullUserName,
+                Vehicle: `[${$scope.vehicle.RegistrationNumber}] ${$scope.vehicle.Make} ${$scope.vehicle.Model}`,
+                InstallmentAmount: installment.Amount,
+                PaymentDate: installment.PaymentDate
+            };
+
+            FileGeneratorService.createFileFromTemplate(null, model).then(
+                (response) => {
+                    if (response && response.data) {
+                        var file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+                        FileSaver.saveAs(file, 'potvrda-placanja.docx');
+                    }
+                },
+                (error) => {
+                    toastr.error(error.statusText);
+                }
+            );
         };
 
         function openTextFieldDialog(dataField, text) {

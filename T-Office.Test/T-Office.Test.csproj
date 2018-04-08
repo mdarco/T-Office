@@ -50,12 +50,17 @@
   <ItemGroup>
     <Compile Include="Clients.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\T-Office.BL\T-Office.BL.csproj">
+      <Project>{77f4ad72-597f-4cf9-b619-878973dd9939}</Project>
+      <Name>T-Office.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\T-Office.DAL\T-Office.DAL.csproj">
       <Project>{2d71f902-6f61-4e7f-afe4-ff78549bd6cc}</Project>
       <Name>T-Office.DAL</Name>

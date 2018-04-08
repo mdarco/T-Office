@@ -469,6 +469,7 @@
     <Content Include="app\Scripts\ivh-treeview\ivh-treeview.min.js" />
     <Content Include="app\Scripts\jquery-ui\jquery-ui-1.12.1.js" />
     <Content Include="app\Scripts\jquery-ui\jquery-ui-1.12.1.min.js" />
+    <Content Include="app\file_templates\potvrda-placanja.docx" />
     <None Include="app\Scripts\jquery\jquery-3.2.1.intellisense.js" />
     <Content Include="app\Scripts\jquery\jquery-3.2.1.js" />
     <Content Include="app\Scripts\jquery\jquery-3.2.1.min.js" />
@@ -562,6 +563,7 @@
     <Content Include="app\Scripts\sprintf\sprintf.min.js.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\file_templates\temp\" />
     <Folder Include="app\node_modules\" />
     <Folder Include="app\pages\settings\" />
   </ItemGroup>

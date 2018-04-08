@@ -5,5 +5,7 @@ packages
 bin
 obj
 
+temp
+
 *.cache
 ~*.*

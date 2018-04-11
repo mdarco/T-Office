@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.eVehicleRegistrationCOM">
-      <HintPath>..\..\..\MUPRS\CitacSaobracajne\Interop.eVehicleRegistrationCOM.dll</HintPath>
+      <HintPath>..\DLL\Interop.eVehicleRegistrationCOM.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />

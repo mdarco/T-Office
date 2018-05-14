@@ -114,6 +114,7 @@ namespace T_Office.DAL
                                             ID = vri.ID,
                                             InstallmentDate = vri.InstallmentDate,
                                             Amount = vri.Amount,
+                                            PaidAmount = vri.PaidAmount,
                                             IsPaid = vri.IsPaid,
                                             PaymentDate = vri.PaymentDate,
                                             IsAdminBan = vri.IsAdminBan,
@@ -242,6 +243,7 @@ namespace T_Office.DAL
                                     ID = x.ID,
                                     InstallmentDate = x.InstallmentDate,
                                     Amount = x.Amount,
+                                    PaidAmount = x.PaidAmount,
                                     IsAdminBan = x.IsAdminBan,
                                     IsPaid = x.IsPaid,
                                     Note = x.Note,
@@ -260,6 +262,16 @@ namespace T_Office.DAL
                 var installment = ctx.VehicleRegistrationInstallments.FirstOrDefault(x => x.ID == installmentID);
                 if (installment != null)
                 {
+                    if (model.PaidAmount.HasValue)
+                    {
+                        installment.PaidAmount = model.PaidAmount;
+
+                        if (model.PaidAmount >= installment.Amount)
+                        {
+                            installment.IsPaid = true;
+                        }
+                    }
+
                     if (model.IsPaid.HasValue)
                     {
                         installment.IsPaid = (bool)model.IsPaid;

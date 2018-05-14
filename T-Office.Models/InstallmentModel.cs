@@ -12,6 +12,7 @@ namespace T_Office.Models
         public int? VehicleRegistrationID { get; set; }
         public DateTime InstallmentDate { get; set; }
         public decimal? Amount { get; set; }
+        public decimal? PaidAmount { get; set; }
         public bool? IsPaid { get; set; }
         public DateTime? PaymentDate { get; set; }
         public bool? IsAdminBan { get; set; }

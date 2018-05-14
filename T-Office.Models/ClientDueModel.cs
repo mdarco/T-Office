@@ -16,5 +16,6 @@ namespace T_Office.Models
         public DateTime? NextRegistrationDate { get; set; }
         public DateTime? InstallmentDate { get; set; }
         public decimal? InstallmentAmount { get; set; }
+        public decimal? InstallmentPaidAmount { get; set; }
     }
 }

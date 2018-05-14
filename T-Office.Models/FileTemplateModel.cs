@@ -14,6 +14,7 @@ namespace T_Office.Models
         public string User { get; set; }
         public string Vehicle { get; set; }
         public decimal? InstallmentAmount { get; set; }
+        public decimal? InstallmentPaidAmount { get; set; }
         public DateTime? PaymentDate { get; set; }
     }
 }

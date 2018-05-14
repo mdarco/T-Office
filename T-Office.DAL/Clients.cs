@@ -504,14 +504,16 @@ namespace T_Office.DAL
         {
             using (var ctx = new TOfficeEntities())
             {
-                var installments = ctx.VehicleRegistrationInstallments
-                                        .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData)
-                                        .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
-                                        .Where(x => 
-                                            (DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(DbFunctions.AddDays(DateTime.Now, numberOfDays))) && !x.IsPaid &&
-                                            (DbFunctions.TruncateTime(x.InstallmentDate) >= DbFunctions.TruncateTime(DateTime.Now))
-                                         )
-                                        .ToList();
+                var installments = 
+                    ctx.VehicleRegistrationInstallments
+                        .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData)
+                        .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+                        .Where(x => 
+                            (DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(DbFunctions.AddDays(DateTime.Now, numberOfDays))) &&
+                            (DbFunctions.TruncateTime(x.InstallmentDate) >= DbFunctions.TruncateTime(DateTime.Now)) &&
+                            !x.IsPaid
+                            )
+                        .ToList();
 
                 return installments.Select(x =>
                     new ClientDueModel()
@@ -525,6 +527,7 @@ namespace T_Office.DAL
                         FullVehicleName =
                             x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Make + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData.Model,
                         InstallmentAmount = x.Amount,
+                        InstallmentPaidAmount = x.PaidAmount,
                         InstallmentDate = x.InstallmentDate
                     }
                 )
@@ -554,12 +557,25 @@ namespace T_Office.DAL
                                     ClientID = gr.Key.ClientID,
                                     Owner = gr.Key.Owner,
                                     User = gr.Key.User,
-                                    TotalAmount = gr.Sum(item => item.Amount)
+                                    //TotalAmount = gr.Sum(item => item.Amount)
+                                    TotalAmount = gr.Sum(item => SumAmount(item))
                                 }
                             )
                             .OrderByDescending(x => x.TotalAmount)
                             .ToList();
             }
+        }
+
+        private static decimal SumAmount(VehicleRegistrationInstallments item)
+        {
+            decimal result = item.Amount;
+
+            if (item.PaidAmount.HasValue)
+            {
+                result = result - (decimal)item.PaidAmount;
+            }
+
+            return result;
         }
 
         public static List<ClientDueModel> GetVehiclesWithIncomingRegistrations(int numberOfDays)
@@ -659,7 +675,8 @@ namespace T_Office.DAL
                                             ClientID = gr.Key.ClientID,
                                             Owner = gr.Key.Owner,
                                             User = gr.Key.User,
-                                            TotalDebtAmount = gr.Sum(item => item.Amount)
+                                            //TotalDebtAmount = gr.Sum(item => item.Amount)
+                                            TotalDebtAmount = gr.Sum(item => SumAmount(item))
                                         }
                                     )
                                     .ToList();

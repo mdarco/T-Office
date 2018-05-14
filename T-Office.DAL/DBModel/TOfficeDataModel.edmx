@@ -88,6 +88,7 @@
           <Property Name="PaymentDate" Type="datetime" />
           <Property Name="IsAdminBan" Type="bit" Nullable="false" />
           <Property Name="Note" Type="nvarchar" MaxLength="1000" />
+          <Property Name="PaidAmount" Type="decimal" Precision="15" Scale="2" />
         </EntityType>
         <EntityType Name="VehicleRegistrations">
           <Key>
@@ -205,6 +206,7 @@
           <NavigationProperty Name="VehicleRegistrations" Relationship="TOfficeModel.FK_VehicleRegistrationInstallments_VehicleRegistrations" FromRole="VehicleRegistrationInstallments" ToRole="VehicleRegistrations" />
           <Property Name="IsPaid" Type="Boolean" Nullable="false" />
           <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="PaidAmount" Type="Decimal" Precision="15" Scale="2" />
         </EntityType>
         <EntityContainer Name="TOfficeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="VehicleRegistrationInstallments" EntityType="Self.VehicleRegistrationInstallments" />
@@ -394,6 +396,7 @@
           <EntitySetMapping Name="VehicleRegistrationInstallments">
             <EntityTypeMapping TypeName="TOfficeModel.VehicleRegistrationInstallments">
               <MappingFragment StoreEntitySet="VehicleRegistrationInstallments">
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
                 <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

@@ -22,6 +22,7 @@ namespace T_Office.DAL.DBModel
         public string Note { get; set; }
         public bool IsPaid { get; set; }
         public Nullable<System.DateTime> PaymentDate { get; set; }
+        public Nullable<decimal> PaidAmount { get; set; }
     
         public virtual VehicleRegistrations VehicleRegistrations { get; set; }
     }

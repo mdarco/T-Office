@@ -557,25 +557,12 @@ namespace T_Office.DAL
                                     ClientID = gr.Key.ClientID,
                                     Owner = gr.Key.Owner,
                                     User = gr.Key.User,
-                                    //TotalAmount = gr.Sum(item => item.Amount)
-                                    TotalAmount = gr.Sum(item => SumAmount(item))
+                                    TotalAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
                                 }
                             )
                             .OrderByDescending(x => x.TotalAmount)
                             .ToList();
             }
-        }
-
-        private static decimal SumAmount(VehicleRegistrationInstallments item)
-        {
-            decimal result = item.Amount;
-
-            if (item.PaidAmount.HasValue)
-            {
-                result = result - (decimal)item.PaidAmount;
-            }
-
-            return result;
         }
 
         public static List<ClientDueModel> GetVehiclesWithIncomingRegistrations(int numberOfDays)
@@ -676,7 +663,7 @@ namespace T_Office.DAL
                                             Owner = gr.Key.Owner,
                                             User = gr.Key.User,
                                             //TotalDebtAmount = gr.Sum(item => item.Amount)
-                                            TotalDebtAmount = gr.Sum(item => SumAmount(item))
+                                            TotalDebtAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
                                         }
                                     )
                                     .ToList();

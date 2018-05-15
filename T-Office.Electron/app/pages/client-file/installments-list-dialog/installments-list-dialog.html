@@ -8,6 +8,7 @@
             <tr>
                 <td style="font-weight: bold">Rok za plaćanje</td>
                 <td style="font-weight: bold">Suma</td>
+                <td style="font-weight: bold">Plaćena suma</td>
                 <td style="font-weight: bold">Status</td>
                 <td style="font-weight: bold">Datum plaćanja</td>
                 <td style="font-weight: bold; text-align: center;">Admin. zabrana</td>
@@ -20,6 +21,10 @@
                 <td>{{ installment.InstallmentDate | date: 'dd.MM.yyyy' }}</td>
                 <td>{{ installment.Amount }}</td>
                 <td>
+                    {{ installment.PaidAmount }}
+                    <span><i class="fa fa-pencil pull-right cursor-pointer" ng-click="editInstallment(installment, 'PaidAmount')"></i></span>
+                </td>
+                <td>
                     <span ng-class="resolveStatusCssClass(installment)">{{ installment.IsPaid ? 'Plaćeno' : 'Nije plaćeno' }}</span>
                     <span><i class="fa fa-pencil pull-right cursor-pointer" ng-click="editInstallment(installment, 'IsPaid')"></i></span>
                 </td>
@@ -27,20 +32,20 @@
                     <span ng-class="{ 'toffice-text-gray-smallcaps' : !installment.PaymentDate }">
                         {{ installment.PaymentDate ? (installment.PaymentDate | date: 'dd.MM.yyyy') : 'rata nije plaćena' }}
                     </span>
-                    <span><i class="fa fa-pencil pull-right cursor-pointer"  ng-click="editInstallment(installment, 'PaymentDate')"></i></span>
+                    <span><i class="fa fa-pencil pull-right cursor-pointer" ng-click="editInstallment(installment, 'PaymentDate')"></i></span>
                 </td>
                 <td style="text-align: center;">
                     <span>{{ installment.IsAdminBan ? 'Da' : 'Ne' }}</span>
-                    <span><i class="fa fa-pencil pull-right cursor-pointer"  ng-click="editInstallment(installment, 'IsAdminBan')"></i></span>
+                    <span><i class="fa fa-pencil pull-right cursor-pointer" ng-click="editInstallment(installment, 'IsAdminBan')"></i></span>
                 </td>
                 <td>
                     <span ng-class="{ 'toffice-text-gray-smallcaps' : !installment.Note }">
                         {{ installment.Note ? installment.Note : 'nema komentara' }}
                     </span>
-                    <span><i class="fa fa-pencil pull-right cursor-pointer"  ng-click="editInstallment(installment, 'Note')"></i></span>
+                    <span><i class="fa fa-pencil pull-right cursor-pointer" ng-click="editInstallment(installment, 'Note')"></i></span>
                 </td>
                 <td>
-                    <button class="btn btn-xs btn-info" ng-click="printReceipt(installment)" ng-hide="!installment.PaymentDate"><i class="fa fa-print"></i> Potvrda</button>
+                    <button class="btn btn-xs btn-info" ng-click="printReceipt(installment)"><i class="fa fa-print"></i> Potvrda</button>
                 </td>
             </tr>
         </tbody>

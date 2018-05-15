@@ -140,6 +140,11 @@
         };
 
         $scope.printReceipt = function (installment) {
+            if (!installment.PaidAmount || installment.PaidAmount === 0) {
+                toastr.warning('Nije uneta plaćena suma.');
+                return;
+            }
+
             var model = {
                 Owner: $scope.client.FullOwnerName,
                 User: $scope.client.FullUserName,

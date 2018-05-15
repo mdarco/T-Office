@@ -25,9 +25,10 @@ namespace T_Office.Models
                 {
                     foreach (var installment in this.Installments)
                     {
-                        if (!(bool)installment.IsPaid)
+                        sum += (decimal)installment.Amount;
+                        if (installment.PaidAmount.HasValue)
                         {
-                            sum += (decimal)installment.Amount;
+                            sum -= (decimal)installment.PaidAmount;
                         }
                     }
                 }

@@ -24,7 +24,7 @@ namespace T_Office.BL
             keyValues.Add("<<VLASNIK>>", model.Owner);
             keyValues.Add("<<KORISNIK>>", model.User);
             keyValues.Add("<<VOZILO>>", model.Vehicle);
-            keyValues.Add("<<IZNOS_RATE>>", model.InstallmentAmount.HasValue ? model.InstallmentAmount.ToString() : string.Empty);
+            keyValues.Add("<<IZNOS_RATE>>", model.InstallmentPaidAmount.HasValue ? model.InstallmentPaidAmount.ToString() : string.Empty);
             keyValues.Add("<<DATUM_PLACANJA>>", model.PaymentDate.HasValue ? ((DateTime)model.PaymentDate).ToString("dd.MM.yyyy") : string.Empty);
         }
 

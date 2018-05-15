@@ -495,8 +495,9 @@
             if (installments && installments.length > 0) {
                 reg.TotalOutstandingAmount = 0;
                 _.each(installments, (installment) => {
-                    if (!installment.IsPaid) {
-                        reg.TotalOutstandingAmount += installment.Amount;
+                    reg.TotalOutstandingAmount += installment.Amount;
+                    if (installment.PaidAmount && installment.PaidAmount > 0) {
+                        reg.TotalOutstandingAmount -= installment.PaidAmount;
                     }
                 });
             }

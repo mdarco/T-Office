@@ -20,6 +20,11 @@
                 var newFieldValue = null;
 
                 if (dataField === 'IsPaid') {
+                    if (!installment.PaidAmount || installment.PaidAmount === '' || installment.PaidAmount === '0') {
+                        toastr.warning('Nije uneta plaćena suma.');
+                        return;
+                    }
+
                     if (!installment.IsPaid) {
                         msg = 'Rata je plaćena?';
                     } else {
@@ -150,6 +155,7 @@
                 User: $scope.client.FullUserName,
                 Vehicle: `[${$scope.vehicle.RegistrationNumber}] ${$scope.vehicle.Make} ${$scope.vehicle.Model}`,
                 InstallmentAmount: installment.Amount,
+                InstallmentPaidAmount: installment.PaidAmount,
                 PaymentDate: installment.PaymentDate
             };
 

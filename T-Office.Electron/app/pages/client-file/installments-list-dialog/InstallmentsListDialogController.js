@@ -13,6 +13,28 @@
         $scope.vehicleRegistration = context.VehicleRegistration;
         $scope.client = context.Client;
 
+        calculateTotalSum();
+        function calculateTotalSum() {
+            $scope.totalSum = 0;
+            if (installments && installments.length > 0) {
+                _.each(installments, installment => {
+                    $scope.totalSum += installment.Amount;
+                });
+            }
+        }
+
+        calculateTotalPaid();
+        function calculateTotalPaid() {
+            $scope.totalPaid = 0;
+            if (installments && installments.length > 0) {
+                _.each(installments, installment => {
+                    if (installment.PaidAmount) {
+                        $scope.totalPaid += parseFloat(installment.PaidAmount);
+                    }
+                });
+            }
+        }
+
         $scope.editInstallment = function (installment, dataField) {
             if (dataField === 'IsPaid' || dataField === 'IsAdminBan') {
                 // boolean fields
@@ -112,6 +134,10 @@
                             function () {
                                 toastr.success('Podatak uspešno ažuriran.');
                                 installment[dataField] = result;
+
+                                if (dataField === 'PaidAmount') {
+                                    calculateTotalPaid();
+                                }
                             },
                             function (error) {
                                 toastr.error(error.statusText);

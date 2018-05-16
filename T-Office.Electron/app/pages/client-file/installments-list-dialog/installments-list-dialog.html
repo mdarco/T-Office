@@ -49,6 +49,16 @@
                 </td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td style="font-weight: bold">Ukupna suma:</td>
+                <td style="font-weight: bold">{{ totalSum | currency:'':2 }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Ukupno plaćeno:</td>
+                <td style="font-weight: bold">{{ totalPaid | currency:'':2 }}</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 

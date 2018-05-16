@@ -644,7 +644,7 @@ namespace T_Office.DAL
 
                 var debts = ctx.VehicleRegistrationInstallments
                                     .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
-                                    .Where(vri => !vri.IsPaid && vri.VehicleRegistrations.NumberOfInstallments > 1 &&
+                                    .Where(vri => /* !vri.IsPaid && vri.VehicleRegistrations.NumberOfInstallments > 1 && */
                                         (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
                                         (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
                                     )
@@ -697,7 +697,7 @@ namespace T_Office.DAL
             {
                 var q = ctx.VehicleRegistrationInstallments
                                 .Include(t => t.VehicleRegistrations)
-                                .Where(x => x.VehicleRegistrations.NumberOfInstallments > 1)
+                                //.Where(x => x.VehicleRegistrations.NumberOfInstallments > 1)
                                 .AsQueryable();
 
                 if (isPaid.HasValue)

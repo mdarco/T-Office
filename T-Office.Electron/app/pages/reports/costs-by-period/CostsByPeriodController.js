@@ -23,7 +23,6 @@
 
         $scope.applyFilter = function () {
             getCostsByPeriod();
-            getTotalInstallmentsPaid();
         };
 
         $scope.clearFilter = function () {
@@ -34,31 +33,6 @@
             $scope.totalDebt = 0;
             $scope.totalInstallmentsPaid = 0;
         };
-
-        function getTotalInstallmentsPaid() {
-            var model = {
-                IsPaid: true
-            };
-
-            if ($scope.filter.DateFrom_Temp) {
-                model.StartDate = UtilityService.convertDateToISODateString($scope.filter.DateFrom_Temp);
-            }
-
-            if ($scope.filter.DateTo_Temp) {
-                model.EndDate = UtilityService.convertDateToISODateString($scope.filter.DateTo_Temp);
-            }
-
-            ClientsService.getTotalInstallmentsAmount(model).then(
-                (result) => {
-                    if (result && result.data) {
-                        $scope.totalInstallmentsPaid = result.data;
-                    }
-                },
-                (error) => {
-                    toastr.error(error.statusText);
-                }
-            );
-        }
 
         function getCostsByPeriod() {
             if ($scope.filter.DateFrom_Temp) {
@@ -90,6 +64,8 @@
                 $scope.totalCredit += cost.TotalCreditAmount;
                 $scope.totalDebt += cost.TotalDebtAmount;
             });
+
+            $scope.totalInstallmentsPaid = $scope.totalCredit - $scope.totalDebt;
         }
 
         $scope.openClientDossier = function (cost) {

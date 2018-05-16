@@ -542,7 +542,7 @@ namespace T_Office.DAL
             {
                 return ctx.VehicleRegistrationInstallments
                             .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
-                            .Where(x => !x.IsPaid && DbFunctions.TruncateTime(x.InstallmentDate) < DbFunctions.TruncateTime(DateTime.Now))
+                            .Where(x => DbFunctions.TruncateTime(x.InstallmentDate) < DbFunctions.TruncateTime(DateTime.Now))
                             .GroupBy(x =>
                                 new
                                 {
@@ -715,7 +715,7 @@ namespace T_Office.DAL
                     q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(endDate));
                 }
 
-                return q.Sum(x => x.Amount);
+                return q.Sum(x => x.PaidAmount.HasValue ? x.Amount - (decimal)x.PaidAmount : x.Amount);
             }
         }
 

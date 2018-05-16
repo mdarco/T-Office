@@ -69,8 +69,8 @@
         }
 
         function getTotalUnpaidInstallmentsAmount() {
-            var filter = { IsPaid: false };
-            ClientsService.getTotalInstallmentsAmount(filter).then(
+            //var filter = { IsPaid: false };
+            ClientsService.getTotalInstallmentsAmount({}).then(
                 (result) => {
                     if (result && result.data) {
                         $scope.totalUnpaidInstallmentsAmount = result.data;

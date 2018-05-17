@@ -376,6 +376,8 @@
     <Content Include="app\pages\client-file\installments-list-dialog\InstallmentsListDialogController.js" />
     <Content Include="app\pages\client-file\reg-dialog\reg-dialog.html" />
     <Content Include="app\pages\client-file\reg-dialog\RegDialogController.js" />
+    <Content Include="app\pages\client-file\reg-doc-dialog\reg-doc-dialog.html" />
+    <Content Include="app\pages\client-file\reg-doc-dialog\RegDocDialogController.js" />
     <Content Include="app\pages\clients\client-dialog\client-dialog.html" />
     <Content Include="app\pages\clients\client-dialog\ClientDialogController.js" />
     <Content Include="app\pages\clients\clients.html" />

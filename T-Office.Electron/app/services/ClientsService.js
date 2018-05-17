@@ -17,6 +17,8 @@
             addClient: addClient,
             editClient: editClient,
 
+            addRegDocData: addRegDocData,
+
             getVehicles: getVehicles,
             addVehicleFull: addVehicleFull,
 
@@ -61,6 +63,15 @@
             var url = WebApiBaseUrl + urlRoot + '/' + id;
             return $http.put(url, model);
         }
+
+        //#region Registration document and vehicle data
+
+        function addRegDocData(id, model) {
+            var url = WebApiBaseUrl + urlRoot + '/' + id + '/reg-doc-data';
+            return $http.post(url, model);
+        }
+
+        //#endregion
 
         //#region Vehicles
 

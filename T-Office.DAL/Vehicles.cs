@@ -12,7 +12,7 @@ namespace T_Office.DAL
 {
     public static class Vehicles
     {
-        const int FIRST_INSTALLMENT_DUE_PERIOD = 5;
+        const int FIRST_INSTALLMENT_DUE_PERIOD = 15;
 
         public static void AddFromFullModel(int clientID, RegistrationDataModel model)
         {

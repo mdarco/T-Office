@@ -85,8 +85,30 @@
             });
         };
 
-        $scope.addVehicleManually = function() {
-            toastr.info('Opcija je u fazi izrade...');
+        $scope.addVehicleManually = function () {
+            var dialogOpts = {
+                backdrop: 'static',
+                keyboard: false,
+                backdropClick: false,
+                templateUrl: 'pages/client-file/reg-doc-dialog/reg-doc-dialog.html',
+                controller: 'RegDocDialogController',
+                resolve: {
+                    clientID: function () {
+                        return $scope.client.ID;
+                    }
+                }
+            };
+
+            var dialog = $uibModal.open(dialogOpts);
+
+            dialog.result.then(
+                function () {
+                    // TODO: incorporate newly added reg doc & vehicle data into client file!
+                },
+                function () {
+                    // modal dismissed => do nothing
+                }
+            );
         };
 
         function insertVehicle(licenseData) {

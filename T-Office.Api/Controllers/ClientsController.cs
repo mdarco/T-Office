@@ -70,6 +70,29 @@ namespace T_Office.Api.Controllers
             }
         }
 
+        #region Registration and vehicle data
+
+        [Route("{id}/reg-doc-data")]
+        [HttpPost]
+        public void AddRegistrationDocumentData(int id, RegistrationDataModel model)
+        {
+            try
+            {
+                DAL.RegistrationDocuments.Add(id, model);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        ReasonPhrase = ex.Message
+                    });
+            }
+        }
+
+        #endregion
+
         #region Vehicles
 
         [Route("{clientID}/vehicles")]

@@ -103,7 +103,7 @@
 
             dialog.result.then(
                 function () {
-                    // TODO: incorporate newly added reg doc & vehicle data into client file!
+                    getVehicles();
                 },
                 function () {
                     // modal dismissed => do nothing

@@ -1,9 +1,10 @@
 .vs
+node_modules/
 
 packages
 
-bin
-obj
+bin/
+obj/
 
 temp
 

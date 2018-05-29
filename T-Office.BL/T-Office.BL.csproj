@@ -34,7 +34,7 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.1\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="Interop.eVehicleRegistrationCOM">
-      <HintPath>..\..\..\MUPRS\CitacSaobracajne\Interop.eVehicleRegistrationCOM.dll</HintPath>
+      <HintPath>..\DLL\Interop.eVehicleRegistrationCOM.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">

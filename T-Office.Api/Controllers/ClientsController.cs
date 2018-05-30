@@ -193,7 +193,7 @@ namespace T_Office.Api.Controllers
 
         [Route("reports/total-installments-amount")]
         [HttpPost]
-        public decimal GetTotalInstallmentsAmount(TotalInstallmentsAmountFilter filter)
+        public decimal? GetTotalInstallmentsAmount(TotalInstallmentsAmountFilter filter)
         {
             return DAL.Clients.GetTotalInstallmentsAmount(filter.StartDate, filter.EndDate, filter.IsPaid);
         }

@@ -691,7 +691,7 @@ namespace T_Office.DAL
             }
         }
 
-        public static decimal GetTotalInstallmentsAmount(DateTime? startDate, DateTime? endDate, bool? isPaid)
+        public static decimal? GetTotalInstallmentsAmount(DateTime? startDate, DateTime? endDate, bool? isPaid)
         {
             using (var ctx = new TOfficeEntities())
             {
@@ -715,7 +715,14 @@ namespace T_Office.DAL
                     q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(endDate));
                 }
 
-                return q.Sum(x => x.PaidAmount.HasValue ? x.Amount - (decimal)x.PaidAmount : x.Amount);
+                if (q.ToList().Count() > 0)
+                {
+                    return q.Sum(x => x.PaidAmount.HasValue ? x.Amount - (decimal)x.PaidAmount : x.Amount);
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 

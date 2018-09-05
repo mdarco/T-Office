@@ -13,5 +13,6 @@ namespace T_Office.Models
         public string User { get; set; }
         public decimal? TotalCreditAmount { get; set; }
         public decimal? TotalDebtAmount { get; set; }
+        public decimal? TotalInstallmentsPaid { get; set; }
     }
 }

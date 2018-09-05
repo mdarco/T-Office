@@ -52,7 +52,7 @@
     <div class="col-lg-12">
         <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
             <div class="panel-heading" style="background-color: #1B1E24;">
-                <span>Ukupno dato na rate za period: {{ totalCredit | currency:'':2 }} | Ukupno vraćeno rata za period: {{ totalInstallmentsPaid | currency:'':2 }} | Ukupno dugovanje za period: {{ totalDebt | currency:'':2 }}</span>
+                <span>Ukupno dato na rate za period: {{ totalCredit | currency:'':2 }} | Ukupno vraćeno rata za period: {{ totalInstallmentsPaid | currency:'':2 }} | Ukupno dugovanje za period: {{ (totalDebt < 0 ? 0 : totalDebt) | currency:'':2 }}</span>
                 <button class="btn btn-xs btn-info pull-right" ng-click="print()" ng-disabled="costsByPeriod.length === 0"><i class="fa fa-print"></i></button>
             </div>
             <div class="panel-body">
@@ -74,7 +74,7 @@
                                 <span class="font-xs" style="color: darkgray;">KORISNIK: {{ cost.User }}</span>
                             </td>
                             <td>{{ cost.TotalCreditAmount | currency:'':2 }}</td>
-                            <td>{{ cost.TotalDebtAmount | currency:'':2 }}</td>
+                            <td>{{ (cost.TotalDebtAmount < 0 ? 0 : cost.TotalDebtAmount) | currency:'':2 }}</td>
                             <td>
                                 <button class="btn btn-primary btn-xs" style="float: right; margin-left: 5px;" ng-click="openClientDossier(cost)">Detalji</button>
                             </td>

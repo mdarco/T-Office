@@ -668,8 +668,35 @@ namespace T_Office.DAL
                                     )
                                     .ToList();
 
+                var installmentsPaid = ctx.VehicleRegistrationInstallments
+                                            .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+                                            .Where(vri => vri.IsPaid && /* vri.VehicleRegistrations.NumberOfInstallments > 1 && */
+                                                (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+                                                (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
+                                            )
+                                            .GroupBy(x =>
+                                                new
+                                                {
+                                                    ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
+                                                    Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+                                                    User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+                                                }
+                                            )
+                                            .Select(gr =>
+                                                new CostsByPeriodModel()
+                                                {
+                                                    ClientID = gr.Key.ClientID,
+                                                    Owner = gr.Key.Owner,
+                                                    User = gr.Key.User,
+                                                    //TotalDebtAmount = gr.Sum(item => item.Amount)
+                                                    //TotalDebtAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
+                                                    TotalInstallmentsPaid = gr.Sum(item => item.PaidAmount)
+                                                }
+                                            )
+                                            .ToList();
+
                 // perform left outer join (done with GroupJoin() in EF)
-                return credits.GroupJoin(debts,
+                var joined = credits.GroupJoin(debts,
                             c => c.ClientID,
                             d => d.ClientID,
                             (c, d) => new { c, d }
@@ -685,8 +712,27 @@ namespace T_Office.DAL
                                 TotalDebtAmount = (d != null) ? d.TotalDebtAmount : 0
                             }
                         )
-                        .Where(x => x.TotalDebtAmount > 0)
+                        //.Where(x => x.TotalDebtAmount > 0)
                         .OrderByDescending(x => x.TotalDebtAmount)
+                        .ToList();
+
+                return joined.GroupJoin(installmentsPaid,
+                            c => c.ClientID,
+                            d => d.ClientID,
+                            (c, d) => new { c, d }
+                       )
+                       .SelectMany(
+                            x => x.d.DefaultIfEmpty(),
+                            (c, d) => new CostsByPeriodModel()
+                            {
+                                ClientID = c.c.ClientID,
+                                Owner = c.c.Owner,
+                                User = c.c.User,
+                                TotalCreditAmount = c.c.TotalCreditAmount,
+                                TotalDebtAmount = (c.c != null) ? c.c.TotalDebtAmount : 0,
+                                TotalInstallmentsPaid = (d != null) ? d.TotalInstallmentsPaid : 0
+                            }
+                        )
                         .ToList();
             }
         }

@@ -59,13 +59,13 @@
         function calculateTotals() {
             $scope.totalCredit = 0;
             $scope.totalDebt = 0;
+            $scope.totalInstallmentsPaid = 0;
 
             _.each($scope.costsByPeriod, (cost) => {
                 $scope.totalCredit += cost.TotalCreditAmount;
                 $scope.totalDebt += cost.TotalDebtAmount;
+                $scope.totalInstallmentsPaid += cost.TotalInstallmentsPaid;
             });
-
-            $scope.totalInstallmentsPaid = $scope.totalCredit - $scope.totalDebt;
         }
 
         $scope.openClientDossier = function (cost) {

@@ -36,11 +36,8 @@
         };
 
         function validate() {
-            if (
-                (!$scope.model.DocumentData.UnambiguousNumber || ($scope.model.DocumentData.UnambiguousNumber && $scope.model.DocumentData.UnambiguousNumber === '')) ||
-                (!$scope.model.VehicleData.RegistrationNumber || ($scope.model.VehicleData.RegistrationNumber && $scope.model.VehicleData.RegistrationNumber === ''))
-            ) {
-                return { error: true, errorMsg: 'Obavezni podaci: registarski broj vozila i broj saobraćajne dozvole.' };
+            if (!$scope.model.VehicleData.RegistrationNumber || ($scope.model.VehicleData.RegistrationNumber && $scope.model.VehicleData.RegistrationNumber === '')) {
+                return { error: true, errorMsg: 'Obavezan podatak: registarski broj vozila.' };
             }
 
             return { error: false };

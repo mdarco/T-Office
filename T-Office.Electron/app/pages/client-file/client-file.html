@@ -267,7 +267,10 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="reg in vehicleRegistrations" ng-class="resolveVehicleRegistrationCssClass(reg)">
-                            <td>{{ reg.RegistrationDate | date: 'dd.MM.yyyy' }}</td>
+                            <td style="padding-right: 10px !important;">
+                                {{ reg.RegistrationDate | date: 'dd.MM.yyyy' }}
+                                <span><i class="fa fa-pencil pull-right cursor-pointer" style="color: black !important;" ng-click="editVehicleRegistration(reg, 'RegistrationDate')"></i></span>
+                            </td>
                             <td style="padding-right: 10px !important;">
                                 <span>{{ reg.NextRegistrationDate | date: 'dd.MM.yyyy' }}</span>
                                 <span><i class="fa fa-pencil pull-right cursor-pointer" style="color: black !important;" ng-click="editVehicleRegistration(reg, 'NextRegistrationDate')"></i></span>

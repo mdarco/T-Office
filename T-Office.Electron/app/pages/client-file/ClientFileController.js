@@ -325,7 +325,7 @@
         };
 
         $scope.editVehicleRegistration = function (reg, dataField) {
-            if (dataField === 'NextRegistrationDate') {
+            if (dataField === 'NextRegistrationDate' || dataField === 'RegistrationDate') {
                 openDateFieldDialog(dataField, reg[dataField]).then(
                     function (result) {
                         var editObj = {};
@@ -421,6 +421,7 @@
         }
 
         function resolveDataFieldLabel(dataField) {
+            console.log(dataField);
             switch (dataField) {
                 case 'OwnerPersonalNo':
                 case 'UserPersonalNo':
@@ -453,8 +454,14 @@
                 case 'RecommendedBy':
                     return 'Preporuka';
 
+                case 'RegistrationDate':
+                    return 'Broj registracije';
+
+                case 'NextRegistrationDate':
+                    return 'Datum isteka registracije';
+
                 default:
-                    return '';
+                    return dataField;
             }
         }
 
@@ -537,7 +544,7 @@
                     settings: function () {
                         return {
                             DisplayTitle: 'T-Office',
-                            LabelTitle: resolveDataFieldLabel(),
+                            LabelTitle: resolveDataFieldLabel(dataField),
                             DateValue: _.isDate(date) ? date : UtilityService.convertISODateStringToDate(date)
                         };
                     }
@@ -547,16 +554,6 @@
             var dialog = $uibModal.open(dialogOpts);
 
             return dialog.result;
-        }
-
-        function resolveDataFieldLabel(dataField) {
-            switch (dataField) {
-                case 'NextRegistrationDate':
-                    return 'Datum isteka registracije';
-
-                default:
-                    return dataField;
-            }
         }
     }
 })();

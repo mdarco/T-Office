@@ -197,6 +197,11 @@ namespace T_Office.DAL
                 var vr = ctx.VehicleRegistrations.FirstOrDefault(x => x.ID == vehicleRegistrationID);
                 if (vr != null)
                 {
+                    if (model.RegistrationDate.HasValue)
+                    {
+                        vr.RegistrationDate = ((DateTime)model.RegistrationDate).Date;
+                    }
+
                     if (model.NextRegistrationDate.HasValue)
                     {
                         vr.NextRegistrationDate = ((DateTime)model.NextRegistrationDate).Date;

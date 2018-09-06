@@ -275,6 +275,11 @@ namespace T_Office.DAL
                         {
                             installment.IsPaid = true;
                         }
+
+                        if (model.PaidAmount == 0)
+                        {
+                            installment.IsPaid = false;
+                        }
                     }
 
                     if (model.IsPaid.HasValue)

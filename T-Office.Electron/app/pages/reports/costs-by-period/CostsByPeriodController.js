@@ -63,8 +63,11 @@
 
             _.each($scope.costsByPeriod, (cost) => {
                 $scope.totalCredit += cost.TotalCreditAmount;
-                $scope.totalDebt += cost.TotalDebtAmount;
                 $scope.totalInstallmentsPaid += cost.TotalInstallmentsPaid;
+
+                if (cost.TotalDebtAmount > 0) {
+                    $scope.totalDebt += cost.TotalDebtAmount;
+                }
             });
         }
 

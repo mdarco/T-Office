@@ -671,8 +671,8 @@ namespace T_Office.DAL
                 var installmentsPaid = ctx.VehicleRegistrationInstallments
                                             .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
                                             .Where(vri => vri.IsPaid && /* vri.VehicleRegistrations.NumberOfInstallments > 1 && */
-                                                (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
-                                                (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
+                                                (DbFunctions.TruncateTime(vri.PaymentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+                                                (DbFunctions.TruncateTime(vri.PaymentDate) <= DbFunctions.TruncateTime(filter.DateTo))
                                             )
                                             .GroupBy(x =>
                                                 new
@@ -753,12 +753,26 @@ namespace T_Office.DAL
 
                 if (startDate.HasValue)
                 {
-                    q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) >= DbFunctions.TruncateTime(startDate));
+                    if ((bool)isPaid)
+                    {
+                        q = q.Where(x => DbFunctions.TruncateTime(x.PaymentDate) >= DbFunctions.TruncateTime(startDate));
+                    }
+                    else
+                    {
+                        q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) >= DbFunctions.TruncateTime(startDate));
+                    }
                 }
 
                 if (endDate.HasValue)
                 {
-                    q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(endDate));
+                    if ((bool)isPaid)
+                    {
+                        q = q.Where(x => DbFunctions.TruncateTime(x.PaymentDate) <= DbFunctions.TruncateTime(endDate));
+                    }
+                    else
+                    {
+                        q = q.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) <= DbFunctions.TruncateTime(endDate));
+                    }
                 }
 
                 if (q.ToList().Count() > 0)

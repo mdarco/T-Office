@@ -269,11 +269,38 @@ namespace T_Office.DAL
                 {
                     if (model.PaidAmount.HasValue)
                     {
-                        installment.PaidAmount = model.PaidAmount;
-
-                        if (model.PaidAmount >= installment.Amount)
+                        if (model.PaidAmount == installment.Amount)
                         {
+                            installment.PaidAmount = model.PaidAmount;
                             installment.IsPaid = true;
+                        }
+
+                        if (model.PaidAmount > installment.Amount)
+                        {
+                            installment.PaidAmount = installment.Amount;
+                            installment.IsPaid = true;
+                            installment.PaymentDate = DateTime.Now.Date;
+
+                            var otherInstallments = 
+                                ctx.VehicleRegistrationInstallments
+                                        .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.InstallmentDate > installment.InstallmentDate).ToList();
+
+                            decimal remainingAmount = (decimal)model.PaidAmount - installment.Amount;
+                            foreach (var otherInstallment in otherInstallments)
+                            {
+                                if (remainingAmount >= otherInstallment.Amount)
+                                {
+                                    otherInstallment.PaidAmount = otherInstallment.Amount;
+                                    otherInstallment.IsPaid = true;
+                                    otherInstallment.PaymentDate = DateTime.Now.Date;
+                                    remainingAmount = remainingAmount - otherInstallment.Amount;
+                                }
+                                else
+                                {
+                                    otherInstallment.PaidAmount = remainingAmount;
+                                    break;
+                                }
+                            }
                         }
 
                         if (model.PaidAmount == 0)

@@ -486,6 +486,43 @@ namespace T_Office.DAL
             return result;
         }
 
+        public static void DeleteClient(int id)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var client = 
+                    ctx.Clients
+                        .Include("ClientRegistrationDocumentData.VehicleRegistrations.VehicleRegistrationInstallments")
+                        .FirstOrDefault(c => c.ID == id);
+
+                if (client != null)
+                {
+                    for (int i = client.ClientRegistrationDocumentData.Count() - 1; i >= 0; i--)
+                    {
+                        var regDoc = client.ClientRegistrationDocumentData.ElementAt(i);
+
+                        for (int j = regDoc.VehicleRegistrations.Count() - 1; j >= 0; j--)
+                        {
+                            var reg = regDoc.VehicleRegistrations.ElementAt(j);
+
+                            for (int k = reg.VehicleRegistrationInstallments.Count() -1; k >= 0; k--)
+                            {
+                                ctx.VehicleRegistrationInstallments.Remove(reg.VehicleRegistrationInstallments.ElementAt(k));
+                            }
+
+                            ctx.VehicleRegistrations.Remove(reg);
+                        }
+
+                        ctx.ClientRegistrationDocumentData.Remove(regDoc);
+                    }
+
+                    ctx.Clients.Remove(client);
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
         #region Analytics
 
         public static List<ClientDueModel> GetClientsDue(int numberOfDays)

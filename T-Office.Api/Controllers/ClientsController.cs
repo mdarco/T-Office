@@ -70,6 +70,25 @@ namespace T_Office.Api.Controllers
             }
         }
 
+        [Route("{id}")]
+        [HttpDelete]
+        public void DeleteClient(int id)
+        {
+            try
+            {
+                DAL.Clients.DeleteClient(id);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage()
+                    {
+                        StatusCode = HttpStatusCode.Forbidden,
+                        ReasonPhrase = ex.Message
+                    });
+            }
+        }
+
         #region Registration and vehicle data
 
         [Route("{id}/reg-doc-data")]

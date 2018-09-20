@@ -161,6 +161,31 @@
             });
         };
 
+        $scope.deleteClient = function (client) {
+            bootbox.confirm({
+                message: "Klijent i svi njegovi podaci biće obrisani. Da li ste sigurni?",
+                buttons: {
+                    confirm: {
+                        label: 'Da',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Ne',
+                        className: 'btn-primary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        ClientsService.deleteClient(client.ID).then(() => {
+                            $scope.applyFilter();
+                        }).catch(error => {
+                            toastr.error('Došlo je do greške na serveru prilikom brisanja klijenta.');
+                        });
+                    }
+                }
+            });
+        };
+
         function insertClient(data, existingClients) {
             var dialogHtml = `
                 <table class="table table-condensed table-striped">

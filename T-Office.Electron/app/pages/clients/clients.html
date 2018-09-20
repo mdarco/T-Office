@@ -94,6 +94,7 @@
                             </td>
                             <td data-title="'Preporuka'" header-class="''" style="text-align: center;">{{ client.RecommendedBy }}</td>
                             <td header-class="''">
+                                <button class="btn btn-danger btn-xs" style="float: right; margin-left: 5px;" ng-click="deleteClient(client)">Obriši</button>
                                 <button class="btn btn-primary btn-xs" style="float: right; margin-left: 5px;" ng-click="openClientDossier(client)">Detalji</button>
                             </td>
                         </tr>

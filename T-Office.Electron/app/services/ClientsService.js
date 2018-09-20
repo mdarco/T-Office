@@ -16,6 +16,7 @@
             addClientFull: addClientFull,
             addClient: addClient,
             editClient: editClient,
+            deleteClient: deleteClient,
 
             addRegDocData: addRegDocData,
 
@@ -63,6 +64,11 @@
         function editClient(id, model) {
             var url = WebApiBaseUrl + urlRoot + '/' + id;
             return $http.put(url, model);
+        }
+
+        function deleteClient(id) {
+            var url = WebApiBaseUrl + urlRoot + '/' + id;
+            return $http.delete(url);
         }
 
         //#region Registration document and vehicle data

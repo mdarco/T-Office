@@ -379,7 +379,8 @@
                 },
                 function () {
                     // modal dismissed => re-calculate total outstanding amount for vehicle registration
-                    calculateTotalOutstandingAmount(vehicleRegistration);
+                    //calculateTotalOutstandingAmount(vehicleRegistration);
+                    $scope.getVehicleRegistrations($scope.selectedVehicle.vehicle);
                 }
             );
         };

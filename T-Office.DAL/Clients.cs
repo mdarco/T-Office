@@ -325,23 +325,11 @@ namespace T_Office.DAL
 
                     if (!string.IsNullOrEmpty(model.OwnerName))
                     {
-                        bool existingOwnerName = Exist(model);
-                        if (existingOwnerName)
-                        {
-                            throw new Exception("Klijent vec postoji.");
-                        }
-
                         client.OwnerName = model.OwnerName;
                     }
 
                     if (!string.IsNullOrEmpty(model.OwnerSurnameOrBusinessName))
                     {
-                        bool existingOwnerSurname = Exist(model);
-                        if (existingOwnerSurname)
-                        {
-                            throw new Exception("Klijent vec postoji.");
-                        }
-
                         client.OwnerSurnameOrBusinessName = model.OwnerSurnameOrBusinessName;
                     }
 
@@ -414,21 +402,21 @@ namespace T_Office.DAL
                 // use cases:
                 // person owner - person user
                 // person owner only
-                if (!string.IsNullOrEmpty(clientModel.OwnerName) && !string.IsNullOrEmpty(clientModel.UserName))
+                if (!string.IsNullOrEmpty(clientModel.OwnerPersonalNo) && !string.IsNullOrEmpty(clientModel.UserPersonalNo))
                 {
                     // person owner - person user
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerName.ToLower() == clientModel.OwnerName.ToLower() &&
-                                        x.UserName.ToLower() == clientModel.UserName.ToLower()
+                                        x.OwnerPersonalNo.ToLower() == clientModel.OwnerPersonalNo.ToLower() &&
+                                        x.UserPersonalNo.ToLower() == clientModel.UserPersonalNo.ToLower()
                                     );
                 }
-                else if (!string.IsNullOrEmpty(clientModel.OwnerName))
+                else if (!string.IsNullOrEmpty(clientModel.OwnerPersonalNo))
                 {
                     // person owner only
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerName.ToLower() == clientModel.OwnerName.ToLower()
+                                        x.OwnerPersonalNo.ToLower() == clientModel.OwnerPersonalNo.ToLower()
                                     );
                 }
 
@@ -436,30 +424,30 @@ namespace T_Office.DAL
                 // legal entity owner - legal entity user
                 // legal entity owner - person user
                 // legal entity owner only
-                if (!string.IsNullOrEmpty(clientModel.OwnerSurnameOrBusinessName) && !string.IsNullOrEmpty(clientModel.UserSurnameOrBusinessName))
+                if (!string.IsNullOrEmpty(clientModel.OwnerPIB) && !string.IsNullOrEmpty(clientModel.UserPIB))
                 {
                     // legal entity owner - legal entity user
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerSurnameOrBusinessName.ToLower() == clientModel.OwnerSurnameOrBusinessName.ToLower() &&
-                                        x.UserSurnameOrBusinessName.ToLower() == clientModel.UserSurnameOrBusinessName.ToLower()
+                                        x.OwnerPIB.ToLower() == clientModel.UserPIB.ToLower() &&
+                                        x.OwnerPIB.ToLower() == clientModel.UserPIB.ToLower()
                                     );
                 }
-                else if (!string.IsNullOrEmpty(clientModel.OwnerSurnameOrBusinessName) && !string.IsNullOrEmpty(clientModel.UserPersonalNo))
+                else if (!string.IsNullOrEmpty(clientModel.OwnerPIB) && !string.IsNullOrEmpty(clientModel.UserPersonalNo))
                 {
                     // legal entity owner - person user
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerSurnameOrBusinessName.ToLower() == clientModel.OwnerSurnameOrBusinessName.ToLower() &&
-                                        x.UserName.ToLower() == clientModel.UserName.ToLower()
+                                        x.OwnerPIB.ToLower() == clientModel.OwnerPIB.ToLower() &&
+                                        x.UserPersonalNo.ToLower() == clientModel.UserPersonalNo.ToLower()
                                     );
                 }
-                else if (!string.IsNullOrEmpty(clientModel.OwnerSurnameOrBusinessName))
+                else if (!string.IsNullOrEmpty(clientModel.OwnerPIB))
                 {
                     // legal entity owner only
                     existing = ctx.Clients
                                     .FirstOrDefault(x =>
-                                        x.OwnerSurnameOrBusinessName.ToLower() == clientModel.OwnerSurnameOrBusinessName.ToLower()
+                                        x.OwnerPIB.ToLower() == clientModel.OwnerPIB.ToLower()
                                     );
                 }
 

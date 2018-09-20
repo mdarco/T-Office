@@ -199,6 +199,36 @@
             );
         };
 
+        $scope.resetInstallments = function () {
+            bootbox.confirm({
+                message: 'Sva plaćanja biće poništena. Da li ste sigurni?',
+                buttons: {
+                    confirm: {
+                        label: 'Da',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Ne',
+                        className: 'btn-primary'
+                    }
+                },
+                callback: function (confirmResult) {
+                    if (confirmResult) {
+                        ClientsService.resetVehicleRegistrationInstallments(context.ClientID, context.VehicleID, context.VehicleRegistrationID).then(
+                            function () {
+                                toastr.success('Plaćanja uspešno poništena.');
+                                refreshInstallmentsList();
+
+                            },
+                            function (error) {
+                                toastr.error(error.statusText);
+                            }
+                        );
+                    }
+                }
+            });
+        };
+
         function openTextFieldDialog(dataField, text) {
             var dialogOpts = {
                 backdrop: 'static',

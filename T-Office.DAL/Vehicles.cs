@@ -345,6 +345,25 @@ namespace T_Office.DAL
             }
         }
 
+        public static void ResetInstallments(int vehicleRegistrationID)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var installments = ctx.VehicleRegistrationInstallments.Where(x => x.VehicleRegistrationID == vehicleRegistrationID).ToList();
+                if (installments != null && installments.Count() > 0)
+                {
+                    foreach (var installment in installments)
+                    {
+                        installment.PaidAmount = null;
+                        installment.IsPaid = false;
+                        installment.PaymentDate = null;
+                    }
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
         #endregion
     }
 }

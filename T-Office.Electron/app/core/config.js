@@ -21,8 +21,9 @@
         // angular-cache-buster
         httpRequestInterceptorCacheBusterProvider.setMatchlist([
                 /.*common.*/,
-                /.*member-dialog.*/,
-                /.*member-doc-dialog.*/
+                /.*reg-dialog.*/,
+                /.*reg-doc-dialog.*/,
+                /.*installments-list-dialog.*/
             ], true
         );
 

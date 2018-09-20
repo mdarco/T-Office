@@ -148,6 +148,13 @@ namespace T_Office.Api.Controllers
             return DAL.Vehicles.GetRegistrationInstallments(vehicleRegistrationID);
         }
 
+        [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}/installments/reset")]
+        [HttpGet]
+        public void ResetVehicleRegistrationInstallments(int vehicleRegistrationID)
+        {
+            DAL.Vehicles.ResetInstallments(vehicleRegistrationID);
+        }
+
         [Route("{clientID}/vehicles/{vehicleID}/registrations/{vehicleRegistrationID}/installments/{installmentID}")]
         [HttpPut]
         public void EditVehicleRegistrationInstallment(int installmentID, InstallmentModel model)

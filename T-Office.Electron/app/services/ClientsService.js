@@ -28,6 +28,7 @@
             deleteVehicleRegistration: deleteVehicleRegistration,
             getVehicleRegistrationInstallments: getVehicleRegistrationInstallments,
             editVehicleRegistrationInstallment: editVehicleRegistrationInstallment,
+            resetVehicleRegistrationInstallments: resetVehicleRegistrationInstallments,
 
             getClientsDue: getClientsDue,
             getClientsOutstandingTotal: getClientsOutstandingTotal,
@@ -117,6 +118,11 @@
         function editVehicleRegistrationInstallment(clientID, vehicleID, vehicleRegistrationID, installmentID, model) {
             var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID + '/installments/' + installmentID;
             return $http.put(url, model);
+        }
+
+        function resetVehicleRegistrationInstallments(clientID, vehicleID, vehicleRegistrationID) {
+            var url = WebApiBaseUrl + urlRoot + '/' + clientID + '/vehicles/' + vehicleID + '/registrations/' + vehicleRegistrationID + '/installments/reset';
+            return $http.get(url);
         }
 
         //#endregion

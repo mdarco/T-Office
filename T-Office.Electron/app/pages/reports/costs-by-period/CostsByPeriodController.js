@@ -85,14 +85,22 @@
             var headerData = ['Klijent', 'Suma', 'Dugovanje'];
 
             var columnData = [];
+            var totalDebt = 0.0;
             _.each($scope.costsByPeriod, item => {
+                totalDebt += (item.TotalDebtAmount > 0) ? item.TotalDebtAmount : 0;
                 var column = [
                     'Vlasnik: ' + item.Owner + '\nKorisnik: ' + item.User,
                     $filter('currency')(item.TotalCreditAmount, '', 2),
-                    $filter('currency')(item.TotalDebtAmount, '', 2)
+                    (item.TotalDebtAmount > 0) ? $filter('currency')(item.TotalDebtAmount, '', 2) : '0.0 (preplata: ' + $filter('currency')(-item.TotalDebtAmount, '', 2) + ')'
                 ];
                 columnData.push(column);
             });
+
+            // total debt summary
+            columnData.push([
+                '', '',
+                'Ukupno dugovanje: ' + $filter('currency')(totalDebt, '', 2)
+            ]);
 
             var model = {
                 Title: 'Troškovi za period',

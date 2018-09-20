@@ -26,8 +26,8 @@
         calculateTotalPaid();
         function calculateTotalPaid() {
             $scope.totalPaid = 0;
-            if (installments && installments.length > 0) {
-                _.each(installments, installment => {
+            if ($scope.installments && $scope.installments.length > 0) {
+                _.each($scope.installments, installment => {
                     if (installment.PaidAmount) {
                         $scope.totalPaid += parseFloat(installment.PaidAmount);
                     }
@@ -133,10 +133,11 @@
                         ClientsService.editVehicleRegistrationInstallment(context.ClientID, context.VehicleID, context.VehicleRegistrationID, installment.ID, editObj).then(
                             function () {
                                 toastr.success('Podatak uspešno ažuriran.');
-                                installment[dataField] = result;
 
                                 if (dataField === 'PaidAmount') {
-                                    calculateTotalPaid();
+                                    refreshInstallmentsList();
+                                } else {
+                                    installment[dataField] = result;
                                 }
                             },
                             function (error) {
@@ -255,6 +256,19 @@
                 default:
                     return '';
             }
+        }
+
+        function refreshInstallmentsList() {
+            ClientsService.getVehicleRegistrationInstallments(context.ClientID, context.VehicleID, context.VehicleRegistrationID).then(response => {
+                if (response && response.data) {
+                    $scope.installments = response.data;
+                    calculateTotalPaid();
+                } else {
+                    $scope.installments = [];
+                }
+            }).catch(error => {
+                toastr.error('Došlo je do greške prilikom osvežavanja spiska rata.\nZatvorite dijalog, pa pokušajte ponovo.');
+            });
         }
     }
 })();

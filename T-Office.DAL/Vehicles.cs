@@ -255,7 +255,7 @@ namespace T_Office.DAL
                                     PaymentDate = x.PaymentDate
                                 }
                             )
-                            .OrderBy(x => x.InstallmentDate)
+                            .OrderByDescending(x => x.InstallmentDate)
                             .ToList();
             }
         }
@@ -269,37 +269,38 @@ namespace T_Office.DAL
                 {
                     if (model.PaidAmount.HasValue)
                     {
-                        if (model.PaidAmount == installment.Amount)
-                        {
-                            installment.PaidAmount = model.PaidAmount;
-                            installment.IsPaid = true;
-                        }
-
-                        if (model.PaidAmount > installment.Amount)
-                        {
-                            installment.PaidAmount = installment.Amount;
-                            installment.IsPaid = true;
-                            installment.PaymentDate = DateTime.Now.Date;
-
-                            var otherInstallments = 
+                        var relevantInstallments =
                                 ctx.VehicleRegistrationInstallments
-                                        .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.InstallmentDate > installment.InstallmentDate).ToList();
+                                        .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.InstallmentDate >= installment.InstallmentDate)
+                                        .OrderBy(x => x.InstallmentDate)
+                                        .ToList();
 
-                            decimal remainingAmount = (decimal)model.PaidAmount - installment.Amount;
-                            foreach (var otherInstallment in otherInstallments)
+                        decimal remainingPaidAmount = (decimal)model.PaidAmount;
+                        foreach (var relevantInstallment in relevantInstallments)
+                        {
+                            decimal installmentAmountDue = relevantInstallment.Amount - ((relevantInstallment.PaidAmount.HasValue) ? (decimal)relevantInstallment.PaidAmount : 0);
+
+                            decimal installmentAmountToBePaid = installmentAmountDue;
+                            if (remainingPaidAmount < installmentAmountDue)
                             {
-                                if (remainingAmount >= otherInstallment.Amount)
+                                installmentAmountToBePaid = remainingPaidAmount;
+                            }
+
+                            if (remainingPaidAmount > 0)
+                            {
+                                remainingPaidAmount = remainingPaidAmount - installmentAmountToBePaid;
+
+                                relevantInstallment.PaidAmount = installmentAmountToBePaid + (relevantInstallment.PaidAmount.HasValue ? relevantInstallment.PaidAmount : 0);
+                                relevantInstallment.IsPaid = (relevantInstallment.PaidAmount == relevantInstallment.Amount);
+
+                                if (relevantInstallment.IsPaid)
                                 {
-                                    otherInstallment.PaidAmount = otherInstallment.Amount;
-                                    otherInstallment.IsPaid = true;
-                                    otherInstallment.PaymentDate = DateTime.Now.Date;
-                                    remainingAmount = remainingAmount - otherInstallment.Amount;
+                                    relevantInstallment.PaymentDate = DateTime.Now.Date;
                                 }
-                                else
-                                {
-                                    otherInstallment.PaidAmount = remainingAmount;
-                                    break;
-                                }
+                            }
+                            else
+                            {
+                                break;
                             }
                         }
 

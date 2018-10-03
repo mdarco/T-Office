@@ -103,7 +103,7 @@
             ]);
 
             var model = {
-                Title: 'Troškovi za period',
+                Title: 'Troškovi za period (' + moment($scope.filter.DateFrom_Temp).format('DD.MM.YYYY') + ' - ' + moment($scope.filter.DateTo_Temp).format('DD.MM.YYYY') + ')',
                 HeaderData: headerData,
                 ColumnData: columnData
             };

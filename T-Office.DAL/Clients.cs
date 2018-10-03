@@ -653,7 +653,7 @@ namespace T_Office.DAL
                                         {
                                             ClientID = x.ClientRegistrationDocumentData.ClientID,
                                             Owner = (x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
-                                            User = (x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+                                            User = (x.ClientRegistrationDocumentData.Clients.UserName + " " + x.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName)
                                         }
                                     )
                                     .Select(gr =>

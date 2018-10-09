@@ -292,6 +292,7 @@
             ClientsService.getVehicleRegistrationInstallments(context.ClientID, context.VehicleID, context.VehicleRegistrationID).then(response => {
                 if (response && response.data) {
                     $scope.installments = response.data;
+                    calculateTotalSum();
                     calculateTotalPaid();
                 } else {
                     $scope.installments = [];

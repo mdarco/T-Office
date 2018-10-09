@@ -269,44 +269,85 @@ namespace T_Office.DAL
                 {
                     if (model.PaidAmount.HasValue)
                     {
-                        var relevantInstallments =
-                                ctx.VehicleRegistrationInstallments
-                                        .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.InstallmentDate >= installment.InstallmentDate)
-                                        .OrderBy(x => x.InstallmentDate)
-                                        .ToList();
-
-                        decimal remainingPaidAmount = (decimal)model.PaidAmount;
-                        foreach (var relevantInstallment in relevantInstallments)
-                        {
-                            decimal installmentAmountDue = relevantInstallment.Amount - ((relevantInstallment.PaidAmount.HasValue) ? (decimal)relevantInstallment.PaidAmount : 0);
-
-                            decimal installmentAmountToBePaid = installmentAmountDue;
-                            if (remainingPaidAmount < installmentAmountDue)
-                            {
-                                installmentAmountToBePaid = remainingPaidAmount;
-                            }
-
-                            if (remainingPaidAmount > 0)
-                            {
-                                remainingPaidAmount = remainingPaidAmount - installmentAmountToBePaid;
-
-                                relevantInstallment.PaidAmount = installmentAmountToBePaid + (relevantInstallment.PaidAmount.HasValue ? relevantInstallment.PaidAmount : 0);
-                                relevantInstallment.IsPaid = (relevantInstallment.PaidAmount == relevantInstallment.Amount);
-
-                                if (relevantInstallment.IsPaid)
-                                {
-                                    relevantInstallment.PaymentDate = DateTime.Now.Date;
-                                }
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-
                         if (model.PaidAmount == 0)
                         {
                             installment.IsPaid = false;
+                            installment.PaidAmount = null;
+                        }
+                        else
+                        {
+                            /*
+                             * Amount assignment logic:
+                             *  1. if (paid amount + already paid amount (if exists) < installment amount) => assign total amount to installment only
+                             *  2. if (paid amount + already paid amount (if exists) = installment amount)
+                             *      => assign total amount to installment, set installment as paid and set payment date to current date
+                             *  3. if (paid amount + already paid amount (if exists) > installment amount)
+                             *      =>  assign total amount to installment, set installment as paid, set payment date to current date and distribute the remaining
+                             *          total registration amount to be paid over the remaining non-paid installment amounts (effectively changing the remaining
+                             *          installment amounts)
+                             *      =>  in case of the last installment, just assign total amount to installment, set installment as paid and set payment date to current date
+                            */
+
+                            var alreadyPaidAmount = installment.PaidAmount.HasValue ? installment.PaidAmount : 0;
+
+                            var relevantInstallments =
+                                    ctx.VehicleRegistrationInstallments
+                                            .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.IsPaid == false && x.ID != installment.ID)
+                                            .OrderBy(x => x.InstallmentDate)
+                                            .ToList();
+
+                            var paidInstallments =
+                                    ctx.VehicleRegistrationInstallments
+                                            .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.IsPaid == true)
+                                            .OrderBy(x => x.InstallmentDate)
+                                            .ToList();
+
+                            var totalPaidAmount = paidInstallments.Sum(x => x.PaidAmount);
+
+                            var vehicleRegistration = ctx.VehicleRegistrations.FirstOrDefault(x => x.ID == installment.VehicleRegistrationID);
+                            var totalRegAmount = vehicleRegistration.TotalAmount;
+
+                            // (1)
+                            if (model.PaidAmount + alreadyPaidAmount < installment.Amount)
+                            {
+                                installment.PaidAmount = model.PaidAmount + alreadyPaidAmount;
+                            }
+
+                            // (2)
+                            if (model.PaidAmount + alreadyPaidAmount == installment.Amount)
+                            {
+                                installment.PaidAmount = model.PaidAmount + alreadyPaidAmount;
+                                installment.IsPaid = true;
+                                installment.PaymentDate = DateTime.Now.Date;
+                            }
+
+                            // (3)
+                            if (model.PaidAmount + alreadyPaidAmount > installment.Amount)
+                            {
+                                // last installment?
+                                if (relevantInstallments.Count() == 0)
+                                {
+                                    installment.PaidAmount = model.PaidAmount + alreadyPaidAmount;
+                                    installment.IsPaid = true;
+                                    installment.PaymentDate = DateTime.Now.Date;
+                                }
+                                else
+                                {
+                                    installment.PaidAmount = model.PaidAmount + alreadyPaidAmount;
+                                    installment.Amount = (decimal)installment.PaidAmount;
+                                    installment.IsPaid = true;
+                                    installment.PaymentDate = DateTime.Now.Date;
+
+                                    totalPaidAmount += installment.PaidAmount;
+                                    var totalRemainingRegAmount = totalRegAmount - totalPaidAmount;
+                                    decimal newInstallmentAmount = (decimal)totalRemainingRegAmount / relevantInstallments.Count();
+
+                                    foreach (var nonPaidInstallment in relevantInstallments)
+                                    {
+                                        nonPaidInstallment.Amount = newInstallmentAmount;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -350,10 +391,15 @@ namespace T_Office.DAL
             using (var ctx = new TOfficeEntities())
             {
                 var installments = ctx.VehicleRegistrationInstallments.Where(x => x.VehicleRegistrationID == vehicleRegistrationID).ToList();
+
+                var registration = ctx.VehicleRegistrations.FirstOrDefault(x => x.ID == vehicleRegistrationID);
+                decimal installmentAmount = registration.TotalAmount / installments.Count();
+
                 if (installments != null && installments.Count() > 0)
                 {
                     foreach (var installment in installments)
                     {
+                        installment.Amount = installmentAmount;
                         installment.PaidAmount = null;
                         installment.IsPaid = false;
                         installment.PaymentDate = null;

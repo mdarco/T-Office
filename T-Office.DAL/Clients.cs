@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using T_Office.DAL.DBModel;
 using T_Office.Models;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace T_Office.DAL
 {
     public static class Clients
     {
+        private static readonly string connectionString = DALHelper.GetSqlConnectionStringFromEF();
+
         public static ApiTableResponseModel<ClientModel> GetClientsFiltered(ClientFilterModel filter)
         {
             using (var ctx = new TOfficeEntities())
@@ -627,138 +631,159 @@ namespace T_Office.DAL
 
         #region Reports
 
+        //public static List<CostsByPeriodModel> GetCostsByPeriod(CostsByPeriodFilter filter)
+        //{
+        //    using (var ctx = new TOfficeEntities())
+        //    {
+        //        if (!filter.DateFrom.HasValue)
+        //        {
+        //            // set min date
+        //            filter.DateFrom = new DateTime(1950, 1, 1);
+        //        }
+
+        //        if (!filter.DateTo.HasValue)
+        //        {
+        //            filter.DateTo = DateTime.Now;
+        //        }
+
+        //        var credits = ctx.VehicleRegistrations
+        //                            .Include(t => t.ClientRegistrationDocumentData.Clients)
+        //                            .Where(vr =>
+        //                                (DbFunctions.TruncateTime(vr.RegistrationDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+        //                                DbFunctions.TruncateTime(vr.RegistrationDate) <= DbFunctions.TruncateTime(filter.DateTo)
+        //                            )
+        //                            .GroupBy(x =>
+        //                                new
+        //                                {
+        //                                    ClientID = x.ClientRegistrationDocumentData.ClientID,
+        //                                    Owner = (x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+        //                                    User = (x.ClientRegistrationDocumentData.Clients.UserName + " " + x.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName)
+        //                                }
+        //                            )
+        //                            .Select(gr =>
+        //                                new CostsByPeriodModel()
+        //                                {
+        //                                    ClientID = gr.Key.ClientID,
+        //                                    Owner = gr.Key.Owner,
+        //                                    User = gr.Key.User,
+        //                                    TotalCreditAmount = gr.Sum(item => item.TotalAmount)
+        //                                }
+        //                            )
+        //                            .ToList();
+
+        //        var debts = ctx.VehicleRegistrationInstallments
+        //                            .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+        //                            .Where(vri => /* !vri.IsPaid && vri.VehicleRegistrations.NumberOfInstallments > 1 && */
+        //                                (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+        //                                (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
+        //                            )
+        //                            .GroupBy(x =>
+        //                                new
+        //                                {
+        //                                    ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
+        //                                    Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+        //                                    User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+        //                                }
+        //                            )
+        //                            .Select(gr =>
+        //                                new CostsByPeriodModel()
+        //                                {
+        //                                    ClientID = gr.Key.ClientID,
+        //                                    Owner = gr.Key.Owner,
+        //                                    User = gr.Key.User,
+        //                                    //TotalDebtAmount = gr.Sum(item => item.Amount)
+        //                                    TotalDebtAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
+        //                                }
+        //                            )
+        //                            .ToList();
+
+        //        var installmentsPaid = ctx.VehicleRegistrationInstallments
+        //                                    .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
+        //                                    .Where(vri => vri.IsPaid && /* vri.VehicleRegistrations.NumberOfInstallments > 1 && */
+        //                                        (DbFunctions.TruncateTime(vri.PaymentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
+        //                                        (DbFunctions.TruncateTime(vri.PaymentDate) <= DbFunctions.TruncateTime(filter.DateTo))
+        //                                    )
+        //                                    .GroupBy(x =>
+        //                                        new
+        //                                        {
+        //                                            ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
+        //                                            Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
+        //                                            User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
+        //                                        }
+        //                                    )
+        //                                    .Select(gr =>
+        //                                        new CostsByPeriodModel()
+        //                                        {
+        //                                            ClientID = gr.Key.ClientID,
+        //                                            Owner = gr.Key.Owner,
+        //                                            User = gr.Key.User,
+        //                                            //TotalDebtAmount = gr.Sum(item => item.Amount)
+        //                                            //TotalDebtAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
+        //                                            TotalInstallmentsPaid = gr.Sum(item => item.PaidAmount)
+        //                                        }
+        //                                    )
+        //                                    .ToList();
+
+        //        // perform left outer join (done with GroupJoin() in EF)
+        //        var joined = credits.GroupJoin(debts,
+        //                    c => c.ClientID,
+        //                    d => d.ClientID,
+        //                    (c, d) => new { c, d }
+        //               )
+        //               .SelectMany(
+        //                    x => x.d.DefaultIfEmpty(),
+        //                    (c, d) => new CostsByPeriodModel()
+        //                    {
+        //                        ClientID = c.c.ClientID,
+        //                        Owner = c.c.Owner,
+        //                        User = c.c.User,
+        //                        TotalCreditAmount = c.c.TotalCreditAmount,
+        //                        TotalDebtAmount = (d != null) ? d.TotalDebtAmount : 0
+        //                    }
+        //                )
+        //                //.Where(x => x.TotalDebtAmount > 0)
+        //                .OrderByDescending(x => x.TotalDebtAmount)
+        //                .ToList();
+
+        //        return joined.GroupJoin(installmentsPaid,
+        //                    c => c.ClientID,
+        //                    d => d.ClientID,
+        //                    (c, d) => new { c, d }
+        //               )
+        //               .SelectMany(
+        //                    x => x.d.DefaultIfEmpty(),
+        //                    (c, d) => new CostsByPeriodModel()
+        //                    {
+        //                        ClientID = c.c.ClientID,
+        //                        Owner = c.c.Owner,
+        //                        User = c.c.User,
+        //                        TotalCreditAmount = c.c.TotalCreditAmount,
+        //                        TotalDebtAmount = (c.c != null) ? c.c.TotalDebtAmount : 0,
+        //                        TotalInstallmentsPaid = (d != null) ? d.TotalInstallmentsPaid : 0
+        //                    }
+        //                )
+        //                .ToList();
+        //    }
+        //}
+
         public static List<CostsByPeriodModel> GetCostsByPeriod(CostsByPeriodFilter filter)
         {
             using (var ctx = new TOfficeEntities())
             {
-                if (!filter.DateFrom.HasValue)
+                string spName = "dbo.Report_CostsByPeriod";
+
+                List<CostsByPeriodModel> result = new List<CostsByPeriodModel>();
+
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    // set min date
-                    filter.DateFrom = new DateTime(1950, 1, 1);
+                    var spParams = new DynamicParameters();
+                    spParams.Add("@dateFrom", filter.DateFrom, dbType: System.Data.DbType.DateTime);
+                    spParams.Add("@dateTo", filter.DateTo, dbType: System.Data.DbType.DateTime);
+
+                    result = connection.Query<CostsByPeriodModel>(spName, spParams, commandType: System.Data.CommandType.StoredProcedure).ToList();
                 }
 
-                if (!filter.DateTo.HasValue)
-                {
-                    filter.DateTo = DateTime.Now;
-                }
-
-                var credits = ctx.VehicleRegistrations
-                                    .Include(t => t.ClientRegistrationDocumentData.Clients)
-                                    .Where(vr =>
-                                        (DbFunctions.TruncateTime(vr.RegistrationDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
-                                        DbFunctions.TruncateTime(vr.RegistrationDate) <= DbFunctions.TruncateTime(filter.DateTo)
-                                    )
-                                    .GroupBy(x =>
-                                        new
-                                        {
-                                            ClientID = x.ClientRegistrationDocumentData.ClientID,
-                                            Owner = (x.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
-                                            User = (x.ClientRegistrationDocumentData.Clients.UserName + " " + x.ClientRegistrationDocumentData.Clients.UserSurnameOrBusinessName)
-                                        }
-                                    )
-                                    .Select(gr =>
-                                        new CostsByPeriodModel()
-                                        {
-                                            ClientID = gr.Key.ClientID,
-                                            Owner = gr.Key.Owner,
-                                            User = gr.Key.User,
-                                            TotalCreditAmount = gr.Sum(item => item.TotalAmount)
-                                        }
-                                    )
-                                    .ToList();
-
-                var debts = ctx.VehicleRegistrationInstallments
-                                    .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
-                                    .Where(vri => /* !vri.IsPaid && vri.VehicleRegistrations.NumberOfInstallments > 1 && */
-                                        (DbFunctions.TruncateTime(vri.InstallmentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
-                                        (DbFunctions.TruncateTime(vri.InstallmentDate) <= DbFunctions.TruncateTime(filter.DateTo))
-                                    )
-                                    .GroupBy(x =>
-                                        new
-                                        {
-                                            ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
-                                            Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
-                                            User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
-                                        }
-                                    )
-                                    .Select(gr =>
-                                        new CostsByPeriodModel()
-                                        {
-                                            ClientID = gr.Key.ClientID,
-                                            Owner = gr.Key.Owner,
-                                            User = gr.Key.User,
-                                            //TotalDebtAmount = gr.Sum(item => item.Amount)
-                                            TotalDebtAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
-                                        }
-                                    )
-                                    .ToList();
-
-                var installmentsPaid = ctx.VehicleRegistrationInstallments
-                                            .Include(t => t.VehicleRegistrations.ClientRegistrationDocumentData.Clients)
-                                            .Where(vri => vri.IsPaid && /* vri.VehicleRegistrations.NumberOfInstallments > 1 && */
-                                                (DbFunctions.TruncateTime(vri.PaymentDate) >= DbFunctions.TruncateTime(filter.DateFrom)) &&
-                                                (DbFunctions.TruncateTime(vri.PaymentDate) <= DbFunctions.TruncateTime(filter.DateTo))
-                                            )
-                                            .GroupBy(x =>
-                                                new
-                                                {
-                                                    ClientID = x.VehicleRegistrations.ClientRegistrationDocumentData.ClientID,
-                                                    Owner = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName),
-                                                    User = (x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerName + " " + x.VehicleRegistrations.ClientRegistrationDocumentData.Clients.OwnerSurnameOrBusinessName)
-                                                }
-                                            )
-                                            .Select(gr =>
-                                                new CostsByPeriodModel()
-                                                {
-                                                    ClientID = gr.Key.ClientID,
-                                                    Owner = gr.Key.Owner,
-                                                    User = gr.Key.User,
-                                                    //TotalDebtAmount = gr.Sum(item => item.Amount)
-                                                    //TotalDebtAmount = gr.Sum(item => !item.PaidAmount.HasValue ? item.Amount : item.Amount - item.PaidAmount)
-                                                    TotalInstallmentsPaid = gr.Sum(item => item.PaidAmount)
-                                                }
-                                            )
-                                            .ToList();
-
-                // perform left outer join (done with GroupJoin() in EF)
-                var joined = credits.GroupJoin(debts,
-                            c => c.ClientID,
-                            d => d.ClientID,
-                            (c, d) => new { c, d }
-                       )
-                       .SelectMany(
-                            x => x.d.DefaultIfEmpty(),
-                            (c, d) => new CostsByPeriodModel()
-                            {
-                                ClientID = c.c.ClientID,
-                                Owner = c.c.Owner,
-                                User = c.c.User,
-                                TotalCreditAmount = c.c.TotalCreditAmount,
-                                TotalDebtAmount = (d != null) ? d.TotalDebtAmount : 0
-                            }
-                        )
-                        //.Where(x => x.TotalDebtAmount > 0)
-                        .OrderByDescending(x => x.TotalDebtAmount)
-                        .ToList();
-
-                return joined.GroupJoin(installmentsPaid,
-                            c => c.ClientID,
-                            d => d.ClientID,
-                            (c, d) => new { c, d }
-                       )
-                       .SelectMany(
-                            x => x.d.DefaultIfEmpty(),
-                            (c, d) => new CostsByPeriodModel()
-                            {
-                                ClientID = c.c.ClientID,
-                                Owner = c.c.Owner,
-                                User = c.c.User,
-                                TotalCreditAmount = c.c.TotalCreditAmount,
-                                TotalDebtAmount = (c.c != null) ? c.c.TotalDebtAmount : 0,
-                                TotalInstallmentsPaid = (d != null) ? d.TotalInstallmentsPaid : 0
-                            }
-                        )
-                        .ToList();
+                return result;
             }
         }
 

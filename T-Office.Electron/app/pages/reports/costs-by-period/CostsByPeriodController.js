@@ -19,7 +19,7 @@
 
         $scope.totalCredit = 0;
         $scope.totalDebt = 0;
-        $scope.totalInstallmentsPaid = 0;
+        $scope.totalPaid = 0;
 
         $scope.applyFilter = function () {
             getCostsByPeriod();
@@ -31,7 +31,7 @@
 
             $scope.totalCredit = 0;
             $scope.totalDebt = 0;
-            $scope.totalInstallmentsPaid = 0;
+            $scope.totalPaid = 0;
         };
 
         function getCostsByPeriod() {
@@ -59,11 +59,11 @@
         function calculateTotals() {
             $scope.totalCredit = 0;
             $scope.totalDebt = 0;
-            $scope.totalInstallmentsPaid = 0;
+            $scope.totalPaid = 0;
 
             _.each($scope.costsByPeriod, (cost) => {
                 $scope.totalCredit += cost.TotalCreditAmount;
-                $scope.totalInstallmentsPaid += cost.TotalInstallmentsPaid;
+                $scope.totalPaid += cost.TotalPaidAmount;
 
                 if (cost.TotalDebtAmount > 0) {
                     $scope.totalDebt += cost.TotalDebtAmount;

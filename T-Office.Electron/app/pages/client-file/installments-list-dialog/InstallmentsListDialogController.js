@@ -54,6 +54,13 @@
                     }
 
                     newFieldValue = !installment.IsPaid;
+
+                    if (newFieldValue) {
+                        if (installment.PaidAmount < installment.Amount) {
+                            toastr.warning('Plaćeni iznos je manji od iznosa rate.');
+                            return;
+                        }
+                    }
                 } else {
                     if (!installment.IsAdminBan) {
                         msg = 'Aktivirati administrativnu zabranu?';
@@ -125,6 +132,15 @@
                 );
             } else {
                 // text field
+                if (dataField === 'PaidAmount') {
+                    // paid amount cannot be changed for paid installments
+                    console.log(installment);
+                    if (installment.IsPaid) {
+                        toastr.warning('Plaćenim ratama se ne može menjati iznos.');
+                        return;
+                    } 
+                }
+
                 openTextFieldDialog(dataField, installment[dataField]).then(
                     function (result) {
                         var editObj = {};

@@ -82,16 +82,17 @@
         }
 
         $scope.print = function () {
-            var headerData = ['Klijent', 'Suma', 'Dugovanje'];
+            var headerData = ['Klijent', 'Vozilo', 'Suma', 'Dugovanje'];
 
             var columnData = [];
             var totalDebt = 0.0;
             _.each($scope.costsByPeriod, item => {
                 totalDebt += (item.TotalDebtAmount > 0) ? item.TotalDebtAmount : 0;
                 var column = [
-                    'Vlasnik: ' + item.Owner + '\nKorisnik: ' + item.User,
+                    'Vlasnik: ' + item.VehicleOwner + '\nKorisnik: ' + item.VehicleUser,
+                    '[ ' + item.RegistrationNumber + ' ] ' + item.VehicleModel,
                     $filter('currency')(item.TotalCreditAmount, '', 2),
-                    (item.TotalDebtAmount > 0) ? $filter('currency')(item.TotalDebtAmount, '', 2) : '0.0 (preplata: ' + $filter('currency')(-item.TotalDebtAmount, '', 2) + ')'
+                    (item.TotalDebtAmount > 0) ? $filter('currency')(item.TotalDebtAmount, '', 2) : '0.0'
                 ];
                 columnData.push(column);
             });
@@ -102,8 +103,11 @@
                 'Ukupno dugovanje: ' + $filter('currency')(totalDebt, '', 2)
             ]);
 
+            var dateFrom_Display = !$scope.filter.DateFrom_Temp ? '' : moment($scope.filter.DateFrom_Temp).format('DD.MM.YYYY');
+            var dateTo_Display = !$scope.filter.DateTo_Temp ? '' : moment($scope.filter.DateTo_Temp).format('DD.MM.YYYY');
+
             var model = {
-                Title: 'Troškovi za period (' + moment($scope.filter.DateFrom_Temp).format('DD.MM.YYYY') + ' - ' + moment($scope.filter.DateTo_Temp).format('DD.MM.YYYY') + ')',
+                Title: 'Troškovi za period (' + dateFrom_Display + ' - ' + dateTo_Display + ')',
                 HeaderData: headerData,
                 ColumnData: columnData
             };

@@ -410,6 +410,19 @@ namespace T_Office.DAL
             }
         }
 
+        public static decimal GetTotalPaidAmountByPeriod(DateTime? dateFrom, DateTime? dateTo)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                var installments = ctx.VehicleRegistrationInstallments
+                                        .Where(x =>
+                                            x.IsPaid || (!x.IsPaid && x.PaidAmount.HasValue && x.PaidAmount < x.Amount)
+                                        ).ToList();
+
+                return (decimal)installments.Sum(x => x.PaidAmount);
+            }
+        }
+
         #endregion
     }
 }

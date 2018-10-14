@@ -51,6 +51,7 @@
     <Compile Include="ClientTotalOutstandingModel.cs" />
     <Compile Include="CostsByPeriodFilter.cs" />
     <Compile Include="CostsByPeriodModel.cs" />
+    <Compile Include="DateRangeModel.cs" />
     <Compile Include="DocumentDataModel.cs" />
     <Compile Include="FileTemplateModel.cs" />
     <Compile Include="InstallmentModel.cs" />

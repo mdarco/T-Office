@@ -206,6 +206,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetVehiclesWithIncomingRegistrations(numberOfDays);
         }
 
+        [Route("analytics/total-paid-amount-by-period")]
+        [HttpPost]
+        public decimal GetTotalPaidAmoountByPeriod(DateRangeModel model)
+        {
+            return DAL.Vehicles.GetTotalPaidAmountByPeriod(model.DateFrom, model.DateTo);
+        }
+
         #endregion
 
         #region Reports

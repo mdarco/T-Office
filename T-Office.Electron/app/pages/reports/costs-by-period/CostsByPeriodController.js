@@ -54,16 +54,26 @@
                     toastr.error(error.statusText);
                 }
             );
+
+            ClientsService.getTotalPaidAmountByPeriod($scope.filter).then(
+                (result) => {
+                    if (result && result.data) {
+                        console.log(result.data);
+                        $scope.totalPaid = result.data;
+                    }
+                },
+                (error) => {
+                    toastr.error(error.statusText);
+                }
+            );
         }
 
         function calculateTotals() {
             $scope.totalCredit = 0;
             $scope.totalDebt = 0;
-            $scope.totalPaid = 0;
 
             _.each($scope.costsByPeriod, (cost) => {
                 $scope.totalCredit += cost.TotalCreditAmount;
-                $scope.totalPaid += cost.TotalPaidAmount;
 
                 if (cost.TotalDebtAmount > 0) {
                     $scope.totalDebt += cost.TotalDebtAmount;

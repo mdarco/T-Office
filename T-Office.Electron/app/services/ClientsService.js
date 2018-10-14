@@ -34,6 +34,7 @@
             getClientsDue: getClientsDue,
             getClientsOutstandingTotal: getClientsOutstandingTotal,
             getIncomingRegistrations: getIncomingRegistrations,
+            getTotalPaidAmountByPeriod: getTotalPaidAmountByPeriod,
 
             getCostsByPeriod: getCostsByPeriod,
             getTotalInstallmentsAmount: getTotalInstallmentsAmount
@@ -148,6 +149,11 @@
         function getIncomingRegistrations(numberOfDays) {
             var url = WebApiBaseUrl + urlRoot + '/analytics/incoming-registrations/' + numberOfDays + '?nd=' + Date.now();
             return $http.get(url);
+        }
+
+        function getTotalPaidAmountByPeriod(model) {
+            var url = WebApiBaseUrl + urlRoot + '/analytics/total-paid-amount-by-period?nd=' + Date.now();
+            return $http.post(url, model);
         }
 
         //#endregion

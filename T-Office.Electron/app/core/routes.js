@@ -30,6 +30,13 @@
                 }
             )
 
+            .when('/full-client-entry',
+                {
+                    controller: 'FullClientEntryController',
+                    templateUrl: 'pages/clients/full-client-entry/full-client-entry.html?nd=' + Date.now()
+                }
+            )
+
             .when('/client-file/:id',
                 {
                     controller: 'ClientFileController',

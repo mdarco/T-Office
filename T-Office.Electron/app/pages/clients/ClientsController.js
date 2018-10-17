@@ -14,7 +14,7 @@
 
         // prevent 'Enter' to submit the form
         $('#searchForm').bind('keydown', function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 e.preventDefault();
             }
         });

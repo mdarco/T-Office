@@ -394,6 +394,8 @@
     <Content Include="app\pages\common\tags-dialog\TagsDialogController.js" />
     <Content Include="app\pages\common\text-field-dialog\text-field-dialog.html" />
     <Content Include="app\pages\common\text-field-dialog\TextFieldDialogController.js" />
+    <Content Include="app\pages\clients\full-client-entry\full-client-entry.html" />
+    <Content Include="app\pages\clients\full-client-entry\FullClientEntryController.js" />
     <Content Include="app\pages\home\home.html" />
     <Content Include="app\pages\home\HomeController.js" />
     <Content Include="app\pages\NavigationController.js" />

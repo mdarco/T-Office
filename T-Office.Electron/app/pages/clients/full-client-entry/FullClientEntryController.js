@@ -8,7 +8,15 @@
     ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'toastr'];
 
     function ctrlFn($rootScope, $scope, $location, $uibModal, $q, ClientsService, UtilityService, RegLicenseReaderService, toastr) {
-        $scope.addClient = function () {
+        $scope.context = {
+            AlertMessage: '-',
+            IsNewClient: false,
+            IsDriversLicenceDataPresent: false
+        };
+
+        $scope.regLicenceData = {};
+
+        $scope.getDriversLicenceData = function () {
             bootbox.confirm({
                 message: "<span style='font-weight: bold; font-size: large;'>Stavite saobraćajnu dozvolu u čitač.</span>",
                 buttons: {
@@ -27,60 +35,54 @@
                             function (result) {
                                 if (result && result.data) {
                                     var data = JSON.parse(result.data);
+
+                                    //console.log(data);
+
                                     if (data.IsError) {
-                                        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
                                         toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                         return;
                                     } else {
-                                        var filters_ownerName = data.Result.PersonalData.ownerName.split(' ');
-                                        filters_ownerName = _.filter(filters_ownerName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3; // eliminates null strings
-                                        });
+                                        eliminateNullStrings(data.Result);
 
-                                        var filters_ownersSurnameOrBusinessName = data.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
-                                        filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3;
-                                        });
-
-                                        var filters_usersName = data.Result.PersonalData.usersName.split(' ');
-                                        filters_usersName = _.filter(filters_usersName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3;
-                                        });
-
-                                        var filters_usersSurnameOrBusinessName = data.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
-                                        filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3;
-                                        });
-
-                                        var clientNameFilters = [
-                                            ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
-                                            ...filters_usersName, ...filters_usersSurnameOrBusinessName
-                                        ];
-
-                                        getExistingClients(clientNameFilters).then(
-                                            function (existingClientsArray) {
-                                                var existingClients = [];
-                                                _.each(existingClientsArray, function (item) {
-                                                    existingClients = _.concat(existingClients, item.data.Data || []);
-                                                });
-
-                                                existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
-
-                                                insertClient(data.Result, existingClients || []);
+                                        var existModel = {
+                                            PersonalData: {
+                                                OwnerPersonalNo: '',
+                                                OwnerName: '',
+                                                OwnerSurnameOrBusinessName: '',
+                                                UserPersonalNo: '',
+                                                UserName: '',
+                                                UserSurnameOrBusinessName: ''
                                             },
-                                            function (error) {
-                                                insertClient(data.Result, []);
+                                            VehicleData: {
+                                                RegistrationNumber: ''
+                                            }
+                                        };
+                                        ClientsService.simpleExist(existModel).then(
+                                            result => {
+                                                if (result && result.data) {
+                                                    setContext(result.data);
+                                                }
+                                            },
+                                            error => {
+                                                toastr.error('Došlo je do greške prilikom provere klijenta.');
                                             }
                                         );
+
+                                        $scope.regLicenceData = data.Result;
+                                        $scope.context.IsDriversLicenceDataPresent = true;
                                     }
                                 } else {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                    $scope.regLicenceData = {};
+                                    $scope.context.IsDriversLicenceDataPresent = false;
                                     return;
                                 }
                             },
                             function (error) {
                                 toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                 toastr.error('[GREŠKA] --> ' + error.statusText);
+                                $scope.regLicenceData = {};
+                                $scope.context.IsDriversLicenceDataPresent = false;
                                 return;
                             }
                         );
@@ -213,5 +215,42 @@
 
         //    return $q.all(promises);
         //}
+
+        function eliminateNullStrings(data) {
+            Object.entries(data.DocumentData).forEach((key) => {
+                data.DocumentData[key[0]] = data.DocumentData[key[0]].replace(/\0/g, '');
+            });
+
+            Object.entries(data.PersonalData).forEach((key) => {
+                data.PersonalData[key[0]] = data.PersonalData[key[0]].replace(/\0/g, '');
+            });
+
+            Object.entries(data.VehicleData).forEach((key) => {
+                data.VehicleData[key[0]] = data.VehicleData[key[0]].replace(/\0/g, '');
+            });
+        }
+
+        function setContext(contextData) {
+            $scope.context.IsNewClient = !contextData.IsExistingOwner && !contextData.IsExistingUser;
+
+            $scope.context.AlertMessage = '';
+            if (contextData.IsExistingOwner) {
+                $scope.context.AlertMessage += 'Postojeći vlasnik | ';
+            } else {
+                $scope.context.AlertMessage += 'Novi vlasnik | ';
+            }
+
+            if (contextData.IsExistingUser) {
+                $scope.context.AlertMessage += 'Postojeći korisnik | ';
+            } else {
+                $scope.context.AlertMessage += 'Novi korisnik | ';
+            }
+
+            if (contextData.IsExistingVehicle) {
+                $scope.context.AlertMessage += 'Postojeće vozilo';
+            } else {
+                $scope.context.AlertMessage += 'Novo vozilo';
+            }
+        }
     }
 })();

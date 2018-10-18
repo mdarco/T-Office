@@ -18,6 +18,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.GetClientsFiltered(filter);
         }
 
+        [Route("simple-exist")]
+        [HttpPost]
+        public RegLicenseDataExistModel SimpleExist(RegistrationDataModel model)
+        {
+            return DAL.Clients.SimpleExist(model);
+        }
+
         [Route("{id}")]
         [HttpGet]
         public ClientModel GetClient(int id)

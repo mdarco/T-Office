@@ -459,6 +459,39 @@ namespace T_Office.DAL
             }
         }
 
+        public static RegLicenseDataExistModel SimpleExist(RegistrationDataModel model)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                RegLicenseDataExistModel result = new RegLicenseDataExistModel()
+                {
+                    IsExistingOwner = false, IsExistingUser = false, IsExistingVehicle = false
+                };
+
+                var existingOwner =
+                    ctx.Clients.FirstOrDefault(x =>
+                        (!string.IsNullOrEmpty(x.OwnerPersonalNo) && (x.OwnerPersonalNo.Trim() == model.PersonalData.OwnerPersonalNo.Trim())) ||
+                        (!string.IsNullOrEmpty(x.OwnerName.Trim() + x.OwnerSurnameOrBusinessName.Trim()) && (x.OwnerName.Trim() + x.OwnerSurnameOrBusinessName.Trim() == model.PersonalData.OwnerName.Trim() + model.PersonalData.OwnerSurnameOrBusinessName.Trim()))
+                    );
+                result.IsExistingOwner = (existingOwner != null);
+
+                var existingUser =
+                    ctx.Clients.FirstOrDefault(x =>
+                        (!string.IsNullOrEmpty(x.UserPersonalNo) && (x.UserPersonalNo.Trim() == model.PersonalData.UserPersonalNo.Trim())) ||
+                        (!string.IsNullOrEmpty(x.UserName.Trim() + x.UserSurnameOrBusinessName.Trim()) && (x.UserName.Trim() + x.UserSurnameOrBusinessName.Trim() == model.PersonalData.UserName.Trim() + model.PersonalData.UserSurnameOrBusinessName.Trim()))
+                    );
+                result.IsExistingUser = (existingUser != null);
+
+                var existingVehicle =
+                    ctx.RegistrationVehicleData.FirstOrDefault(x =>
+                        x.RegistrationNumber.Trim() == model.VehicleData.RegistrationNumber.Trim()
+                    );
+                result.IsExistingVehicle = (existingVehicle != null);
+
+                return result;
+            }
+        }
+
         public static List<VehicleDataModel> GetVehicles(int clientID)
         {
             List<VehicleDataModel> result = new List<VehicleDataModel>();

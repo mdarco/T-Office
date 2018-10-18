@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationDataModel.cs" />
     <Compile Include="RegLicenseData.cs" />
+    <Compile Include="RegLicenseDataExistModel.cs" />
     <Compile Include="RegLicenseReaderResponse.cs" />
     <Compile Include="TotalInstallmentsAmountFilter.cs" />
     <Compile Include="VehicleDataModel.cs" />

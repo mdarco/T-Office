@@ -12,6 +12,7 @@
 
         var service = {
             getFiltered: getFiltered,
+            simpleExist: simpleExist,
             getClient: getClient,
             addClientFull: addClientFull,
             addClient: addClient,
@@ -45,6 +46,11 @@
         function getFiltered(filter) {
             var url = WebApiBaseUrl + urlRoot + '/filtered?nd=' + Date.now();
             return $http.post(url, filter);
+        }
+
+        function simpleExist(model) {
+            var url = WebApiBaseUrl + urlRoot + '/simple-exist?nd=' + Date.now();
+            return $http.post(url, model);
         }
 
         function getClient(id) {

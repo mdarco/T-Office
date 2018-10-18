@@ -1,20 +1,13 @@
 ﻿<div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-4"></div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-        <button class="btn btn-success" style="width: 100%" ng-click="readDriversLicence()">Pročitaj saobraćajnu dozvolu</button>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4"></div>
-</div>
-
-<br />
-
-<div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
             <div class="panel-heading" style="background-color: #1B1E24;">
                 <span>Podaci iz saobraćajne dozvole</span>
+                <button class="btn btn-xs btn-success pull-right" ng-click="getDriversLicenceData()">Pročitaj saobraćajnu dozvolu</button>
             </div>
             <div class="panel-body" style="font-size: smaller">
+                <div ng-class="{ 'alert alert-success' : context.IsNewClient, 'alert alert-warning' : !context.IsNewClient }" ng-show="context.IsDriversLicenceDataPresent">{{ context.AlertMessage }}</div>
+
                 <table style="width: 100%" class="table">
                     <tbody>
                         <tr>
@@ -28,31 +21,31 @@
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Država izdavanja</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.DocumentData.stateIssuing }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Dokument izdao</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.DocumentData.authorityIssuing }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Datum izdavanja</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.DocumentData.issuingDate }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Važi do</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.DocumentData.expiryDate }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Zabrana otuđenja</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.restrictionToChangeOwner }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Broj dokumenta</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.DocumentData.unambiguousNumber }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Serijski broj</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.DocumentData.serialNumber }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -67,83 +60,83 @@
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Registarski broj</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.registrationNumberOfVehicle }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Datum prve registracije</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.dateOfFirstRegistration }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Marka i model</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.vehicleMake }} {{ regLicenceData.VehicleData.commercialDescription }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Godina proizvodnje</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.yearOfProduction }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Tip</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.vehicleType }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Boja</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.colourOfVehicle }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Broj šasije</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.vehicleIDNumber }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Broj motora</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.engineIDNumber }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Snaga motora</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.maximumNetPower }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Zapremina motora</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.engineCapacity }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Masa</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.vehicleMass }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Nosivost vozila</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.vehicleLoad }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Odnos snaga/masa</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.powerWeightRatio }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Broj osovina</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.numberOfAxles }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Najveća dozvoljena masa</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.maximumPermissibleLadenMass }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Broj mesta za sedenje</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.numberOfSeats }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Broj mesta za stajanje</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.numberOfStandingPlaces }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Homologacijska oznaka</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.typeApprovalNumber }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Vrsta vozila</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.vehicleCategory }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Pogonsko gorivo</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.VehicleData.typeOfFuel }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -160,35 +153,35 @@
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Vlasnik</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.ownersSurnameOrBusinessName }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Ime vlasnika</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.ownersName }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">JMBG/MB vlasnika</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.ownersPersonalNo }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Adresa vlasnika</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.ownerAddress }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Korisnik</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.usersSurnameOrBusinessName }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Ime korisnika</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.usersName }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">JMBG/MB korisnika</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.usersPersonalNo }}</td>
                                         </tr>
                                         <tr>
                                             <td style="width: 50%">Adresa korisnika</td>
-                                            <td style="width: 50%"></td>
+                                            <td style="width: 50%">{{ regLicenceData.PersonalData.usersAddress }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

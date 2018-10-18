@@ -15,6 +15,11 @@
         };
 
         $scope.regLicenceData = {};
+        $scope.model = {
+            VehicleReg: {
+                OneTimePayment: false
+            }
+        };
 
         $scope.getDriversLicenceData = function () {
             bootbox.confirm({
@@ -89,6 +94,14 @@
                     }
                 }
             });
+        };
+
+        $scope.chkboxOneTimePaymentClicked = function () {
+            if ($scope.model.VehicleReg.OneTimePayment === true) {
+                $scope.model.VehicleReg.NumberOfInstallments = 1;
+            } else {
+                $scope.model.VehicleReg.NumberOfInstallments = '';
+            }
         };
 
         //function insertClient(data, existingClients) {
@@ -207,15 +220,6 @@
         //    });
         //}
 
-        //function getExistingClients(filters) {
-        //    var promises = [];
-        //    _.each(filters, function (filter) {
-        //        promises.push(ClientsService.getFiltered({ ClientName: filter }));
-        //    });
-
-        //    return $q.all(promises);
-        //}
-
         function eliminateNullStrings(data) {
             Object.entries(data.DocumentData).forEach((key) => {
                 data.DocumentData[key[0]] = data.DocumentData[key[0]].replace(/\0/g, '');
@@ -252,5 +256,14 @@
                 $scope.context.AlertMessage += 'Novo vozilo';
             }
         }
+
+        // date picker support
+        $scope.datePickers = {};
+        $scope.openDatePicker = function (pickerFor, event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            $scope.datePickers['datePickerOpened_' + pickerFor] = true;
+        };
     }
 })();

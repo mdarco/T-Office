@@ -94,5 +94,57 @@ namespace T_Office.DAL
                 ctx.SaveChanges();
             }
         }
+
+        public static int Add(TOfficeEntities ctx, int? clientID, int? vehicleID, DocumentDataModel documentDataModel, bool saveChanges)
+        {
+            if (!clientID.HasValue)
+            {
+                throw new Exception("Klijent je obavezan podatak prilikom unosa podataka na saobraćajnoj dozvoli.");
+            }
+
+            if (!vehicleID.HasValue)
+            {
+                throw new Exception("Vozilo je obavezan podatak prilikom unosa podataka na saobraćajnoj dozvoli.");
+            }
+
+            RegistrationDocumentData regDocData = new RegistrationDocumentData()
+            {
+                CompetentAuthority = documentDataModel.CompetentAuthority,
+                ExpiryDate = documentDataModel.ExpiryDate,
+                IssuingAuthority = documentDataModel.IssuingAuthority,
+                IssuingDate = documentDataModel.IssuingDate,
+                IssuingState = documentDataModel.IssuingState,
+                SerialNumber = documentDataModel.SerialNumber,
+                UnambiguousNumber = documentDataModel.UnambiguousNumber,
+                RegistrationVehicleDataID = (int)vehicleID
+            };
+
+            ctx.RegistrationDocumentData.Add(regDocData);
+
+            if (saveChanges)
+            {
+                ctx.SaveChanges();
+            }
+
+            return regDocData.ID;
+        }
+
+        public static int AddClientRegDocData(TOfficeEntities ctx, int? clientID, int? regDocDataID, bool saveChanges)
+        {
+            ClientRegistrationDocumentData clientRegDocData = new ClientRegistrationDocumentData()
+            {
+                ClientID = (int)clientID,
+                RegistrationDocumentDataID = (int)regDocDataID
+            };
+
+            ctx.ClientRegistrationDocumentData.Add(clientRegDocData);
+
+            if (saveChanges)
+            {
+                ctx.SaveChanges();
+            }
+
+            return clientRegDocData.ID;
+        }
     }
 }

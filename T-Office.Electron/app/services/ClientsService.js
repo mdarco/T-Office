@@ -19,6 +19,8 @@
             editClient: editClient,
             deleteClient: deleteClient,
 
+            fullClientDataEntry: fullClientDataEntry,
+
             addRegDocData: addRegDocData,
 
             getVehicles: getVehicles,
@@ -76,6 +78,11 @@
         function deleteClient(id) {
             var url = WebApiBaseUrl + urlRoot + '/' + id;
             return $http.delete(url);
+        }
+
+        function fullClientEntry(model) {
+            var url = WebApiBaseUrl + urlRoot + '/full-client-data-entry?nd=' + Date.now();
+            return $http.post(url, model);
         }
 
         //#region Registration document and vehicle data

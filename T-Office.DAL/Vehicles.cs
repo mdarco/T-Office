@@ -82,6 +82,49 @@ namespace T_Office.DAL
             return regVehicleData.ID;
         }
 
+        public static int Add(TOfficeEntities ctx, int? clientID, VehicleDataModel vehicleDataModel, bool saveChanges)
+        {
+            if (!clientID.HasValue)
+            {
+                throw new Exception("Nije definisan klijent za novo vozilo.");
+            }
+
+            RegistrationVehicleData regVehicleData = new RegistrationVehicleData()
+            {
+                Category = vehicleDataModel.Category,
+                Load = vehicleDataModel.Load,
+                Make = vehicleDataModel.Make,
+                Mass = vehicleDataModel.Mass,
+                MaxPermissibleLadenMass = vehicleDataModel.MaxPermissibleLadenMass,
+                Color = vehicleDataModel.Color,
+                EngineCapacity = vehicleDataModel.EngineCapacity,
+                EngineIDNumber = vehicleDataModel.EngineIDNumber,
+                EnginePowerKW = vehicleDataModel.EnginePowerKW,
+                FirstRegistrationDate = vehicleDataModel.FirstRegistrationDate,
+                FuelType = vehicleDataModel.FuelType,
+                Model = vehicleDataModel.Model,
+                NumberOfAxles = vehicleDataModel.NumberOfAxles,
+                NumberOfSeats = vehicleDataModel.NumberOfSeats,
+                NumberOfStandingPlaces = vehicleDataModel.NumberOfStandingPlaces,
+                PowerWeightRatio = vehicleDataModel.PowerWeightRatio,
+                ProductionYear = vehicleDataModel.ProductionYear,
+                RegistrationNumber = vehicleDataModel.RegistrationNumber,
+                RestrictionToChangeOwner = vehicleDataModel.RestrictionToChangeOwner,
+                Type = vehicleDataModel.Type,
+                TypeApprovalNumber = vehicleDataModel.TypeApprovalNumber,
+                VehicleIDNumber = vehicleDataModel.VehicleIDNumber
+            };
+
+            ctx.RegistrationVehicleData.Add(regVehicleData);
+
+            if (saveChanges)
+            {
+                ctx.SaveChanges();
+            }
+
+            return regVehicleData.ID;
+        }
+
         #region Registrations
 
         public static List<VehicleRegistrationModel> GetRegistrations(int vehicleID)
@@ -187,6 +230,61 @@ namespace T_Office.DAL
 
                     ctx.SaveChanges();
                 }
+            }
+        }
+
+        public static void AddRegistration(TOfficeEntities ctx, int? clientRegDocDataID, VehicleRegistrationModel model, bool saveChanges)
+        {
+            if (!clientRegDocDataID.HasValue)
+            {
+                throw new Exception("Klijent je obavezan podatak prilikom unosa podataka o registraciji.");
+            }
+
+            int firstInstallmentDuePeriod = FIRST_INSTALLMENT_DUE_PERIOD;
+
+            try
+            {
+                firstInstallmentDuePeriod = Int32.Parse(ConfigurationManager.AppSettings["toffice:FirstInstallmentDuePeriod"]);
+            }
+            catch (Exception) { }
+
+            // add new registration
+            VehicleRegistrations vehicleReg = new VehicleRegistrations()
+            {
+                ClientRegistrationDocumentDataID = (int)clientRegDocDataID,
+                RegistrationDate = model.RegistrationDate.HasValue ? (DateTime)model.RegistrationDate : DateTime.Now.Date,
+                TotalAmount = (decimal)model.TotalAmount,
+                NumberOfInstallments = model.NumberOfInstallments,
+                NextRegistrationDate = model.RegistrationDate.HasValue ? ((DateTime)model.RegistrationDate).AddYears(1) : DateTime.Now.Date.AddYears(1)
+            };
+            ctx.VehicleRegistrations.Add(vehicleReg);
+
+            // add installments
+            int monthAdditionFactor = 1;
+            for (int i = 1; i <= model.NumberOfInstallments; i++)
+            {
+                VehicleRegistrationInstallments installment = new VehicleRegistrationInstallments()
+                {
+                    IsPaid = false,
+                    IsAdminBan = false,
+                    Amount = (decimal)(model.TotalAmount / model.NumberOfInstallments)
+                };
+
+                if (i == 1)
+                {
+                    installment.InstallmentDate = DateTime.Now.AddDays(firstInstallmentDuePeriod);
+                }
+                else
+                {
+                    installment.InstallmentDate = DateTime.Now.AddMonths(monthAdditionFactor++);
+                }
+
+                ctx.VehicleRegistrationInstallments.Add(installment);
+            };
+
+            if (saveChanges)
+            {
+                ctx.SaveChanges();
             }
         }
 

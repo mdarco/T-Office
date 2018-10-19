@@ -11,5 +11,8 @@ namespace T_Office.Models
         public DocumentDataModel DocumentData { get; set; }
         public VehicleDataModel VehicleData { get; set; }
         public ClientModel PersonalData { get; set; }
+
+        // vehicle registration data
+        public VehicleRegistrationModel VehicleRegistrationData { get; set; }
     }
 }

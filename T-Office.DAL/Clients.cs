@@ -298,6 +298,119 @@ namespace T_Office.DAL
             }
         }
 
+        public static int? AddClient(TOfficeEntities ctx, ClientModel model, bool saveChanges)
+        {
+            if (model != null)
+            {
+                DBModel.Clients client = new DBModel.Clients()
+                {
+                    OwnerPersonalNo = model.OwnerPersonalNo,
+                    OwnerPIB = model.OwnerPIB,
+                    OwnerName = model.OwnerName,
+                    OwnerSurnameOrBusinessName = model.OwnerSurnameOrBusinessName,
+                    OwnerAddress = model.OwnerAddress,
+                    OwnerPhone = model.OwnerPhone,
+                    OwnerEmail = model.OwnerEmail,
+
+                    UserPersonalNo = model.UserPersonalNo,
+                    UserPIB = model.UserPIB,
+                    UserName = model.UserName,
+                    UserSurnameOrBusinessName = model.UserSurnameOrBusinessName,
+                    UserAddress = model.UserAddress,
+                    UserPhone = model.UserPhone,
+                    UserEmail = model.UserEmail,
+
+                    RecommendedBy = model.RecommendedBy
+                };
+
+                ctx.Clients.Add(client);
+
+                if (saveChanges)
+                {
+                    ctx.SaveChanges();
+                }
+
+                return client.ID;
+            }
+            else
+            {
+                throw new Exception("Ne postoje podaci o klijentu.");
+            }
+        }
+
+        public static void FullClientEntry(RegistrationDataModel model)
+        {
+            using (var ctx = new TOfficeEntities())
+            {
+                if (model != null)
+                {
+                    RegLicenseDataExistModel existModel = SimpleExist(model);
+
+                    int? clientID = null;
+                    int? vehicleID = null;
+                    int? regDocID = null;
+                    int? clientRegDocID = null;
+
+                    // client
+                    if (!existModel.IsExistingOwner)
+                    {
+                        clientID = AddClient(ctx, model.PersonalData, false);
+                    }
+                    else
+                    {
+                        var existingOwner =
+                                ctx.Clients.FirstOrDefault(x =>
+                                    (!string.IsNullOrEmpty(x.OwnerPersonalNo) && (x.OwnerPersonalNo.Trim() == model.PersonalData.OwnerPersonalNo.Trim())) ||
+                                    (!string.IsNullOrEmpty(x.OwnerName.Trim() + x.OwnerSurnameOrBusinessName.Trim()) && (x.OwnerName.Trim() + x.OwnerSurnameOrBusinessName.Trim() == model.PersonalData.OwnerName.Trim() + model.PersonalData.OwnerSurnameOrBusinessName.Trim()))
+                                );
+
+                        if (existingOwner != null)
+                        {
+                            clientID = existingOwner.ID;
+                        }
+                    }
+
+                    // vehicle (+ registration data)
+                    if (!existModel.IsExistingVehicle)
+                    {
+                        vehicleID = Vehicles.Add(ctx, clientID, model.VehicleData, false);
+                        regDocID = RegistrationDocuments.Add(ctx, clientID, vehicleID, model.DocumentData, false);
+                        clientRegDocID = RegistrationDocuments.AddClientRegDocData(ctx, clientID, regDocID, false);
+                    }
+                    else
+                    {
+                        var existingVehicle =
+                                ctx.RegistrationVehicleData.FirstOrDefault(x =>
+                                    x.RegistrationNumber.Trim() == model.VehicleData.RegistrationNumber.Trim()
+                                );
+
+                        if (existingVehicle != null)
+                        {
+                            vehicleID = existingVehicle.ID;
+                        }
+
+                        var existingClientRegDoc = ctx.ClientRegistrationDocumentData.FirstOrDefault(x =>
+                                                        x.ClientID == clientID && x.RegistrationDocumentDataID == regDocID
+                                                   );
+
+                        if (existingClientRegDoc != null)
+                        {
+                            clientRegDocID = existingClientRegDoc.ID;
+                        }
+                    }
+
+                    // vehicle registration
+                    Vehicles.AddRegistration(ctx, clientRegDocID, model.VehicleRegistrationData, false);
+
+                    ctx.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Ne postoje podaci o klijentu.");
+                }
+            }
+        }
+
         public static void EditClient(int id, ClientModel model)
         {
             using (var ctx = new TOfficeEntities())

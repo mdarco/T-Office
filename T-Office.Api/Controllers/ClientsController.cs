@@ -25,6 +25,13 @@ namespace T_Office.Api.Controllers
             return DAL.Clients.SimpleExist(model);
         }
 
+        [Route("full-client-data-entry")]
+        [HttpPost]
+        public void FullClientDataEntry(RegistrationDataModel model)
+        {
+            DAL.Clients.FullClientEntry(model);
+        }
+
         [Route("{id}")]
         [HttpGet]
         public ClientModel GetClient(int id)

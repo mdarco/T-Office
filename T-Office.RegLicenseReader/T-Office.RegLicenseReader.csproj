@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>26D2D051579C33A5EA63810A742ED4EB97D87970</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>66A802DC1D31CC720A5FEB304E95607D7B3C1EEE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>T-Office.RegLicenseReader_TemporaryKey.pfx</ManifestKeyFile>

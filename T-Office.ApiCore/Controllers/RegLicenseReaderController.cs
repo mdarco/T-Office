@@ -9,7 +9,7 @@ using T_Office.ApiCore.Hubs;
 
 namespace T_Office.ApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/reg-license-reader")]
     [ApiController]
     public class RegLicenseReaderController : ControllerBase
     {
@@ -20,6 +20,10 @@ namespace T_Office.ApiCore.Controllers
             this._hub = hub;
         }
 
-        // TODO:
+        // TODO: using "wsConnectionId" find the corresponding connected client (Agent)
+        // and issue the smart card reader command
+        [Route("read/{wsConnectionId}")]
+        [HttpGet]
+        public string Read() { return string.Empty; }
     }
 }

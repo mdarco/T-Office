@@ -5,4 +5,22 @@
     <RootNamespace>T_Office.ApiCore</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Templates\potvrda-placanja.docx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Templates\potvrda-placanja.docx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\T-Office.BL\T-Office.BL.csproj" />
+    <ProjectReference Include="..\T-Office.DAL\T-Office.DAL.csproj" />
+    <ProjectReference Include="..\T-Office.Models\T-Office.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Templates\Temp\" />
+  </ItemGroup>
+
 </Project>

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.App", "T-Office.App\T-Office.App.csproj", "{35E5D37A-C1E0-45D5-BC1E-B3027581CF00}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.BL", "T-Office.BL\T-Office.BL.csproj", "{77F4AD72-597F-4CF9-B619-878973DD9939}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.DAL", "T-Office.DAL\T-Office.DAL.csproj", "{2D71F902-6F61-4E7F-AFE4-FF78549BD6CC}"
@@ -21,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Test", "T-Office.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-Office.SmartCardReaderApi", "T-Office.SmartCardReaderApi\T-Office.SmartCardReaderApi.csproj", "{C0C3A600-13D7-450F-AC09-A9A1063E9A94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.ApiCore", "T-Office.ApiCore\T-Office.ApiCore.csproj", "{A859163B-25BA-4ED5-8BEE-B30EB77DA589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-Office.ApiCore", "T-Office.ApiCore\T-Office.ApiCore.csproj", "{A859163B-25BA-4ED5-8BEE-B30EB77DA589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,8 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{35E5D37A-C1E0-45D5-BC1E-B3027581CF00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35E5D37A-C1E0-45D5-BC1E-B3027581CF00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77F4AD72-597F-4CF9-B619-878973DD9939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77F4AD72-597F-4CF9-B619-878973DD9939}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77F4AD72-597F-4CF9-B619-878973DD9939}.Release|Any CPU.ActiveCfg = Release|Any CPU

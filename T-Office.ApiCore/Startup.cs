@@ -22,8 +22,7 @@ namespace T_Office.ApiCore
                     builder
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                        .AllowAnyHeader();
                 });
             });
 
@@ -51,10 +50,10 @@ namespace T_Office.ApiCore
                 endpoints.MapControllers();
                 endpoints.MapHub<TOfficeHub>("/tofficehub");
 
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    await context.Response.WriteAsync("Hello World!");
-                //});
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("TOffice API v1.0");
+                });
             });
         }
     }

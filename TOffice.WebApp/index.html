@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="TOfficeApp" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="T-Office Application">
+    <meta name="author" content="Darko Milutinovic <dmilutinovic@gmail.com>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>T-Office</title>
+
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/font-awesome/font-awesome.min.css">
+
+    <!-- SmartAdmin Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/SmartAdmin/smartadmin-production.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/SmartAdmin/smartadmin-skins.css">
+
+    <!-- Other CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/angular-block-ui/angular-block-ui.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="Scripts/sweet-alert/sweet-alert.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/ngTable@3.0.1/ng-table.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/angular-toastr/angular-toastr.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/abn-tree/abn_tree.css">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="Content/ivh-treeview/ivh-treeview.min.css"> -->
+    <!-- ngTagsInput -->
+    <link rel="stylesheet" type="text/css" media="screen" href="Content/ngTagsInput/ng-tags-input.css">
+
+    <!-- Custom TOfficeApp CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="app.css">
+
+    <!--Toastr-->
+    <link rel="stylesheet" type="text/css" href="Content/angular-toastr/angular-toastr.css" />
+
+    <!-- ngPrint -->
+    <link rel="stylesheet" type="text/css" href="Content/ngPrint/ngPrint.min.css" />
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+</head>
+
+<body class="smart-style-1 fixed-navigation fixed-header fixed-ribbon" style="overflow-y: auto;">
+    <!-- Left panel : NAVIGATION AREA -->
+    <aside id="left-panel" style="top: 0;">
+        <div style="text-align:center; padding: 10px; padding-top: 30px;">
+            <img src="images/toffice-logo-transparent.png" width="200" />
+        </div>
+
+        <br /><br />
+
+        <nav ng-controller="NavigationController">
+            <ul>
+                <!-- Home/Dashboard -->
+                <li id="menuHome" class="active">
+                    <a ng-href="#/home"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Početna</span></a>
+                </li>
+
+                <!-- Clients -->
+                <li id="menuClients">
+                    <a ng-href="#/clients"><i class="fa fa-lg fa-fw fa-car"></i> <span class="menu-item-parent">Klijenti</span></a>
+                </li>
+
+                <!-- Izvestaji -->
+                <li id="menuReports">
+                    <a href><i class="fa fa-lg fa-fw fa-sticky-note"></i> <span class="menu-item-parent">Izveštaji</span></a>
+                    <ul>
+                        <li id="menuReport_CostsByPeriod">
+                            <a ng-href="#/reports/costs-by-period"><i class="fa fa-lg fa-fw fa-dollar"></i> Troškovi za period</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Settings -->
+                <!--<li>
+                    <a ng-href="#"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">Podešavanja</span></a>
+                    <ul>
+                        <li id="menuPayments">
+                            <a ng-href="#/payments"><i class="fa fa-lg fa-fw fa-dollar"></i> Plaćanja</a>
+                        </li>
+                        <li id="menuSearch">
+                            <a ng-href="#"><i class="fa fa-lg fa-fw fa-search"></i> <span class="menu-item-parent">Pretraživanje</span></a>
+                            <ul>
+                                <li id="menuSearchDocs">
+                                    <a ng-href="#/search-docs">Dokumenti</a>
+                                </li>
+                                <li id="menuSearchMemberImages">
+                                    <a ng-href="#/search-member-images">Slike plesača</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>-->
+            </ul>
+        </nav>
+
+        <br /><br />
+
+        <div style="text-align: center">
+            <a class="btn btn-success" ng-href="#/full-client-entry"><i class="fa fa-plus"></i> Nov klijent</a>
+        </div>
+    </aside>
+
+    <!-- MAIN PANEL -->
+    <div id="main" role="main" ng-view></div>
+
+    <!-- SCRIPTS -->
+    <script src="Scripts/jquery/jquery-3.2.1.min.js"></script>
+    <script src="Scripts/jquery-ui/jquery-ui-1.12.1.min.js"></script>
+
+    <script src="Scripts/bootstrap/bootstrap.min.js"></script>
+    <script src="Scripts/bootbox/bootbox.min.js"></script>
+    <script src="Scripts/angular/angular.min.js"></script>
+    <script src="Scripts/angular/angular-route.min.js"></script>
+    <script src="Scripts/angular/angular-animate.min.js"></script>
+    <script src="Scripts/angular-ui/angular-ui.min.js"></script>
+
+    <!-- Rollbar -->
+    <script src="Scripts/ngRollbar/ng-rollbar.min.js"></script>
+
+    <!-- Angular cache buster -->
+    <script src="Scripts/angular-cache-buster/angular-cache-buster.js"></script>
+
+    <!-- ui-bootstrap -->
+    <script src="Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+
+    <!--<script src="Scripts/date-time-picker/datetimepicker.js"></script>-->
+    <!-- <script src="Scripts/tv4/tv4.js"></script> -->
+    <!-- <script src="Scripts/objectpath/ObjectPath.js"></script> -->
+    <script src="Scripts/lodash/lodash.min.js"></script>
+    <script src="Scripts/angular-ui/select2.min.js"></script>
+    <script src="Scripts/sweet-alert/sweet-alert.min.js"></script>
+    <script src="Scripts/angular-toastr/angular-toastr.tpls.min.js"></script>
+    <script src="Scripts/angular-block-ui/angular-block-ui.min.js"></script>
+    <script src="Scripts/angular-base64/angular-base64.min.js"></script>
+    <script src="Scripts/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
+    <!-- <script src="Scripts/checklist-model/checklist-model.js"></script> -->
+    <script src="Scripts/angular-uuid/angular-uuid2.min.js"></script>
+    <!-- <script src="Scripts/ivh-treeview/ivh-treeview.min.js"></script> -->
+    <script src="Scripts/sprintf/sprintf.min.js"></script>
+    <script src="Scripts/sprintf/angular-sprintf.min.js"></script>
+
+    <!-- Moment -->
+    <script src="Scripts/angular-moment/moment.min.js"></script>
+    <script src="Scripts/angular-moment/angular-moment.min.js"></script>
+
+    <!-- angular-file-saver -->
+    <script src="Scripts/file-saver/FileSaver.js"></script>
+    <script src="Scripts/blob/blob.js"></script>
+    <script src="Scripts/angular-file-saver/angular-file-saver.bundle.js"></script>
+
+    <!-- SmartAdmin -->
+    <script src="Scripts/SmartAdmin/SmartNotification.min.js"></script>
+
+    <!-- ngTable -->
+    <script src="Scripts/ngTable@3.0.1/ng-table.min.js"></script>
+
+    <!-- Jarvis widgets -->
+    <script src="Scripts/SmartAdmin/jarvis-widgets/jarvis.widget.min.js"></script>
+
+    <!-- IE issue fix -->
+    <script src="Scripts/SmartAdmin/plugins/msie-fix/jquery.mb.browser.min.js"></script>
+
+    <!-- JS Tools -->
+    <script src="Scripts/JSTools/dataValidator.min.js"></script>
+
+    <!-- ngTagsInput -->
+    <script src="Scripts/ngTagsInput/ng-tags-input.js"></script>
+
+    <!-- ngPrint -->
+    <script src="Scripts/ngPrint/ngPrint.min.js"></script>
+
+    <!-- CORE -->
+    <script src="core/smart-admin-app.js"></script>
+    <script src="core/app.js"></script>
+    <script src="core/constants.js"></script>
+    <script src="core/config.js"></script>
+    <script src="core/run.js"></script>
+    <script src="core/routes.js"></script>
+
+    <!-- User authentication module -->
+    <!--<script src="modules/user-auth/user-auth.module.js"></script>-->
+    <!-- DIRECTIVES -->
+    <!-- <script src="directives/checklist-model/checklist-model.js"></script> -->
+    <script src="directives/abn-tree/abntree.js"></script>
+    <script src="directives/filestyle/filestyle.js"></script>
+    <script src="directives/input-numeric-directive/numeric-directive.js"></script>
+
+    <!-- SERVICES -->
+    <!--<script src="services/data/ChoreosService.js"></script>
+    <script src="services/data/DanceGroupsService.js"></script>
+    <script src="services/data/DanceSelectionsService.js"></script>
+    <script src="services/data/EventsService.js"></script>
+    <script src="services/data/MembersService.js"></script>
+    <script src="services/data/DocumentsService.js"></script>
+    <script src="services/data/LookupsService.js"></script>-->
+    <script src="services/ClientsService.js"></script>
+    <script src="services/RegLicenseReaderService.js"></script>
+    <script src="services/UtilityService.js"></script>
+    <script src="services/PdfService.js"></script>
+    <script src="services/FileGeneratorService.js"></script>
+
+    <!-- Angular JS controllers -->
+    <!-- <script src="pages/not-authorised/NotAuthorisedController.js"></script> -->
+    <!--<script src="pages/login/LoginController.js"></script>-->
+    <script src="pages/NavigationController.js"></script>
+
+    <script src="pages/home/HomeController.js"></script>
+    <script src="pages/clients/ClientsController.js"></script>
+    <script src="pages/clients/client-dialog/ClientDialogController.js"></script>
+    <script src="pages/client-file/ClientFileController.js"></script>
+    <script src="pages/client-file/reg-dialog/RegDialogController.js"></script>
+    <script src="pages/client-file/reg-doc-dialog/RegDocDialogController.js"></script>
+    <script src="pages/client-file/installments-list-dialog/InstallmentsListDialogController.js"></script>
+    <script src="pages/clients/full-client-entry/FullClientEntryController.js"></script>
+    <script src="pages/reports/costs-by-period/CostsByPeriodController.js"></script>
+    <!--<script src="pages/choreographies/ChoreosController.js"></script>
+    <script src="pages/costumes/CostumesController.js"></script>
+    <script src="pages/events/EventsController.js"></script>
+    <script src="pages/outfits/OutfitsController.js"></script>
+    <script src="pages/trainings/TrainingsController.js"></script>
+
+    <script src="pages/members/MembersController.js"></script>
+    <script src="pages/members/member-dialog/MemberDialogController.js"></script>
+    <script src="pages/members/member-file/MemberFileController.js"></script>
+    <script src="pages/members/member-doc-dialog/MemberDocDialogController.js"></script>
+
+    <script src="pages/settings/dance-groups/DanceGroupsController.js"></script>
+    <script src="pages/settings/dance-selections/DanceSelectionsController.js"></script>
+    <script src="pages/settings/locations/LocationsController.js"></script>
+    <script src="pages/settings/lookup-age-categories/LookupAgeCategoriesController.js"></script>
+    <script src="pages/settings/lookup-dance-styles/LookupDanceStylesController.js"></script>
+    <script src="pages/settings/lookup-disciplines/LookupDisciplinesController.js"></script>
+    <script src="pages/settings/lookup-event-types/LookupEventTypesController.js"></script>
+    <script src="pages/settings/payments/PaymentsController.js"></script>
+    <script src="pages/settings/periods/PeriodsController.js"></script>
+    <script src="pages/settings/search-docs/SearchDocsController.js"></script>
+    <script src="pages/settings/search-member-images/SearchMemberImagesController.js"></script>
+    <script src="pages/settings/users/UserInfoController.js"></script>
+    <script src="pages/settings/user-groups/UserGroupsController.js"></script>-->
+    <!-- <script src="pages/common/metadata-dialog/MetadataDialogController.js"></script>
+    <script src="pages/common/fill-metadata-dialog/FillMetadataDialogController.js"></script>
+    <script src="pages/common/checkbox-tree-dialog/CheckboxTreeDialogController.js"></script>
+    <script src="pages/common/table-select-dialog/TableSelectDialogController.js"></script>
+    <script src="pages/common/client-dialogs/company-dialog/ClientCompanyDialogController.js"></script>
+    <script src="pages/common/client-dialogs/person-dialog/ClientPersonDialogController.js"></script>
+    <script src="pages/common/client-dialogs/person-group-dialog/ClientPersonGroupDialogController.js"></script>
+    <script src="pages/common/client-dialogs/client-search-dialog/ClientSearchDialogController.js"></script>
+    <script src="pages/common/file-comments-dialog/FileCommentsDialogController.js"></script>
+    <script src="pages/common/add-file-document-dialog/AddFileDocDialogController.js"></script>
+    <script src="pages/common/update-file-taxes-dialog/UpdateFileTaxesDialogController.js"></script>
+    <script src="pages/common/change-ref-no-dialog/ChangeRefNoDialogController.js"></script>
+    <script src="pages/common/user-org-unit-select-dialog/UserOrgUnitSelectDialogController.js"></script>
+    <script src="pages/common/combo-dialog/ComboDialogController.js"></script>
+    <script src="pages/common/file-redirect-dialog/FileRedirectDialogController.js"></script>
+    <script src="pages/common/attorneyoffice-add-file-document-dialog/AddFileDocDialogController.js"></script>
+    <script src="pages/common/attorneyoffice-change-document-status/DocumentChangeStatusController.js"></script>
+    <script src="pages/common/file-upload-dialog/FileUploadDialogController.js"></script>
+    <script src="pages/common/generate-doc-from-template-dialog/GenerateDocFromTemplateDialogController.js"></script>
+    <script src="pages/common/tags-dialog/TagsDialogController.js"></script> -->
+    <script src="pages/common/text-field-dialog/TextFieldDialogController.js"></script>
+    <script src="pages/common/date-dialog/DateDialogController.js"></script>
+</body>
+
+</html>

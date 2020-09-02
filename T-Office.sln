@@ -13,11 +13,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.RegLicenseReader",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Api", "T-Office.Api\T-Office.Api.csproj", "{D5F61615-E273-4231-9112-696FA2515697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Electron", "T-Office.Electron\T-Office.Electron.csproj", "{6F3DE819-6AEC-4E56-A920-668445C620A2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Test", "T-Office.Test\T-Office.Test.csproj", "{E6771438-1390-4D18-900D-0A4AFA296424}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T-Office.ApiCore", "T-Office.ApiCore\T-Office.ApiCore.csproj", "{A859163B-25BA-4ED5-8BEE-B30EB77DA589}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TOffice.WebApp", "TOffice.WebApp\", "{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52013"
+		Debug.AspNetCompiler.PhysicalPath = "TOffice.WebApp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52013\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52013"
+		Release.AspNetCompiler.PhysicalPath = "TOffice.WebApp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52013\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52013"
+		SlnRelativePath = "TOffice.WebApp\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +65,6 @@ Global
 		{D5F61615-E273-4231-9112-696FA2515697}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5F61615-E273-4231-9112-696FA2515697}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5F61615-E273-4231-9112-696FA2515697}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F3DE819-6AEC-4E56-A920-668445C620A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6771438-1390-4D18-900D-0A4AFA296424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6771438-1390-4D18-900D-0A4AFA296424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6771438-1390-4D18-900D-0A4AFA296424}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,6 +72,10 @@ Global
 		{A859163B-25BA-4ED5-8BEE-B30EB77DA589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A859163B-25BA-4ED5-8BEE-B30EB77DA589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A859163B-25BA-4ED5-8BEE-B30EB77DA589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

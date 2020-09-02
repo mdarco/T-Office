@@ -1,0 +1,29 @@
+﻿<div class="modal-header bg-color-darken" style="color: white;">
+    <h4>Registracija za vozilo {{ vehicle.RegistrationNumber }}</h4>
+</div>
+
+<div class="modal-body">
+    <form class="smart-form" novalidate="novalidate">
+        <section>
+            <label class="control-label">Ukupna suma (*)</label>
+            <label class="input"><input type="text" class="form-control" ng-model="model.TotalAmount" numeric decimals="2" /></label>
+        </section>
+
+        <section>
+            <label class="control-label">Broj rata (*)</label>
+            <label class="input"><input type="text" class="form-control" ng-model="model.NumberOfInstallments" numeric decimals="0" ng-disabled="model.OneTimePayment === true" /></label>
+        </section>
+
+        <section>
+            <label class="checkbox-inline" style="margin-left: 20px;">
+                <input type="checkbox" class="checkbox style-1" ng-change="chkboxOneTimePaymentClicked()" ng-model="model.OneTimePayment" />
+                <span>Jednokratno plaćanje</span>
+            </label>
+        </section>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="save()" class="btn btn-success">Sačuvaj</button>
+    <button ng-click="close()" class="btn btn-primary">Odustani</button>
+</div>

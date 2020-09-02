@@ -1,0 +1,107 @@
+﻿<div class="modal-header bg-color-darken" style="color: white;">
+    <h4>Klijent</h4>
+</div>
+
+<div class="modal-body">
+    <form class="smart-form" novalidate="novalidate">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <fieldset>
+                    <legend>Vlasnik</legend>
+
+                    <section>
+                        <label class="control-label">JMBG/MB</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerPersonalNo" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">PIB</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerPIB" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Ime</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerName" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Prezime/Naziv firme (*)</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerSurnameOrBusinessName" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Adresa</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerAddress" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Telefon</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerPhone" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Email</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.OwnerEmail" /></label>
+                    </section>
+                </fieldset>
+            </div>
+
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <fieldset>
+                    <legend>Korisnik</legend>
+
+                    <section>
+                        <label class="control-label">JMBG/MB</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserPersonalNo" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">PIB</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserPIB" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Ime</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserName" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Prezime/Naziv firme</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserSurnameOrBusinessName" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Adresa</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserAddress" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Telefon</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserPhone" /></label>
+                    </section>
+
+                    <section>
+                        <label class="control-label">Email</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.UserEmail" /></label>
+                    </section>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <fieldset>
+                <legend></legend>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <section>
+                        <label class="control-label">Preporuka</label>
+                        <label class="input"><input type="text" class="form-control input-xs" style="width: 100%;" ng-model="model.RecommendedBy" /></label>
+                    </section>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button ng-click="save()" class="btn btn-success">Sačuvaj</button>
+    <button ng-click="close()" class="btn btn-primary">Odustani</button>
+</div>

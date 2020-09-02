@@ -1,0 +1,111 @@
+﻿<!-- Filter -->
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
+            <div class="panel-heading" style="background-color: #1B1E24;">Pretraživanje</div>
+            <div class="panel-body">
+                <form id="searchForm" role="form" ng-submit="applyFilter()">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">Naziv</label>
+                                <label class="input" style="width: 100%">
+                                    <input type="text" class="form-control" ng-model="filter.ClientName" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label">PIB</label>
+                            <label class="input" style="width: 100%">
+                                <input type="text" class="form-control" ng-model="filter.PIB" />
+                            </label>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label">JMBG</label>
+                            <label class="input" style="width: 100%">
+                                <input type="text" class="form-control" ng-model="filter.JMBG" />
+                            </label>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label">Registarski broj</label>
+                            <label class="input" style="width: 100%">
+                                <input type="text" class="form-control" ng-model="filter.VehicleRegNo" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-sm btn-primary">Pronađi</button>
+                            <button type="button" class="btn btn-sm btn-danger" ng-click="clearFilter()">Obriši filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Clients grid -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary" style="margin-left: 15px; margin-right: 30px;">
+            <div class="panel-heading" style="background-color: #1B1E24;">
+                <span>Klijenti</span>
+                <div class="btn-group pull-right margin-right-5">
+                    <button class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i>&nbsp;&nbsp;Akcije
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href ng-click="addClientManually()">Unos novog klijenta</a></li>
+                        <li><a href ng-click="addClient()">Preuzimanje podataka iz saobraćajne dozvole</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p style="font-variant:small-caps; margin-left: 10px" ng-show="showGrid === false">nema podataka.</p>
+
+                <table ng-table="clientsTableParams" ng-show="showGrid === true" class="table table-condensed table-striped table-hover table-responsive table-bordered">
+                    <tbody>
+                        <tr ng-repeat="client in $data">
+                            <td data-title="'Naziv'" header-class="'text-left'">
+                                <span class="font-xs">VLASNIK:</span> {{ client.FullOwnerName }}<br />
+                                <span class="font-xs" style="color: darkgray;">KORISNIK: {{ client.FullUserName }}</span>
+                            </td>
+                            <td data-title="'JMBG/MB'" header-class="''" style="text-align: center;">
+                                <span>{{ client.OwnerJMBGMB }}</span><br />
+                                <span style="color: darkgray;">{{ client.UserJMBGMB }}</span>
+                            </td>
+                            <td data-title="'Adresa'" header-class="''">
+                                <span>{{ client.OwnerAddress }}</span><br />
+                                <span style="color: darkgray;">{{ client.UserAddress }}</span>
+                            </td>
+                            <td data-title="'Telefon'" header-class="''" style="text-align: center;">
+                                <span>{{ client.OwnerPhone }}</span><br />
+                                <span style="color: darkgray;">{{ client.UserPhone }}</span>
+                            </td>
+                            <td data-title="'Vozila'" header-class="'text-left'">
+                                <div ng-repeat="v in client.Vehicles">
+                                    [{{ v.RegistrationNumber }}] {{ v.Make }} {{ v.Model }}
+                                </div>
+                            </td>
+                            <td data-title="'Preporuka'" header-class="''" style="text-align: center;">{{ client.RecommendedBy }}</td>
+                            <td header-class="''">
+                                <button class="btn btn-danger btn-xs" style="float: right; margin-left: 5px;" ng-click="deleteClient(client)">Obriši</button>
+                                <button class="btn btn-primary btn-xs" style="float: right; margin-left: 5px;" ng-click="openClientDossier(client)">Detalji</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Ukupno klijenata: {{ totalRecords }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

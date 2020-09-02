@@ -19,7 +19,7 @@
             editClient: editClient,
             deleteClient: deleteClient,
 
-            fullClientDataEntry: fullClientDataEntry,
+            // fullClientDataEntry: fullClientDataEntry,
 
             addRegDocData: addRegDocData,
 

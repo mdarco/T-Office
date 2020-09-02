@@ -19,7 +19,6 @@
         'ngTagsInput',
         'ngCacheBuster',
         'purplefox.numeric',
-        'ngPrint',
-        'tandibar/ng-rollbar'
+        'ngPrint'
     ]);
 })();

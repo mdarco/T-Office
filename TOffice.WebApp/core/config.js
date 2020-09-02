@@ -5,7 +5,7 @@
         .module('TOfficeApp')
         .config(configFn);
 
-    configFn.$inject = ['$locationProvider', 'blockUIConfig', 'tagsInputConfigProvider', 'httpRequestInterceptorCacheBusterProvider', 'RollbarProvider'];
+    configFn.$inject = ['$locationProvider', 'blockUIConfig', 'tagsInputConfigProvider', 'httpRequestInterceptorCacheBusterProvider'];
 
     function configFn($locationProvider, blockUIConfig, tagsInputConfigProvider, httpRequestInterceptorCacheBusterProvider, RollbarProvider) {
         $locationProvider.hashPrefix('');
@@ -26,14 +26,5 @@
                 /.*installments-list-dialog.*/
             ], true
         );
-
-        // ngRollbar
-        RollbarProvider.init({
-            accessToken: "3dbcb9f66f60452b9dbff463f0790fae",
-            captureUncaught: true,
-            payload: {
-                environment: 'T-Office Client App'
-            }
-        });
     }
 })();

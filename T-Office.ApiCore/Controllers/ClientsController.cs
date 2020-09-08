@@ -18,56 +18,56 @@ namespace T_Office.ApiCore.Controllers
         [HttpPost]
         public ApiTableResponseModel<ClientModel> GetFilteredClients(ClientFilterModel filter)
         {
-            return DAL.Clients.GetClientsFiltered(filter);
+            return DB.Clients.GetClientsFiltered(filter);
         }
 
         [Route("simple-exist")]
         [HttpPost]
         public RegLicenseDataExistModel SimpleExist(RegistrationDataModel model)
         {
-            return DAL.Clients.SimpleExist(model);
+            return DB.Clients.SimpleExist(model);
         }
 
         [Route("full-client-data-entry")]
         [HttpPost]
         public void FullClientDataEntry(RegistrationDataModel model)
         {
-            DAL.Clients.FullClientEntry(model);
+            DB.Clients.FullClientEntry(model);
         }
 
         [Route("{id}")]
         [HttpGet]
         public ClientModel GetClient(int id)
         {
-            return DAL.Clients.GetClient(id);
+            return DB.Clients.GetClient(id);
         }
 
         [Route("{id}")]
         [HttpPut]
         public void EditClient(int id, ClientModel model)
         {
-            DAL.Clients.EditClient(id, model);
+            DB.Clients.EditClient(id, model);
         }
 
         [Route("full")]
         [HttpPost]
         public void AddClientFull(RegistrationDataModel model)
         {
-            DAL.Clients.AddClientFull(model);
+            DB.Clients.AddClientFull(model);
         }
 
         [Route("")]
         [HttpPost]
         public void AddClient(ClientModel model)
         {
-            DAL.Clients.AddClient(model);
+            DB.Clients.AddClient(model);
         }
 
         [Route("{id}")]
         [HttpDelete]
         public void DeleteClient(int id)
         {
-            DAL.Clients.DeleteClient(id);
+            DB.Clients.DeleteClient(id);
         }
 
         #region Registration and vehicle data
@@ -76,7 +76,7 @@ namespace T_Office.ApiCore.Controllers
         [HttpPost]
         public void AddRegistrationDocumentData(int id, RegistrationDataModel model)
         {
-            DAL.RegistrationDocuments.Add(id, model);
+            DB.RegistrationDocuments.Add(id, model);
         }
 
         #endregion
@@ -87,14 +87,14 @@ namespace T_Office.ApiCore.Controllers
         [HttpGet]
         public List<VehicleDataModel> GetVehicles(int clientID)
         {
-            return DAL.Clients.GetVehicles(clientID);
+            return DB.Clients.GetVehicles(clientID);
         }
 
         [Route("{clientID}/vehicles/full")]
         [HttpPost]
         public void AddVehicleFull(int clientID, RegistrationDataModel model)
         {
-            DAL.Vehicles.AddFromFullModel(clientID, model);
+            DB.Vehicles.AddFromFullModel(clientID, model);
         }
 
         #endregion

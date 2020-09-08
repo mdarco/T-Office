@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.BL", "T-Office.BL\T-Office.BL.csproj", "{77F4AD72-597F-4CF9-B619-878973DD9939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.DAL", "T-Office.DAL\T-Office.DAL.csproj", "{2D71F902-6F61-4E7F-AFE4-FF78549BD6CC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.Models", "T-Office.Models\T-Office.Models.csproj", "{7BC2D9E0-613B-4856-9C20-21A7D1C21315}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T-Office.RegLicenseReader", "T-Office.RegLicenseReader\T-Office.RegLicenseReader.csproj", "{970FF34C-C519-47DB-BDA2-EFFCCC3C7FD1}"
@@ -39,6 +37,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TOffice.WebApp", "TOffice.W
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TOffice.DB", "TOffice.DB\TOffice.DB.csproj", "{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,10 +49,6 @@ Global
 		{77F4AD72-597F-4CF9-B619-878973DD9939}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77F4AD72-597F-4CF9-B619-878973DD9939}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77F4AD72-597F-4CF9-B619-878973DD9939}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D71F902-6F61-4E7F-AFE4-FF78549BD6CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D71F902-6F61-4E7F-AFE4-FF78549BD6CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D71F902-6F61-4E7F-AFE4-FF78549BD6CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D71F902-6F61-4E7F-AFE4-FF78549BD6CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BC2D9E0-613B-4856-9C20-21A7D1C21315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BC2D9E0-613B-4856-9C20-21A7D1C21315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BC2D9E0-613B-4856-9C20-21A7D1C21315}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,6 +72,10 @@ Global
 		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB7EED5E-1BE1-4ADC-95DB-595C4D1F64DB}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

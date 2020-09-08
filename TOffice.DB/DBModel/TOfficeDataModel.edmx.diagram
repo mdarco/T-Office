@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b0da207c5ea74f11879e7b8f1d1fdea2" Name="Diagram1">
+        <EntityTypeShape EntityType="TOfficeModel.ClientRegistrationDocumentData" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.Clients" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.RegistrationDocumentData" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.RegistrationVehicleData" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrationInstallments" Width="1.5" PointX="9.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TOfficeModel.VehicleRegistrations" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="TOfficeModel.FK_ClientRegistrationDocumentData_RegistrationDocumentData" ManuallyRouted="false" />
+        <AssociationConnector Association="TOfficeModel.FK_VehicleRegistrations_ClientRegistrationDocumentData" ManuallyRouted="false" />
+        <AssociationConnector Association="TOfficeModel.FK_RegistrationDocumentData_RegistrationVehicleData" ManuallyRouted="false" />
+        <AssociationConnector Association="TOfficeModel.FK_VehicleRegistrationInstallments_VehicleRegistrations" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

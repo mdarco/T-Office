@@ -15,8 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\T-Office.BL\T-Office.BL.csproj" />
-    <ProjectReference Include="..\T-Office.DAL\T-Office.DAL.csproj" />
     <ProjectReference Include="..\T-Office.Models\T-Office.Models.csproj" />
+    <ProjectReference Include="..\TOffice.DB\TOffice.DB.csproj" />
   </ItemGroup>
 
   <ItemGroup>

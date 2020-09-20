@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using Dapper;
 using TOffice.DB.DBModel;
 
-namespace T_Office.DB
+namespace TOffice.DB
 {
     public static class Clients
     {

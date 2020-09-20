@@ -65,6 +65,10 @@
       <Project>{7bc2d9e0-613b-4856-9c20-21a7d1c21315}</Project>
       <Name>T-Office.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TOffice.DB\TOffice.DB.csproj">
+      <Project>{4c2f0e84-8fd5-4143-856d-2c018eeb48ff}</Project>
+      <Name>TOffice.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

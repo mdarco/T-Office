@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T_Office.DB
+namespace TOffice.DB
 {
     public static class DALHelper
     {

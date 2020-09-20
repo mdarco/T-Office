@@ -8,7 +8,7 @@ using T_Office.Models;
 using System.Configuration;
 using TOffice.DB.DBModel;
 
-namespace T_Office.DB
+namespace TOffice.DB
 {
     public static class Vehicles
     {

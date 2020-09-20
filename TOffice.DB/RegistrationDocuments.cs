@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using T_Office.Models;
 using TOffice.DB.DBModel;
 
-namespace T_Office.DB
+namespace TOffice.DB
 {
     public static class RegistrationDocuments
     {

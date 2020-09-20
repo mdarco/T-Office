@@ -15,7 +15,7 @@ namespace T_Office.Api.Controllers
         [HttpPost]
         public ApiTableResponseModel<ClientModel> GetFilteredClients(ClientFilterModel filter)
         {
-            return DAL.Clients.GetClientsFiltered(filter);
+            return DB.Clients.GetClientsFiltered(filter);
         }
 
         [Route("simple-exist")]

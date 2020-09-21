@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic;
+// using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
@@ -113,7 +113,7 @@ namespace TOffice.DB
                                             .ToList()
                                 }
                             )
-                            .OrderBy(filter.OrderByClause)
+                            .OrderBy(o => o.OwnerName).ThenBy(o => o.UserName).ThenBy(o => o.OwnerSurnameOrBusinessName).ThenBy(o => o.UserSurnameOrBusinessName)
                             .Skip(((int)filter.PageNo - 1) * (int)filter.RecordsPerPage)
                             .Take((int)filter.RecordsPerPage);
 

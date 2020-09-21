@@ -27,7 +27,9 @@ namespace T_Office.ApiCore
             });
 
             services.AddSignalR();
-            services.AddControllers();
+
+            services.AddControllers()
+                    .AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null); // set Pascal-case property serialization
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -39,9 +39,13 @@
                 $scope.filter.DateFrom = UtilityService.convertDateToISODateString($scope.filter.DateFrom_Temp);
             }
 
+            console.log('DateFrom: ' + $scope.filter.DateFrom);
+
             if ($scope.filter.DateTo_Temp) {
                 $scope.filter.DateTo = UtilityService.convertDateToISODateString($scope.filter.DateTo_Temp);
             }
+
+            console.log('DateFrom: ' + $scope.filter.DateTo);
 
             ClientsService.getCostsByPeriod($scope.filter).then(
                 (result) => {

@@ -3,7 +3,7 @@
 
     var app = angular.module('TOfficeApp');
 
-    app.constant('WebApiBaseUrl', 'http://localhost:56426');
+    app.constant('WebApiBaseUrl', 'http://localhost:5000');
 
     app.constant('AppParams', {
         datePickerOptions: {

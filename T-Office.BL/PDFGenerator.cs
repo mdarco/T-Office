@@ -1,13 +1,8 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-
-using System;
-using System.Web;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using T_Office.Models;
 
 namespace T_Office.BL
@@ -17,7 +12,7 @@ namespace T_Office.BL
         public static string MAIN_FONT = "Arial";
         public static string FONT_DIR = "C:\\WINDOWS\\Fonts";
 
-        public static MemoryStream CreateSimplePDF(PdfSimpleDataModel model)
+        public static MemoryStream CreateSimplePDF(PdfSimpleDataModel model, string contentRootPath)
         {
             FontFactory.RegisterDirectory(FONT_DIR);
 
@@ -39,7 +34,8 @@ namespace T_Office.BL
                 pdfDoc.Open();
 
                 // logo
-                string imgPath = HttpContext.Current.Server.MapPath("~\\img") + "\\logo.jpg";
+                // string imgPath = HttpContext.Current.Server.MapPath("~\\img") + "\\logo.jpg";
+                string imgPath = Path.Combine(contentRootPath, "img", "logo.jpg");
                 Image imgLogo = Image.GetInstance(imgPath);
                 imgLogo.ScalePercent(50);
                 pdfDoc.Add(imgLogo);
@@ -79,7 +75,7 @@ namespace T_Office.BL
             return stream;
         }
 
-        public static MemoryStream CreatePDF<T>(IEnumerable<T> tableData, List<string> headerData) where T : class
+        public static MemoryStream CreatePDF<T>(IEnumerable<T> tableData, List<string> headerData, string contentRootPath) where T : class
         {
             MemoryStream stream = new MemoryStream();
 
@@ -96,7 +92,8 @@ namespace T_Office.BL
                 pdfDoc.Open();
 
                 // logo
-                string imgPath = HttpContext.Current.Server.MapPath("~\\img") + "\\logo.png";
+                // string imgPath = HttpContext.Current.Server.MapPath("~\\img") + "\\logo.png";
+                string imgPath = Path.Combine(contentRootPath, "img", "logo.jpg");
                 Image imgLogo = Image.GetInstance(imgPath);
                 imgLogo.ScalePercent(50);
                 pdfDoc.Add(imgLogo);

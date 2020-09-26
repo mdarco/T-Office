@@ -58,7 +58,10 @@
                 },
                 callback: function (dialogResult) {
                     if (dialogResult) {
-                        RegLicenseReaderService.readData().then(
+                        var agentWsConnectionId = sessionStorage.getItem('tofficeAgentCid');
+                        console.log('Agent CID for RegLicenseReader service [ClientFileController]: ' + agentWsConnectionId);
+
+                        RegLicenseReaderService.readData(agentWsConnectionId).then(
                             function (result) {
                                 if (result && result.data) {
                                     var data = JSON.parse(result.data);

@@ -105,6 +105,21 @@
     <div id="main" role="main" ng-view></div>
 
     <!-- SCRIPTS -->
+    <script type="text/javascript">
+        window.onload = function () {
+            console.info('App URL: ' + window.location.href);
+            console.info('App URL query string: ' + window.location.search);
+
+            var queryStringParams = new URLSearchParams(window.location.search);
+            if (queryStringParams.has('cid')) {
+                sessionStorage.setItem('tofficeAgentCid', queryStringParams.get('cid'));
+                console.log('T-Office Agent CID: ' + queryStringParams.get('cid'));
+            } else {
+                console.error('T-Office Agent CID not found. RegLicenseReader will not work!');
+            }
+        }
+    </script>
+
     <script src="Scripts/jquery/jquery-3.2.1.min.js"></script>
     <script src="Scripts/jquery-ui/jquery-ui-1.12.1.min.js"></script>
 

@@ -16,8 +16,8 @@
 
         return service;
 
-        function readData() {
-            var url = WebApiBaseUrl + urlRoot + '/read?nd=' + Date.now();
+        function readData(wsConnectionId) {
+            var url = WebApiBaseUrl + urlRoot + '/read/' + wsConnectionId + '?nd=' + Date.now();
             return $http.get(url);
         }
     }

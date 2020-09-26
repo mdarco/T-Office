@@ -144,7 +144,12 @@
                 openTextFieldDialog(dataField, installment[dataField]).then(
                     function (result) {
                         var editObj = {};
-                        editObj[dataField] = result;
+
+                        if (dataField === 'PaidAmount') {
+                            editObj[dataField] = parseFloat(result);
+                        } else {
+                            editObj[dataField] = result;
+                        }
 
                         ClientsService.editVehicleRegistrationInstallment(context.ClientID, context.VehicleID, context.VehicleRegistrationID, installment.ID, editObj).then(
                             function () {

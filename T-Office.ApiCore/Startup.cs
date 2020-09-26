@@ -29,6 +29,7 @@ namespace T_Office.ApiCore
             services.AddSignalR();
 
             services.AddControllers()
+                    // .AddNewtonsoftJson();
                     .AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null); // set Pascal-case property serialization
         }
 

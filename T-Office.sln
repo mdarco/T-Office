@@ -37,6 +37,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TOffice.WebApp", "TOffice.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TOffice.DB", "TOffice.DB\TOffice.DB.csproj", "{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TOffice.Agent", "TOffice.Agent\TOffice.Agent.csproj", "{66B83D37-BC50-4EA1-8327-F2BF149BF0FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C2F0E84-8FD5-4143-856D-2C018EEB48FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B83D37-BC50-4EA1-8327-F2BF149BF0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B83D37-BC50-4EA1-8327-F2BF149BF0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B83D37-BC50-4EA1-8327-F2BF149BF0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B83D37-BC50-4EA1-8327-F2BF149BF0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

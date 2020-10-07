@@ -18,7 +18,7 @@ function createWindow() {
 
     // and load the index.html of the app
     // win.loadFile('index.html');
-    win.loadURL(
+    let promiseLoadURL = win.loadURL(
         url.format({
             pathname: path.join(__dirname, '/app/dist/index.html'),
             protocol: 'file:',

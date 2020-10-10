@@ -1,1 +1,18 @@
+<mat-grid-list cols="2" rowHeight="50px">
+  <mat-grid-tile [style.background]="tileConfig.titleBackgroundColor">
+    <div>
+      <span style="font-weight: bold;">T-OFFICE</span>
+      <br />
+      <span style="color: gray; font-size: smaller;">STATUS: </span>
+      <span [style.color]="tileConfig.colorStatusConnected" style="font-size: smaller;">CONNECTED</span>
+      <!--<span [style.color]="tileConfig.colorStatusNotConnected" style="font-size: smaller;">NOT CONNECTED</span>-->
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [style.background]="tileConfig.btnGroupBackgroundColor">
+    <button mat-stroked-button>CONNECT</button>
+    &nbsp;&nbsp;&nbsp;
+    <button mat-stroked-button (click)="openApp()">OPEN APP</button>
+  </mat-grid-tile>
+</mat-grid-list>
+
 <router-outlet></router-outlet>

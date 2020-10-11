@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openApp() {
-    // TODO: add wsConnectionId as query string param
-    this.electronService.shell.openExternal('http://www.google.com');
+    const wsConnectionId = sessionStorage.getItem('wsConnectionId');
+    this.electronService.shell.openExternal('http://localhost:52013/index.html?cid=' + wsConnectionId);
   }
 }

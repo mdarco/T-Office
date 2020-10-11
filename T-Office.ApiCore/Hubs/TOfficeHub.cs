@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Connections.Features;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,11 @@ namespace T_Office.ApiCore.Hubs
         public string GetConnectionId()
         {
             return Context.ConnectionId;
+        }
+
+        public void JoinGroupWithConnectionId(string connectionId)
+        {
+            Groups.AddToGroupAsync(connectionId, connectionId);
         }
     }
 }

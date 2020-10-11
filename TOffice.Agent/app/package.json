@@ -26,6 +26,7 @@
     "@angular/router": "~10.0.14",
     "@aspnet/signalr": "^3.0.0-preview6.19307.2",
     "@types/electron": "^1.6.10",
+    "ngx-childprocess": "0.0.6",
     "ngx-electron": "^2.2.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

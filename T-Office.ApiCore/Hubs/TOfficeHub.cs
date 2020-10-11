@@ -9,14 +9,6 @@ namespace T_Office.ApiCore.Hubs
 {
     public class TOfficeHub : Hub
     {
-        public string GetConnectionId()
-        {
-            return Context.ConnectionId;
-        }
-
-        public void JoinGroupWithConnectionId(string connectionId)
-        {
-            Groups.AddToGroupAsync(connectionId, connectionId);
-        }
+        public string GetConnectionId() => Context.ConnectionId;
     }
 }

@@ -17,13 +17,16 @@ namespace T_Office.ApiCore.Controllers
 
         public RegLicenseReaderController(IHubContext<TOfficeHub> hub)
         {
-            this._hub = hub;
+            _hub = hub;
         }
 
-        // TODO: using "wsConnectionId" find the corresponding connected client (Agent)
-        // and issue the smart card reader command
+        // using "wsConnectionId" find the corresponding connected client/group (Agent)
+        // and issue the smart card reader read data command
         [Route("read/{wsConnectionId}")]
         [HttpGet]
-        public string Read() { return string.Empty; }
+        public IActionResult ReadSmartCard(string wsConnectionId) {
+            _hub.Clients.Client(wsConnectionId).SendAsync("readSmartCardData");
+            return Ok();
+        }
     }
 }

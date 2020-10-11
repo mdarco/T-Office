@@ -31,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.startSignalrConnection();
+    this.signalrService.addReadSmartCardDataListener();
   }
 
   ngOnDestroy() {
@@ -55,21 +56,12 @@ export class AppComponent implements OnInit, OnDestroy {
           .then(connectionId => {
             sessionStorage.setItem('wsConnectionId', connectionId);
             console.log('Connection ID: ' + connectionId);
-
-            this.joinGroup(connectionId);
           });
 
         this.handleReconnectEvents();
       })
       .catch(err => {
         console.error('Error while establishing SignalR connection: ' + err);
-      });
-  }
-
-  joinGroup(connectionId) {
-    this.hubConnection.invoke('JoinGroupWithConnectionId', connectionId)
-      .then(() => {
-        console.log('Joined SignalR group.');
       });
   }
 
@@ -92,7 +84,6 @@ export class AppComponent implements OnInit, OnDestroy {
       };
 
       sessionStorage.setItem('wsConnectionId', connectionId);
-      this.joinGroup(connectionId);
     });
 
     this.hubConnection.onclose(err => {

@@ -7,7 +7,9 @@ import * as signalR from '@aspnet/signalr';
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
 
-  constructor() { }
+  public getConnection = () => {
+    return this.hubConnection;
+  };
 
   public startConnection = () => {
     this.hubConnection =  new signalR.HubConnectionBuilder()
@@ -16,39 +18,7 @@ export class SignalrService {
                             .configureLogging(signalR.LogLevel.Information)
                             .build();
 
-    this.hubConnection
-      .start()
-      .then(() => {
-        console.log('SignalR connection established.');
-        console.log('Retrieving connection ID...');
-
-        this.hubConnection.invoke('GetConnectionId')
-          .then(connectionId => {
-            sessionStorage.setItem('wsConnectionId', connectionId);
-            console.log('Connection ID: ' + connectionId);
-
-            this.hubConnection.invoke('JoinGroupWithConnectionId', connectionId)
-              .then(() => {
-                console.log('Joined to SignalR group.');
-              });
-          });
-      })
-      .catch(err => {
-        console.error('Error while establishing SignalR connection: ' + err);
-      });
-
-    this.hubConnection.onreconnecting(error => {
-      // TODO: change status to 'RECONNECTING'
-    });
-
-    this.hubConnection.onreconnected(connectionId => {
-      // TODO: change status to 'CONNECTED' and update 'wsConnectionId' in session storage and rejoin the group on the sever
-      sessionStorage.setItem('wsConnectionId', connectionId);
-    });
-
-    this.hubConnection.onclose(error => {
-      // TODO: change status to 'NOT CONNECTED'
-    });
+    return this.hubConnection.start();
   };
 
   public stopConnection = () => {

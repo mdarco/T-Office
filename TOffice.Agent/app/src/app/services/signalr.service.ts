@@ -28,7 +28,7 @@ export class SignalrService {
 
   public addReadSmartCardDataListener = () => {
     this.hubConnection.on('readSmartCardData', () => {
-      // call RegLicenseReader (from Electron)
+      // call RegLicenseReader.exe (from Electron)
       const result = this.childProcessService.childProcess.execFileSync('c:\\Temp\\RegLicenseReader.exe', null, {});
       const stringResult = new TextDecoder('utf-8').decode(result);
 

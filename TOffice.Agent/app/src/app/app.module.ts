@@ -9,6 +9,8 @@ import { NgxChildProcessModule } from 'ngx-childprocess';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -22,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
     NgxElectronModule,
     NgxChildProcessModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatGridListModule,
     MatButtonModule
   ],

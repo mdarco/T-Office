@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using T_Office.ApiCore.Hubs;
+using T_Office.ApiCore.LiteDB;
+using T_Office.Models;
 
 namespace T_Office.ApiCore.Controllers
 {
@@ -14,10 +16,12 @@ namespace T_Office.ApiCore.Controllers
     public class RegLicenseReaderController : ControllerBase
     {
         private readonly IHubContext<TOfficeHub> _hub;
+        private readonly LiteDBContext _ctx;
 
-        public RegLicenseReaderController(IHubContext<TOfficeHub> hub)
+        public RegLicenseReaderController(IHubContext<TOfficeHub> hub, LiteDBContext ctx)
         {
             _hub = hub;
+            _ctx = ctx;
         }
 
         // using "wsConnectionId" find the corresponding connected client/group (Agent)
@@ -31,10 +35,27 @@ namespace T_Office.ApiCore.Controllers
 
         [Route("response/{wsConnectionId}")]
         [HttpPost]
-        public IActionResult SmartCardReaderResponse(string wsConnectionId, string regLicenseData)
+        public IActionResult InsertSmartCardReaderResponse(string wsConnectionId, SmartCardReaderResponseModel model)
         {
-            // TODO: save smart card reader data to in-memory DB with 'wsConnectionId' as a key
+            // save smart card reader data to in-memory DB with 'wsConnectionId' as a key
             // WebApp will poll it for the result and once it obtains it, it will delete the key and data from the in-memory DB
+            _ctx.InsertSmartCardResponse(model);
+            return Ok();
+        }
+
+        [Route("get/{wsConnectionId}")]
+        [HttpGet]
+        public IActionResult GetSmartCardReaderResponse(string wsConnectionId)
+        {
+            SmartCardReaderResponseModel model = _ctx.GetSmartCardResponse(wsConnectionId);
+            return Ok(model);
+        }
+
+        [Route("delete/{wsConnectionId}")]
+        [HttpDelete]
+        public IActionResult DeleteSmartCardReaderResponse(string wsConnectionId)
+        {
+            _ctx.DeleteSmartCardResponse(wsConnectionId);
             return Ok();
         }
     }

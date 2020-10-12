@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using T_Office.ApiCore.Hubs;
+using T_Office.ApiCore.LiteDB;
 
 namespace T_Office.ApiCore
 {
@@ -25,6 +26,8 @@ namespace T_Office.ApiCore
                         .AllowAnyHeader();
                 });
             });
+
+            services.AddTransient(typeof(LiteDBContext));
 
             services.AddSignalR();
 

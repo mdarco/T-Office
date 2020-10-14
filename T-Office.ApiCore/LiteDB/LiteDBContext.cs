@@ -45,7 +45,7 @@ namespace T_Office.ApiCore.LiteDB
             }
         }
 
-        public void DeleteSmartCardResponse(string wsConnectionId)
+        public bool DeleteSmartCardResponse(string wsConnectionId)
         {
             using (var db = new LiteDatabase(this.DB_FILE_PATH))
             {
@@ -54,8 +54,10 @@ namespace T_Office.ApiCore.LiteDB
                 var result = collection.Query().Where(x => x.WsConnectionId == wsConnectionId).FirstOrDefault();
                 if (result != null)
                 {
-                    collection.Delete(result.Id);
+                    return collection.Delete(result.Id);
                 }
+
+                return false;
             }
         }
     }

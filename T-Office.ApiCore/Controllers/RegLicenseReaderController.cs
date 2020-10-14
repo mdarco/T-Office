@@ -55,8 +55,8 @@ namespace T_Office.ApiCore.Controllers
         [HttpDelete]
         public IActionResult DeleteSmartCardReaderResponse(string wsConnectionId)
         {
-            _ctx.DeleteSmartCardResponse(wsConnectionId);
-            return Ok();
+            bool result = _ctx.DeleteSmartCardResponse(wsConnectionId);
+            return Ok(result);
         }
     }
 }

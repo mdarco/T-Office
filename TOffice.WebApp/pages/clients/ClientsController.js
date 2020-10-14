@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientsController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'toastr'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'PollingService', 'toastr'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, toastr) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, PollingService, toastr) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
@@ -95,63 +95,99 @@
                 },
                 callback: function (result) {
                     if (result) {
+                        // TODO: start loading spinner
+
                         var agentWsConnectionId = sessionStorage.getItem('tofficeAgentCid');
                         console.log('Agent CID for RegLicenseReader service [ClientsController]: ' + agentWsConnectionId);
 
-                        RegLicenseReaderService.readData(agentWsConnectionId).then(
-                            function (result) {
-                                if (result && result.data) {
-                                    var data = JSON.parse(result.data);
-                                    if (data.IsError) {
-                                        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
-                                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                        return;
+                        RegLicenseReaderService.readSmartCardData(agentWsConnectionId).then(
+                            function () {
+                                console.log('Request to read smart card data issued - cid: ' + agentWsConnectionId);
+
+                                // poll the api endpoint for the smart card reader response
+                                var retryCount = 0;
+                                var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentWsConnectionId);
+                                PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
+                                    if (!response.data) {
+                                        console.log('Callback response: ' + JSON.stringify(JSON.decycle(response)));
+
+                                        if (retryCount === 11) {
+                                            PollingService.stop('smartCardReaderResponse');
+                                            console.error('Polling canceled due to retry count.');
+                                        } else {
+                                            retryCount++;
+                                            console.log('Retrying: ' + retryCount);
+                                        }
                                     } else {
-                                        var filters_ownerName = data.Result.PersonalData.ownerName.split(' ');
-                                        filters_ownerName = _.filter(filters_ownerName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3; // eliminates null strings
-                                        });
-
-                                        var filters_ownersSurnameOrBusinessName = data.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
-                                        filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3;
-                                        });
-
-                                        var filters_usersName = data.Result.PersonalData.usersName.split(' ');
-                                        filters_usersName = _.filter(filters_usersName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3;
-                                        });
-
-                                        var filters_usersSurnameOrBusinessName = data.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
-                                        filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
-                                            return item.replace(/\0/g, '').length > 3;
-                                        });
-
-                                        var clientNameFilters = [
-                                            ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
-                                            ...filters_usersName, ...filters_usersSurnameOrBusinessName
-                                        ];
-
-                                        getExistingClients(clientNameFilters).then(
-                                            function (existingClientsArray) {
-                                                var existingClients = [];
-                                                _.each(existingClientsArray, function (item) {
-                                                    existingClients = _.concat(existingClients, item.data.Data || []);
-                                                });
-
-                                                existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
-
-                                                insertClient(data.Result, existingClients || []);
-                                            },
-                                            function (error) {
-                                                insertClient(data.Result, []);
-                                            }
-                                        );
+                                        console.log('Response successful.');
+                                        console.log(response);
+                                        PollingService.stop('smartCardReaderResponse');
+                                        RegLicenseReaderService.deleteSmartCardResponse(agentWsConnectionId)
+                                            .then((isDeleted) => {
+                                                if (isDeleted) {
+                                                    console.log('Smart card response deleted.');
+                                                } else {
+                                                    console.log('Smart card response NOT deleted.');
+                                                }
+                                            })
+                                            .catch(err => {
+                                                console.error('Error deleting smart card response: ' + err.statusText);
+                                            });
                                     }
-                                } else {
-                                    toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                    return;
-                                }
+                                });
+
+                                //if (result && result.data) {
+                                //    var data = JSON.parse(result.data);
+                                //    if (data.IsError) {
+                                //        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                                //        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                //        return;
+                                //    } else {
+                                //        var filters_ownerName = data.Result.PersonalData.ownerName.split(' ');
+                                //        filters_ownerName = _.filter(filters_ownerName, function (item) {
+                                //            return item.replace(/\0/g, '').length > 3; // eliminates null strings
+                                //        });
+
+                                //        var filters_ownersSurnameOrBusinessName = data.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
+                                //        filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
+                                //            return item.replace(/\0/g, '').length > 3;
+                                //        });
+
+                                //        var filters_usersName = data.Result.PersonalData.usersName.split(' ');
+                                //        filters_usersName = _.filter(filters_usersName, function (item) {
+                                //            return item.replace(/\0/g, '').length > 3;
+                                //        });
+
+                                //        var filters_usersSurnameOrBusinessName = data.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
+                                //        filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
+                                //            return item.replace(/\0/g, '').length > 3;
+                                //        });
+
+                                //        var clientNameFilters = [
+                                //            ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
+                                //            ...filters_usersName, ...filters_usersSurnameOrBusinessName
+                                //        ];
+
+                                //        getExistingClients(clientNameFilters).then(
+                                //            function (existingClientsArray) {
+                                //                var existingClients = [];
+                                //                _.each(existingClientsArray, function (item) {
+                                //                    existingClients = _.concat(existingClients, item.data.Data || []);
+                                //                });
+
+                                //                existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
+
+                                //                insertClient(data.Result, existingClients || []);
+                                //            },
+                                //            function (error) {
+                                //                insertClient(data.Result, []);
+                                //            }
+                                //        );
+                                //    }
+                                //} else {
+                                //    toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                //    return;
+                                //}
                             },
                             function (error) {
                                 toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');

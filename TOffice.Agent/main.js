@@ -1,6 +1,7 @@
-﻿const { app, BrowserWindow } = require('electron');
+﻿const { app, BrowserWindow, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
+const macaddress = require('macaddress');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -25,6 +26,13 @@ function createWindow() {
             slashes: true
         })
     );
+
+    //promiseLoadURL.then(() => {
+    //    macaddress.one((err, mac) => {
+    //        console.log('MAC Address: ' + mac);
+    //        win.webContents.send('setAgentId', mac.replaceAll(':', ''));
+    //    });
+    //});
 
     // Open the DevTools.
     win.webContents.openDevTools();
@@ -58,4 +66,11 @@ app.on('activate', () => {
     if (win === null) {
         createWindow()
     }
+});
+
+ipcMain.on('getAgentId', (event, arg) => {
+    macaddress.one((err, mac) => {
+        console.log('MAC Address: ' + mac);
+        win.webContents.send('setAgentId', mac.replaceAll(':', ''));
+    });
 });

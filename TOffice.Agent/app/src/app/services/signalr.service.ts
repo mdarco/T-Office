@@ -34,7 +34,7 @@ export class SignalrService {
       const result = this.childProcessService.childProcess.execFileSync('c:\\Temp\\RegLicenseReader.exe', null, {});
       const stringResult = new TextDecoder('utf-8').decode(result);
 
-      console.info('SMART CARD DATA!');
+      console.info('SMART CARD DATA:');
       console.log(stringResult);
 
       this.hubConnection.invoke('GetConnectionId')

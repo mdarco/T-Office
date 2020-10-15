@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { SignalrService } from './services/signalr.service';
 
+const electron = (<any>window).require('electron');
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -30,12 +32,23 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.handleIpcCommunication();
     this.startSignalrConnection();
     this.signalrService.addReadSmartCardDataListener();
   }
 
   ngOnDestroy() {
     this.signalrService.stopConnection();
+  }
+
+  handleIpcCommunication() {
+    electron.ipcRenderer.on('setAgentId', (event, agentId) => {
+      sessionStorage.setItem('wsAgentId', agentId);
+      console.log('Agent ID: ' + agentId);
+
+      // send {wsAgentId, wsConnectionId} to API's internal persistent storage
+      // so WebApp ca use it
+    });
   }
 
   startSignalrConnection() {
@@ -56,6 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
           .then(connectionId => {
             sessionStorage.setItem('wsConnectionId', connectionId);
             console.log('Connection ID: ' + connectionId);
+            electron.ipcRenderer.send('getAgentId');
           });
 
         this.handleReconnectEvents();
@@ -84,6 +98,9 @@ export class AppComponent implements OnInit, OnDestroy {
       };
 
       sessionStorage.setItem('wsConnectionId', connectionId);
+
+      // send {wsAgentId, wsConnectionId} to API's internal persistent storage
+      // so WebApp ca use it
     });
 
     this.hubConnection.onclose(err => {

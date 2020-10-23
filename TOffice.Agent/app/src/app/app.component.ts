@@ -48,6 +48,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // send {wsAgentId, wsConnectionId} to API's internal persistent storage
       // so WebApp ca use it
+      const agentData = {
+        AgentId: agentId,
+        WsConnectionId: sessionStorage.getItem('wsConnectionId')
+      };
+
+      console.log('Agent data for setAgentId: ' + JSON.stringify(agentData));
+
+      this.signalrService.insertAgentData(agentData);
     });
   }
 
@@ -100,7 +108,15 @@ export class AppComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('wsConnectionId', connectionId);
 
       // send {wsAgentId, wsConnectionId} to API's internal persistent storage
-      // so WebApp ca use it
+      // so WebApp can use it
+      const agentData = {
+        AgentId: sessionStorage.getItem('wsAgentId'),
+        WsConnectionId: connectionId
+      };
+
+      console.log('Agent data for signalR reconnection: ' + JSON.stringify(agentData));
+
+      this.signalrService.insertAgentData(agentData);
     });
 
     this.hubConnection.onclose(err => {

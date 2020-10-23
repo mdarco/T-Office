@@ -27,13 +27,6 @@ function createWindow() {
         })
     );
 
-    //promiseLoadURL.then(() => {
-    //    macaddress.one((err, mac) => {
-    //        console.log('MAC Address: ' + mac);
-    //        win.webContents.send('setAgentId', mac.replaceAll(':', ''));
-    //    });
-    //});
-
     // Open the DevTools.
     win.webContents.openDevTools();
 

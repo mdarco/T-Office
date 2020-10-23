@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentDataModel.cs" />
     <Compile Include="ApiTableResponseModel.cs" />
     <Compile Include="ClientDueModel.cs" />
     <Compile Include="ClientFilterModel.cs" />

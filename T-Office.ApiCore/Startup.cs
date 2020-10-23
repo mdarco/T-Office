@@ -27,7 +27,8 @@ namespace T_Office.ApiCore
                 });
             });
 
-            services.AddTransient<ISmartCardReaderPersistence, LiteDBContext>();
+            services.AddTransient<ISmartCardReaderPersistence, LiteDBSmartCardReaderPersistence>();
+            services.AddTransient<IAgentDataPersistence, LiteDBAgentDataPersistence>();
 
             services.AddSignalR();
 

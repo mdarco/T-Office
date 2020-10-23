@@ -9,12 +9,12 @@ using T_Office.Models;
 
 namespace T_Office.ApiCore.LiteDB
 {
-    public class LiteDBContext : ISmartCardReaderPersistence
+    public class LiteDBSmartCardReaderPersistence : ISmartCardReaderPersistence
     {
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly string DB_FILE_PATH;
 
-        public LiteDBContext(IWebHostEnvironment hostingEnv)
+        public LiteDBSmartCardReaderPersistence(IWebHostEnvironment hostingEnv)
         {
             this._hostingEnv = hostingEnv;
             this.DB_FILE_PATH = string.Format("{0}{1}", this._hostingEnv.ContentRootPath, @"\LiteDB\apistate.db");

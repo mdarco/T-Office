@@ -27,6 +27,13 @@ namespace T_Office.ApiCore.LiteDB
                 // get or create new if it does not exist
                 var collection = db.GetCollection<AgentDataModel>("agents");
 
+                // since AgentId is unique, first delete one if it exists
+                var existing = collection.Query().Where(x => x.AgentId == model.AgentId).FirstOrDefault();
+                if (existing != null)
+                {
+                    collection.Delete(existing.Id);
+                }
+
                 model.Id = ObjectId.NewObjectId();
                 collection.Insert(model);
 

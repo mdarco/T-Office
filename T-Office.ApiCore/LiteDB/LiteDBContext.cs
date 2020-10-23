@@ -9,7 +9,7 @@ using T_Office.Models;
 
 namespace T_Office.ApiCore.LiteDB
 {
-    public class LiteDBContext
+    public class LiteDBContext : ISmartCardReaderPersistence
     {
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly string DB_FILE_PATH;

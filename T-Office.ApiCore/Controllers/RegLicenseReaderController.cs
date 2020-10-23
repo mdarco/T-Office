@@ -16,9 +16,9 @@ namespace T_Office.ApiCore.Controllers
     public class RegLicenseReaderController : ControllerBase
     {
         private readonly IHubContext<TOfficeHub> _hub;
-        private readonly LiteDBContext _ctx;
+        private readonly ISmartCardReaderPersistence _ctx;
 
-        public RegLicenseReaderController(IHubContext<TOfficeHub> hub, LiteDBContext ctx)
+        public RegLicenseReaderController(IHubContext<TOfficeHub> hub, ISmartCardReaderPersistence ctx)
         {
             _hub = hub;
             _ctx = ctx;

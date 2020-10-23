@@ -36,64 +36,65 @@
                 },
                 callback: function (result) {
                     if (result) {
-                        var agentWsConnectionId = sessionStorage.getItem('tofficeAgentCid');
-                        console.log('Agent CID for RegLicenseReader service [FullClientEntryController]: ' + agentWsConnectionId);
+                        var agentId = sessionStorage.getItem('tofficeAgentId');
+                        console.log('Agent ID for RegLicenseReader service [FullClientEntryController]: ' + agentId);
 
-                        RegLicenseReaderService.readData(agentWsConnectionId).then(
-                            function (result) {
-                                if (result && result.data) {
-                                    var data = JSON.parse(result.data);
+                        AgentDataService.get(agentId).then(agentData => {
+                            console.log('Agent WS connection ID for RegLicenseReader service [FullClientEntryController]: ' + agentData.WsConnectionId);
+                            RegLicenseReaderService.readData(agentData.WsConnectionId).then(
+                                function (result) {
+                                    if (result && result.data) {
+                                        var data = JSON.parse(result.data);
 
-                                    //console.log(data);
+                                        if (data.IsError) {
+                                            toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                            return;
+                                        } else {
+                                            eliminateNullStrings(data.Result);
 
-                                    if (data.IsError) {
-                                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                        return;
-                                    } else {
-                                        eliminateNullStrings(data.Result);
-
-                                        var existModel = {
-                                            PersonalData: {
-                                                OwnerPersonalNo: '',
-                                                OwnerName: '',
-                                                OwnerSurnameOrBusinessName: '',
-                                                UserPersonalNo: '',
-                                                UserName: '',
-                                                UserSurnameOrBusinessName: ''
-                                            },
-                                            VehicleData: {
-                                                RegistrationNumber: ''
-                                            }
-                                        };
-                                        ClientsService.simpleExist(existModel).then(
-                                            result => {
-                                                if (result && result.data) {
-                                                    setContext(result.data);
+                                            var existModel = {
+                                                PersonalData: {
+                                                    OwnerPersonalNo: '',
+                                                    OwnerName: '',
+                                                    OwnerSurnameOrBusinessName: '',
+                                                    UserPersonalNo: '',
+                                                    UserName: '',
+                                                    UserSurnameOrBusinessName: ''
+                                                },
+                                                VehicleData: {
+                                                    RegistrationNumber: ''
                                                 }
-                                            },
-                                            error => {
-                                                toastr.error('Došlo je do greške prilikom provere klijenta.');
-                                            }
-                                        );
+                                            };
+                                            ClientsService.simpleExist(existModel).then(
+                                                result => {
+                                                    if (result && result.data) {
+                                                        setContext(result.data);
+                                                    }
+                                                },
+                                                error => {
+                                                    toastr.error('Došlo je do greške prilikom provere klijenta.');
+                                                }
+                                            );
 
-                                        $scope.regLicenceData = data.Result;
-                                        $scope.context.IsDriversLicenceDataPresent = true;
+                                            $scope.regLicenceData = data.Result;
+                                            $scope.context.IsDriversLicenceDataPresent = true;
+                                        }
+                                    } else {
+                                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                        $scope.regLicenceData = {};
+                                        $scope.context.IsDriversLicenceDataPresent = false;
+                                        return;
                                     }
-                                } else {
+                                },
+                                function (error) {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                    toastr.error('[GREŠKA] --> ' + error.statusText);
                                     $scope.regLicenceData = {};
                                     $scope.context.IsDriversLicenceDataPresent = false;
                                     return;
                                 }
-                            },
-                            function (error) {
-                                toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                toastr.error('[GREŠKA] --> ' + error.statusText);
-                                $scope.regLicenceData = {};
-                                $scope.context.IsDriversLicenceDataPresent = false;
-                                return;
-                            }
-                        );
+                            );
+                        });
                     }
                 }
             });

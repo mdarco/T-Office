@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientFileController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'RegLicenseReaderService', 'UtilityService', 'toastr', 'client' /* , 'AuthenticationService' */];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'RegLicenseReaderService', 'UtilityService', 'AgentDataService', 'toastr', 'client' /* , 'AuthenticationService' */];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, RegLicenseReaderService, UtilityService, toastr, client /* , AuthenticationService */) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, RegLicenseReaderService, UtilityService, AgentDataService, toastr, client /* , AuthenticationService */) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
@@ -58,31 +58,34 @@
                 },
                 callback: function (dialogResult) {
                     if (dialogResult) {
-                        var agentWsConnectionId = sessionStorage.getItem('tofficeAgentCid');
-                        console.log('Agent CID for RegLicenseReader service [ClientFileController]: ' + agentWsConnectionId);
+                        var agentId = sessionStorage.getItem('tofficeAgentId');
+                        console.log('Agent ID for RegLicenseReader service [ClientFileController]: ' + agentId);
 
-                        RegLicenseReaderService.readData(agentWsConnectionId).then(
-                            function (result) {
-                                if (result && result.data) {
-                                    var data = JSON.parse(result.data);
-                                    if (data.IsError) {
-                                        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                        AgentDataService.get(agentId).then(agentData => {
+                            console.log('Agent WS connection ID for RegLicenseReader service [ClientFileController]: ' + agentData.WsConnectionId);
+                            RegLicenseReaderService.readData(agentData.WsConnectionId).then(
+                                function (result) {
+                                    if (result && result.data) {
+                                        var data = JSON.parse(result.data);
+                                        if (data.IsError) {
+                                            //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
+                                            toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                            return;
+                                        } else {
+                                            insertVehicle(data);
+                                        }
+                                    } else {
                                         toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                         return;
-                                    } else {
-                                        insertVehicle(data);
                                     }
-                                } else {
+                                },
+                                function (error) {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                    toastr.error('[GREŠKA] --> ' + error.statusText);
                                     return;
                                 }
-                            },
-                            function (error) {
-                                toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                toastr.error('[GREŠKA] --> ' + error.statusText);
-                                return;
-                            }
-                        );
+                            );
+                        });
                     }
                 }
             });

@@ -111,11 +111,11 @@
             console.info('App URL query string: ' + window.location.search);
 
             var queryStringParams = new URLSearchParams(window.location.search);
-            if (queryStringParams.has('cid')) {
-                sessionStorage.setItem('tofficeAgentCid', queryStringParams.get('cid'));
-                console.log('T-Office Agent CID: ' + queryStringParams.get('cid'));
+            if (queryStringParams.has('agentid')) {
+                sessionStorage.setItem('tofficeAgentId', queryStringParams.get('agentid'));
+                console.log('T-Office Agent ID: ' + queryStringParams.get('agentid'));
             } else {
-                console.error('T-Office Agent CID not found. RegLicenseReader will not work!');
+                console.error('T-Office Agent ID not found. RegLicenseReader will not work!');
             }
         }
     </script>
@@ -216,6 +216,7 @@
     <script src="services/PdfService.js"></script>
     <script src="services/FileGeneratorService.js"></script>
     <script src="services/PollingService.js"></script>
+    <script src="services/AgentDataService.js"></script>
 
     <!-- Angular JS controllers -->
     <!-- <script src="pages/not-authorised/NotAuthorisedController.js"></script> -->

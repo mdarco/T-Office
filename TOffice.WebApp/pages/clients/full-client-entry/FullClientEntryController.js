@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('FullClientEntryController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'toastr'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'AgentDataService', 'toastr'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, ClientsService, UtilityService, RegLicenseReaderService, toastr) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, ClientsService, UtilityService, RegLicenseReaderService, AgentDataService, toastr) {
         $scope.context = {
             AlertMessage: '-',
             IsNewClient: false,
@@ -41,7 +41,7 @@
 
                         AgentDataService.get(agentId).then(agentData => {
                             console.log('Agent WS connection ID for RegLicenseReader service [FullClientEntryController]: ' + agentData.WsConnectionId);
-                            RegLicenseReaderService.readData(agentData.WsConnectionId).then(
+                            RegLicenseReaderService.readSmartCardData(agentData.WsConnectionId).then(
                                 function (result) {
                                     if (result && result.data) {
                                         var data = JSON.parse(result.data);

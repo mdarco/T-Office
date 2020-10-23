@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientsController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'PollingService', 'toastr'];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'PollingService', 'AgentDataService', 'toastr'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, PollingService, toastr) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, PollingService, AgentDataService, toastr) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
@@ -101,13 +101,13 @@
                         console.log('Agent ID for RegLicenseReader service [ClientsController]: ' + agentId);
 
                         AgentDataService.get(agentId).then(agentData => {
-                            console.log('Agent WS connection ID for RegLicenseReader service [ClientsController]: ' + agentData.WsConnectionId);
-                            RegLicenseReaderService.readSmartCardData(agentData.WsConnectionId).then(
+                            console.log('Agent data for RegLicenseReader service [ClientsController]: ' + JSON.stringify(JSON.decycle(agentData.data)));
+                            RegLicenseReaderService.readSmartCardData(agentData.data.WsConnectionId).then(
                                 function () {
                                     // poll the api endpoint for the smart card reader response
                                     console.log('Polling started.');
                                     var retryCount = 0;
-                                    var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentWsConnectionId);
+                                    var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentData.data.WsConnectionId);
                                     PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
                                         if (!response.data) {
                                             console.log('Polling callback response: ' + JSON.stringify(JSON.decycle(response)));
@@ -121,9 +121,10 @@
                                             }
                                         } else {
                                             console.log('Polling response successful.');
+                                            console.log('Polling response:');
                                             console.log(response);
                                             PollingService.stop('smartCardReaderResponse');
-                                            RegLicenseReaderService.deleteSmartCardResponse(agentWsConnectionId)
+                                            RegLicenseReaderService.deleteSmartCardResponse(agentData.data.WsConnectionId)
                                                 .then((isDeleted) => {
                                                     if (isDeleted) {
                                                         console.log('Smart card response deleted.');

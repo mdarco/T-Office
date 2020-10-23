@@ -63,7 +63,7 @@
 
                         AgentDataService.get(agentId).then(agentData => {
                             console.log('Agent WS connection ID for RegLicenseReader service [ClientFileController]: ' + agentData.WsConnectionId);
-                            RegLicenseReaderService.readData(agentData.WsConnectionId).then(
+                            RegLicenseReaderService.readSmartCardData(agentData.WsConnectionId).then(
                                 function (result) {
                                     if (result && result.data) {
                                         var data = JSON.parse(result.data);

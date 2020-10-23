@@ -135,7 +135,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openApp() {
-    const wsConnectionId = sessionStorage.getItem('wsConnectionId');
-    this.electronService.shell.openExternal('http://localhost:52013/index.html?cid=' + wsConnectionId);
+    const agentId = sessionStorage.getItem('wsAgentId');
+    this.electronService.shell.openExternal('http://localhost:52013/index.html?agentid=' + agentId);
   }
 }

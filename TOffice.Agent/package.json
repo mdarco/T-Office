@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "toffice.agent",
+  "private": true,
+  "dependencies": {
+    "macaddress": "^0.5.1",
+    "@types/node": "^14.14.2"
+  }
+}

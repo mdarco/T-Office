@@ -104,92 +104,8 @@
                             console.log('Agent data for RegLicenseReader service [ClientsController]: ' + JSON.stringify(JSON.decycle(agentData.data)));
                             RegLicenseReaderService.readSmartCardData(agentData.data.WsConnectionId).then(
                                 function () {
-                                    // poll the api endpoint for the smart card reader response
-                                    console.log('Polling started.');
-                                    var retryCount = 0;
                                     var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentData.data.WsConnectionId);
-                                    PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
-                                        if (!response.data) {
-                                            console.log('Polling callback response: ' + JSON.stringify(JSON.decycle(response)));
-
-                                            if (retryCount === 11) {
-                                                PollingService.stop('smartCardReaderResponse');
-                                                console.error('Polling canceled due to retry count.');
-                                            } else {
-                                                retryCount++;
-                                                console.log('Retrying: ' + retryCount);
-                                            }
-                                        } else {
-                                            console.log('Polling response successful.');
-                                            console.log('Polling response:');
-                                            console.log(response);
-                                            PollingService.stop('smartCardReaderResponse');
-                                            RegLicenseReaderService.deleteSmartCardResponse(agentData.data.WsConnectionId)
-                                                .then((isDeleted) => {
-                                                    if (isDeleted) {
-                                                        console.log('Smart card response deleted.');
-                                                    } else {
-                                                        console.log('Smart card response NOT deleted.');
-                                                    }
-                                                })
-                                                .catch(err => {
-                                                    console.error('Error deleting smart card response: ' + err.statusText);
-                                                });
-                                        }
-                                    });
-
-                                    //if (result && result.data) {
-                                    //    var data = JSON.parse(result.data);
-                                    //    if (data.IsError) {
-                                    //        //toastr.error('[GREŠKA] --> ' + data.ErrorMessage);
-                                    //        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                    //        return;
-                                    //    } else {
-                                    //        var filters_ownerName = data.Result.PersonalData.ownerName.split(' ');
-                                    //        filters_ownerName = _.filter(filters_ownerName, function (item) {
-                                    //            return item.replace(/\0/g, '').length > 3; // eliminates null strings
-                                    //        });
-
-                                    //        var filters_ownersSurnameOrBusinessName = data.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
-                                    //        filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
-                                    //            return item.replace(/\0/g, '').length > 3;
-                                    //        });
-
-                                    //        var filters_usersName = data.Result.PersonalData.usersName.split(' ');
-                                    //        filters_usersName = _.filter(filters_usersName, function (item) {
-                                    //            return item.replace(/\0/g, '').length > 3;
-                                    //        });
-
-                                    //        var filters_usersSurnameOrBusinessName = data.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
-                                    //        filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
-                                    //            return item.replace(/\0/g, '').length > 3;
-                                    //        });
-
-                                    //        var clientNameFilters = [
-                                    //            ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
-                                    //            ...filters_usersName, ...filters_usersSurnameOrBusinessName
-                                    //        ];
-
-                                    //        getExistingClients(clientNameFilters).then(
-                                    //            function (existingClientsArray) {
-                                    //                var existingClients = [];
-                                    //                _.each(existingClientsArray, function (item) {
-                                    //                    existingClients = _.concat(existingClients, item.data.Data || []);
-                                    //                });
-
-                                    //                existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
-
-                                    //                insertClient(data.Result, existingClients || []);
-                                    //            },
-                                    //            function (error) {
-                                    //                insertClient(data.Result, []);
-                                    //            }
-                                    //        );
-                                    //    }
-                                    //} else {
-                                    //    toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                    //    return;
-                                    //}
+                                    handlePolling(responseUrl, agentData.data.WsConnectionId);
                                 },
                                 function (error) {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
@@ -202,6 +118,80 @@
                 }
             });
         };
+
+        function handlePolling(responseUrl, wsConnectionId) {
+            // poll the api endpoint for the smart card reader response
+            console.log('Polling started.');
+
+            var retryCount = 0;
+            PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
+                if (!response.data) {
+                    console.log('Polling callback response: ' + JSON.stringify(JSON.decycle(response)));
+
+                    if (retryCount === 10) {
+                        PollingService.stop('smartCardReaderResponse');
+                        console.error('Polling canceled: retry count limit exceeded.');
+                    } else {
+                        retryCount++;
+                        console.warn('Retrying - count = ' + retryCount);
+                    }
+                } else {
+                    console.log('%cPolling response successful.', 'color: green;');
+                    console.log(response);
+
+                    PollingService.stop('smartCardReaderResponse');
+
+                    RegLicenseReaderService.deleteSmartCardResponse(wsConnectionId)
+                        .then((/* isDeleted */) => {
+                            //if (isDeleted) {
+                            //    console.log('Smart card response deleted.');
+                            //} else {
+                            //    console.log('Smart card response NOT deleted.');
+                            //}
+                        })
+                        .catch(err => {
+                            console.error('Error deleting smart card response: ' + err.statusText);
+                        });
+
+                    // use the smart card reader data
+                    if (response.data.Data) {
+                        const smartCardData = JSON.parse(response.data.Data);
+
+                        if (smartCardData.IsError) {
+                            toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                            toastr.error(smartCardData.ErrorMessage);
+                            return;
+                        } else {
+                            console.log('Trying to insert new client..');
+
+                            const clientNameFilters = getClientNameFilters(smartCardData);
+
+                            getExistingClients(clientNameFilters).then(
+                                function (existingClientsArray) {
+                                    let existingClients = [];
+                                    _.each(existingClientsArray, function (item) {
+                                        existingClients = _.concat(existingClients, item.data.Data || []);
+                                    });
+
+                                    existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
+
+                                    console.log('List of existing clients obtained:');
+                                    console.log(existingClients);
+                                    insertClient(smartCardData.Result, existingClients || []);
+                                },
+                                function (error) {
+                                    console.warn('List of existing clients cannot be obtained - inserting will be checked in the backend.');
+                                    insertClient(smartCardData.Result, []);
+                                }
+                            );
+                        }
+                    } else {
+                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                        return;
+                    }
+                }
+            });
+        }
 
         $scope.deleteClient = function (client) {
             bootbox.confirm({
@@ -227,6 +217,33 @@
                 }
             });
         };
+
+        function getClientNameFilters(smartCardData) {
+            var filters_ownerName = smartCardData.Result.PersonalData.ownerName.split(' ');
+            filters_ownerName = _.filter(filters_ownerName, function (item) {
+                return item.replace(/\0/g, '').length > 3; // eliminates null strings
+            });
+
+            var filters_ownersSurnameOrBusinessName = smartCardData.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
+            filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
+                return item.replace(/\0/g, '').length > 3;
+            });
+
+            var filters_usersName = smartCardData.Result.PersonalData.usersName.split(' ');
+            filters_usersName = _.filter(filters_usersName, function (item) {
+                return item.replace(/\0/g, '').length > 3;
+            });
+
+            var filters_usersSurnameOrBusinessName = smartCardData.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
+            filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
+                return item.replace(/\0/g, '').length > 3;
+            });
+
+            return [
+                ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
+                ...filters_usersName, ...filters_usersSurnameOrBusinessName
+            ];
+        }
 
         function insertClient(data, existingClients) {
             var dialogHtml = `

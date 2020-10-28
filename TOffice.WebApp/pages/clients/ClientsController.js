@@ -108,6 +108,8 @@
                                     handlePolling(responseUrl, agentData.data.WsConnectionId);
                                 },
                                 function (error) {
+                                    console.error('Read smart card data error:');
+                                    console.error(error);
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                     toastr.error('[GREŠKA] --> ' + error.statusText);
                                     return;
@@ -177,11 +179,11 @@
 
                                     console.log('List of existing clients obtained:');
                                     console.log(existingClients);
-                                    insertClient(smartCardData.Result, existingClients || []);
+                                    // insertClient(smartCardData.Result, existingClients || []);
                                 },
                                 function (error) {
                                     console.warn('List of existing clients cannot be obtained - inserting will be checked in the backend.');
-                                    insertClient(smartCardData.Result, []);
+                                    // insertClient(smartCardData.Result, []);
                                 }
                             );
                         }
@@ -192,31 +194,6 @@
                 }
             });
         }
-
-        $scope.deleteClient = function (client) {
-            bootbox.confirm({
-                message: "Klijent i svi njegovi podaci biće obrisani. Da li ste sigurni?",
-                buttons: {
-                    confirm: {
-                        label: 'Da',
-                        className: 'btn-success'
-                    },
-                    cancel: {
-                        label: 'Ne',
-                        className: 'btn-primary'
-                    }
-                },
-                callback: function (result) {
-                    if (result) {
-                        ClientsService.deleteClient(client.ID).then(() => {
-                            $scope.applyFilter();
-                        }).catch(error => {
-                            toastr.error('Došlo je do greške na serveru prilikom brisanja klijenta.');
-                        });
-                    }
-                }
-            });
-        };
 
         function getClientNameFilters(smartCardData) {
             var filters_ownerName = smartCardData.Result.PersonalData.ownerName.split(' ');
@@ -369,6 +346,31 @@
 
             return $q.all(promises);
         }
+
+        $scope.deleteClient = function (client) {
+            bootbox.confirm({
+                message: "Klijent i svi njegovi podaci biće obrisani. Da li ste sigurni?",
+                buttons: {
+                    confirm: {
+                        label: 'Da',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Ne',
+                        className: 'btn-primary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        ClientsService.deleteClient(client.ID).then(() => {
+                            $scope.applyFilter();
+                        }).catch(error => {
+                            toastr.error('Došlo je do greške na serveru prilikom brisanja klijenta.');
+                        });
+                    }
+                }
+            });
+        };
 
         $scope.addClientManually = function () {
             var dialogOpts = {

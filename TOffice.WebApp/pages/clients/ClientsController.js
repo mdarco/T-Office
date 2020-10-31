@@ -105,7 +105,45 @@
                             RegLicenseReaderService.readSmartCardData(agentData.data.WsConnectionId).then(
                                 function () {
                                     var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentData.data.WsConnectionId);
-                                    handlePolling(responseUrl, agentData.data.WsConnectionId);
+                                    startPolling(responseUrl)
+                                        .then(smartCardResponse => {
+                                            console.log('%cPolling response successful.', 'color: green;');
+                                            console.log(smartCardResponse);
+
+                                            RegLicenseReaderService.deleteSmartCardResponse(agentData.data.WsConnectionId)
+                                                .then((/* isDeleted */) => { // isDeleted ? console.log('Smart card response deleted.') : console.log('Smart card response NOT deleted.');
+                                                })
+                                                .catch(err => {
+                                                    console.error('Error deleting smart card response: ' + err.statusText);
+                                                });
+
+                                            // use smart card data to insert new client
+                                            if (smartCardResponse.IsError) {
+                                                toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                                toastr.error(smartCardResponse.ErrorMessage);
+                                                return;
+                                            } else {
+                                                console.log('Trying to insert new client..');
+                                                const smartCardData = JSON.parse(smartCardResponse.data.Data);
+                                                const clientData = smartCardData.Result;
+
+                                                ClientsService.getExistingClients(clientData).then(
+                                                    function (existingClientsArray) {
+                                                        const existingClients = ClientsService.formatExistingClients(existingClientsArray);
+                                                        console.log('List of existing clients obtained:');
+                                                        console.log(existingClients);
+                                                        insertClient(clientData, existingClients || []);
+                                                    },
+                                                    function (error) {
+                                                        console.warn('List of existing clients cannot be obtained - inserting will be checked in the backend.');
+                                                        insertClient(clientData, []);
+                                                    }
+                                                );
+                                            }
+                                        })
+                                        .catch(errorMsg => {
+                                            console.error(errorMsg);
+                                        });
                                 },
                                 function (error) {
                                     console.error('Read smart card data error:');
@@ -121,193 +159,42 @@
             });
         };
 
-        function handlePolling(responseUrl, wsConnectionId) {
+        function startPolling(responseUrl) {
             // poll the api endpoint for the smart card reader response
-            console.log('Polling started.');
+            let promise = new Promise((resolve, reject) => {
+                console.log('Polling started.');
 
-            var retryCount = 0;
-            PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
-                if (!response.data) {
-                    console.log('Polling callback response: ' + JSON.stringify(JSON.decycle(response)));
+                let retryCount = 0;
+                PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
+                    if (!response.data) {
+                        console.log('Polling callback response: ' + JSON.stringify(JSON.decycle(response)));
 
-                    if (retryCount === 10) {
-                        PollingService.stop('smartCardReaderResponse');
-                        console.error('Polling canceled: retry count limit exceeded.');
-                    } else {
-                        retryCount++;
-                        console.warn('Retrying - count = ' + retryCount);
-                    }
-                } else {
-                    console.log('%cPolling response successful.', 'color: green;');
-                    console.log(response);
-
-                    PollingService.stop('smartCardReaderResponse');
-
-                    RegLicenseReaderService.deleteSmartCardResponse(wsConnectionId)
-                        .then((/* isDeleted */) => {
-                            //if (isDeleted) {
-                            //    console.log('Smart card response deleted.');
-                            //} else {
-                            //    console.log('Smart card response NOT deleted.');
-                            //}
-                        })
-                        .catch(err => {
-                            console.error('Error deleting smart card response: ' + err.statusText);
-                        });
-
-                    // use the smart card reader data
-                    if (response.data.Data) {
-                        const smartCardData = JSON.parse(response.data.Data);
-
-                        if (smartCardData.IsError) {
-                            toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                            toastr.error(smartCardData.ErrorMessage);
-                            return;
+                        if (retryCount === 10) {
+                            PollingService.stop('smartCardReaderResponse');
+                            reject('Polling canceled: retry count limit exceeded.');
                         } else {
-                            console.log('Trying to insert new client..');
-
-                            const clientNameFilters = getClientNameFilters(smartCardData);
-
-                            getExistingClients(clientNameFilters).then(
-                                function (existingClientsArray) {
-                                    let existingClients = [];
-                                    _.each(existingClientsArray, function (item) {
-                                        existingClients = _.concat(existingClients, item.data.Data || []);
-                                    });
-
-                                    existingClients = _.uniqBy(existingClients, ['FullOwnerName', 'FullUserName']);
-
-                                    console.log('List of existing clients obtained:');
-                                    console.log(existingClients);
-                                    // insertClient(smartCardData.Result, existingClients || []);
-                                },
-                                function (error) {
-                                    console.warn('List of existing clients cannot be obtained - inserting will be checked in the backend.');
-                                    // insertClient(smartCardData.Result, []);
-                                }
-                            );
+                            retryCount++;
+                            console.warn('Retrying - count = ' + retryCount);
                         }
                     } else {
-                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                        return;
+                        PollingService.stop('smartCardReaderResponse');
+                        resolve(response);
                     }
-                }
-            });
-        }
-
-        function getClientNameFilters(smartCardData) {
-            var filters_ownerName = smartCardData.Result.PersonalData.ownerName.split(' ');
-            filters_ownerName = _.filter(filters_ownerName, function (item) {
-                return item.replace(/\0/g, '').length > 3; // eliminates null strings
+                });
             });
 
-            var filters_ownersSurnameOrBusinessName = smartCardData.Result.PersonalData.ownersSurnameOrBusinessName.split(' ');
-            filters_ownersSurnameOrBusinessName = _.filter(filters_ownersSurnameOrBusinessName, function (item) {
-                return item.replace(/\0/g, '').length > 3;
-            });
-
-            var filters_usersName = smartCardData.Result.PersonalData.usersName.split(' ');
-            filters_usersName = _.filter(filters_usersName, function (item) {
-                return item.replace(/\0/g, '').length > 3;
-            });
-
-            var filters_usersSurnameOrBusinessName = smartCardData.Result.PersonalData.usersSurnameOrBusinessName.split(' ');
-            filters_usersSurnameOrBusinessName = _.filter(filters_usersSurnameOrBusinessName, function (item) {
-                return item.replace(/\0/g, '').length > 3;
-            });
-
-            return [
-                ...filters_ownerName, ...filters_ownersSurnameOrBusinessName,
-                ...filters_usersName, ...filters_usersSurnameOrBusinessName
-            ];
+            return promise;
         }
 
         function insertClient(data, existingClients) {
-            var dialogHtml = `
-                <table class="table table-condensed table-striped">
-                    <tbody>
-                        <tr>
-                            <td style="color: blue;">Vlasnik</td>
-                            <td>${data.PersonalData.ownersName || ''} ${data.PersonalData.ownersSurnameOrBusinessName || ''}, ${data.PersonalData.ownerAddress || ''}</td>
-                        </tr>
-                        <tr>
-                            <td style="color: blue;">Korisnik</td>
-                            <td>${data.PersonalData.usersName || ''} ${data.PersonalData.usersSurnameOrBusinessName || ''}, ${data.PersonalData.usersAddress || ''}</td>
-                        </tr>
-                        <tr>
-                            <td style="color: blue;">Vozilo</td>
-                            <td>${data.VehicleData.vehicleMake || ''} ${data.VehicleData.commercialDescription || ''} (${data.VehicleData.registrationNumberOfVehicle || ''})</td>
-                        </tr>
-                    </tbody>
-                </table>
+            let dialogHtml = ClientsService.createInsertClientDialogHtml(data, existingClients);
+            let model = ClientsService.createInsertClientDataModel(data);
 
-                <br /><br />
+            //console.log('Dialog HTML:');
+            //console.log(dialogHtml);
 
-                <table class="table table-condensed table-striped">
-                    <caption>Postojeći klijenti</caption>
-                    <tbody>
-            `;
-
-            _.each(existingClients, function (existingClient) {
-                dialogHtml += '<tr>';
-                dialogHtml += '<td>Vlasnik: [' + existingClient.OwnerJMBGMB + '] ' + existingClient.FullOwnerName + '(' + existingClient.OwnerAddress + ')<br />';
-                dialogHtml += 'Korisnik: [' + existingClient.UserJMBGMB + '] ' + existingClient.FullUserName + '(' + existingClient.UserAddress + ')</td>';
-                dialogHtml += '<td><a href="#/client-file/' + existingClient.ID + '" class="btn btn-xs btn-primary" onclick="bootbox.hideAll()">Detalji</></td>';
-                dialogHtml += '</tr>';
-            });
-
-            dialogHtml += `
-                    </tbody>
-                </table>
-            `;
-
-            var model = {
-                DocumentData: {
-                    IssuingState: data.DocumentData.stateIssuing.replace(/\0/g, ''),
-                    CompetentAuthority: data.DocumentData.competentAuthority.replace(/\0/g, ''),
-                    IssuingAuthority: data.DocumentData.authorityIssuing.replace(/\0/g, ''),
-                    UnambiguousNumber: data.DocumentData.unambiguousNumber.replace(/\0/g, ''),
-                    IssuingDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.issuingDate.replace(/\0/g, '')),
-                    ExpiryDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.expiryDate.replace(/\0/g, '')),
-                    SerialNumber: data.DocumentData.serialNumber.replace(/\0/g, '')
-                },
-
-                VehicleData: {
-                    RegistrationNumber: data.VehicleData.registrationNumberOfVehicle.replace(/\0/g, ''),
-                    FirstRegistrationDate: UtilityService.convertSerbianDateStringToISODateString(data.VehicleData.dateOfFirstRegistration.replace(/\0/g, '')),
-                    ProductionYear: data.VehicleData.yearOfProduction.replace(/\0/g, ''),
-                    Make: data.VehicleData.vehicleMake.replace(/\0/g, ''),
-                    Model: data.VehicleData.commercialDescription.replace(/\0/g, ''),
-                    Type: data.VehicleData.vehicleType.replace(/\0/g, ''),
-                    EnginePowerKW: data.VehicleData.maximumNetPower.replace(/\0/g, ''),
-                    EngineCapacity: data.VehicleData.engineCapacity.replace(/\0/g, ''),
-                    FuelType: data.VehicleData.typeOfFuel.replace(/\0/g, ''),
-                    PowerWeightRatio: data.VehicleData.powerWeightRatio.replace(/\0/g, ''),
-                    Mass: data.VehicleData.vehicleMass.replace(/\0/g, ''),
-                    MaxPermissibleLadenMass: data.VehicleData.maximumPermissibleLadenMass.replace(/\0/g, ''),
-                    TypeApprovalNumber: data.VehicleData.typeApprovalNumber.replace(/\0/g, ''),
-                    NumberOfSeats: data.VehicleData.numberOfSeats.replace(/\0/g, ''),
-                    NumberOfStandingPlaces: data.VehicleData.numberOfStandingPlaces.replace(/\0/g, ''),
-                    EngineIDNumber: data.VehicleData.engineIDNumber.replace(/\0/g, ''),
-                    VehicleIDNumber: data.VehicleData.vehicleIDNumber.replace(/\0/g, ''),
-                    NumberOfAxles: data.VehicleData.numberOfAxles.replace(/\0/g, ''),
-                    Category: data.VehicleData.vehicleCategory.replace(/\0/g, ''),
-                    Color: data.VehicleData.colourOfVehicle.replace(/\0/g, ''),
-                    RestrictionToChangeOwner: UtilityService.convertSerbianJoinedDateStringToISODateString(data.VehicleData.restrictionToChangeOwner.replace(/\0/g, '')),
-                    Load: data.VehicleData.vehicleLoad.replace(/\0/g, '')
-                },
-
-                PersonalData: {
-                    OwnerPersonalNo: data.PersonalData.ownersPersonalNo.replace(/\0/g, ''),
-                    OwnerName: data.PersonalData.ownerName.replace(/\0/g, ''),
-                    OwnerSurnameOrBusinessName: data.PersonalData.ownersSurnameOrBusinessName.replace(/\0/g, ''),
-                    OwnerAddress: data.PersonalData.ownerAddress.replace(/\0/g, ''),
-                    UserPersonalNo: data.PersonalData.usersPersonalNo.replace(/\0/g, ''),
-                    UserName: data.PersonalData.usersName.replace(/\0/g, ''),
-                    UserSurnameOrBusinessName: data.PersonalData.usersSurnameOrBusinessName.replace(/\0/g, ''),
-                    UserAddress: data.PersonalData.usersAddress.replace(/\0/g, '')
-                }
-            };
+            //console.log('Data model:');
+            //console.log(model);
 
             var dlg = bootbox.dialog({
                 size: 'large',
@@ -336,15 +223,6 @@
                     }
                 }
             });
-        }
-
-        function getExistingClients(filters) {
-            var promises = [];
-            _.each(filters, function (filter) {
-                promises.push(ClientsService.getFiltered({ ClientName: filter }));
-            });
-
-            return $q.all(promises);
         }
 
         $scope.deleteClient = function (client) {

@@ -428,7 +428,7 @@
         }
 
         function resolveDataFieldLabel(dataField) {
-            console.log(dataField);
+            // console.log(dataField);
             switch (dataField) {
                 case 'OwnerPersonalNo':
                 case 'UserPersonalNo':

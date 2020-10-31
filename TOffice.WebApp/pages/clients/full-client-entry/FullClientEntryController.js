@@ -15,11 +15,7 @@
         };
 
         $scope.regLicenceData = {};
-        $scope.model = {
-            VehicleReg: {
-                OneTimePayment: false
-            }
-        };
+        $scope.model = {};
 
         $scope.getDriversLicenceData = function () {
             bootbox.confirm({
@@ -58,38 +54,25 @@
                                                     console.error('Error deleting smart card response: ' + err.statusText);
                                                 });
 
-                                            // use smart card data to insert new client
                                             if (smartCardResponse.IsError) {
                                                 toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                                 toastr.error(smartCardResponse.ErrorMessage);
                                                 blockUI.stop();
                                                 return;
                                             } else {
-                                                console.log('Trying to insert new client..');
                                                 const smartCardData = JSON.parse(smartCardResponse.data.Data);
+
+                                                // used to show reg. license data on screen
                                                 const clientData = smartCardData.Result;
-
                                                 ClientsService.eliminateNullStringsFromClientData(clientData);
+                                                $scope.regLicenceData = clientData;
 
-                                                var existModel = {
-                                                    PersonalData: {
-                                                        OwnerPersonalNo: '',
-                                                        OwnerName: '',
-                                                        OwnerSurnameOrBusinessName: '',
-                                                        UserPersonalNo: '',
-                                                        UserName: '',
-                                                        UserSurnameOrBusinessName: ''
-                                                    },
-                                                    VehicleData: {
-                                                        RegistrationNumber: ''
-                                                    }
-                                                };
+                                                // used to transfer data model to the backend
+                                                const clientDataModel = ClientsService.createInsertClientDataModel(clientData);
+                                                $scope.model = clientDataModel;
 
-                                                ClientsService.simpleExist(existModel).then(
+                                                ClientsService.simpleExist(clientDataModel).then(
                                                     result => {
-                                                        console.log('Simple exist result:');
-                                                        console.log(result);
-
                                                         if (result && result.data) {
                                                             setContext(result.data);
                                                         }
@@ -100,7 +83,6 @@
                                                     }
                                                 );
 
-                                                $scope.regLicenceData = clientData;
                                                 $scope.context.IsDriversLicenceDataPresent = true;
 
                                                 blockUI.stop();

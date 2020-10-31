@@ -48,7 +48,8 @@
             formatExistingClients: formatExistingClients,
             createInsertClientDialogHtml: createInsertClientDialogHtml,
             createInsertClientDataModel: createInsertClientDataModel,
-            eliminateNullStringsFromClientData: eliminateNullStringsFromClientData
+            eliminateNullStringsFromClientData: eliminateNullStringsFromClientData,
+            fixIsoDatesInClientData: fixIsoDatesInClientData
         };
 
         return service;
@@ -248,6 +249,13 @@
             Object.entries(data.VehicleData).forEach((key) => {
                 data.VehicleData[key[0]] = data.VehicleData[key[0]].replace(/\0/g, '');
             });
+        }
+
+        function fixIsoDatesInClientData(data) {
+            data.DocumentData.issuingDate = UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.issuingDate.replace(/\0/g, ''));
+            data.DocumentData.expiryDate = UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.expiryDate.replace(/\0/g, ''));
+            data.VehicleData.dateOfFirstRegistration = UtilityService.convertSerbianDateStringToISODateString(data.VehicleData.dateOfFirstRegistration.replace(/\0/g, ''));
+            data.VehicleData.restrictionToChangeOwner = UtilityService.convertSerbianJoinedDateStringToISODateString(data.VehicleData.restrictionToChangeOwner.replace(/\0/g, ''));
         }
 
         //#endregion

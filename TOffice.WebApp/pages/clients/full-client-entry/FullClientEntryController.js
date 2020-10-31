@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('FullClientEntryController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'AgentDataService', 'toastr'];
+    ctrlFn.$inject = ['$scope', '$location', '$uibModal', '$q', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'AgentDataService', 'PollingService', 'toastr', 'blockUI'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, ClientsService, UtilityService, RegLicenseReaderService, AgentDataService, toastr) {
+    function ctrlFn($scope, $location, $uibModal, $q, ClientsService, UtilityService, RegLicenseReaderService, AgentDataService, PollingService, toastr, blockUI) {
         $scope.context = {
             AlertMessage: '-',
             IsNewClient: false,
@@ -36,55 +36,80 @@
                 },
                 callback: function (result) {
                     if (result) {
+                        blockUI.start();
+
                         var agentId = sessionStorage.getItem('tofficeAgentId');
                         console.log('Agent ID for RegLicenseReader service [FullClientEntryController]: ' + agentId);
 
                         AgentDataService.get(agentId).then(agentData => {
-                            console.log('Agent WS connection ID for RegLicenseReader service [FullClientEntryController]: ' + agentData.WsConnectionId);
-                            RegLicenseReaderService.readSmartCardData(agentData.WsConnectionId).then(
-                                function (result) {
-                                    if (result && result.data) {
-                                        var data = JSON.parse(result.data);
+                            console.log('Agent WS connection ID for RegLicenseReader service [FullClientEntryController]: ' + agentData.data.WsConnectionId);
+                            RegLicenseReaderService.readSmartCardData(agentData.data.WsConnectionId).then(
+                                function () {
+                                    var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentData.data.WsConnectionId);
+                                    PollingService.initPolling('smartCardReader_' + Date.now(), responseUrl)
+                                        .then(smartCardResponse => {
+                                            console.log('%cPolling response successful.', 'color: green;');
+                                            console.log(smartCardResponse);
 
-                                        if (data.IsError) {
-                                            toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                            return;
-                                        } else {
-                                            eliminateNullStrings(data.Result);
+                                            RegLicenseReaderService.deleteSmartCardResponse(agentData.data.WsConnectionId)
+                                                .then((/* isDeleted */) => { // isDeleted ? console.log('Smart card response deleted.') : console.log('Smart card response NOT deleted.');
+                                                })
+                                                .catch(err => {
+                                                    console.error('Error deleting smart card response: ' + err.statusText);
+                                                });
 
-                                            var existModel = {
-                                                PersonalData: {
-                                                    OwnerPersonalNo: '',
-                                                    OwnerName: '',
-                                                    OwnerSurnameOrBusinessName: '',
-                                                    UserPersonalNo: '',
-                                                    UserName: '',
-                                                    UserSurnameOrBusinessName: ''
-                                                },
-                                                VehicleData: {
-                                                    RegistrationNumber: ''
-                                                }
-                                            };
-                                            ClientsService.simpleExist(existModel).then(
-                                                result => {
-                                                    if (result && result.data) {
-                                                        setContext(result.data);
+                                            // use smart card data to insert new client
+                                            if (smartCardResponse.IsError) {
+                                                toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                                toastr.error(smartCardResponse.ErrorMessage);
+                                                blockUI.stop();
+                                                return;
+                                            } else {
+                                                console.log('Trying to insert new client..');
+                                                const smartCardData = JSON.parse(smartCardResponse.data.Data);
+                                                const clientData = smartCardData.Result;
+
+                                                ClientsService.eliminateNullStringsFromClientData(clientData);
+
+                                                var existModel = {
+                                                    PersonalData: {
+                                                        OwnerPersonalNo: '',
+                                                        OwnerName: '',
+                                                        OwnerSurnameOrBusinessName: '',
+                                                        UserPersonalNo: '',
+                                                        UserName: '',
+                                                        UserSurnameOrBusinessName: ''
+                                                    },
+                                                    VehicleData: {
+                                                        RegistrationNumber: ''
                                                     }
-                                                },
-                                                error => {
-                                                    toastr.error('Došlo je do greške prilikom provere klijenta.');
-                                                }
-                                            );
+                                                };
 
-                                            $scope.regLicenceData = data.Result;
-                                            $scope.context.IsDriversLicenceDataPresent = true;
-                                        }
-                                    } else {
-                                        toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
-                                        $scope.regLicenceData = {};
-                                        $scope.context.IsDriversLicenceDataPresent = false;
-                                        return;
-                                    }
+                                                ClientsService.simpleExist(existModel).then(
+                                                    result => {
+                                                        console.log('Simple exist result:');
+                                                        console.log(result);
+
+                                                        if (result && result.data) {
+                                                            setContext(result.data);
+                                                        }
+                                                    },
+                                                    error => {
+                                                        toastr.error('Došlo je do greške prilikom provere klijenta.');
+                                                        console.error(error.statusText);
+                                                    }
+                                                );
+
+                                                $scope.regLicenceData = clientData;
+                                                $scope.context.IsDriversLicenceDataPresent = true;
+
+                                                blockUI.stop();
+                                            }
+                                        })
+                                        .catch(errorMsg => {
+                                            console.error(errorMsg);
+                                            blockUI.stop();
+                                        });
                                 },
                                 function (error) {
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
@@ -227,20 +252,6 @@
         //}
 
         //#endregion
-
-        function eliminateNullStrings(data) {
-            Object.entries(data.DocumentData).forEach((key) => {
-                data.DocumentData[key[0]] = data.DocumentData[key[0]].replace(/\0/g, '');
-            });
-
-            Object.entries(data.PersonalData).forEach((key) => {
-                data.PersonalData[key[0]] = data.PersonalData[key[0]].replace(/\0/g, '');
-            });
-
-            Object.entries(data.VehicleData).forEach((key) => {
-                data.VehicleData[key[0]] = data.VehicleData[key[0]].replace(/\0/g, '');
-            });
-        }
 
         function setContext(contextData) {
             $scope.context.IsNewClient = !contextData.IsExistingOwner && !contextData.IsExistingUser;

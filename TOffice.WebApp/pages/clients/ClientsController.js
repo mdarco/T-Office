@@ -5,9 +5,9 @@
         .module('TOfficeApp')
         .controller('ClientsController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'PollingService', 'AgentDataService', 'toastr'];
+    ctrlFn.$inject = ['$scope', '$location', '$uibModal', '$q', 'NgTableParams', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'PollingService', 'AgentDataService', 'toastr', 'blockUI'];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, PollingService, AgentDataService, toastr) {
+    function ctrlFn($scope, $location, $uibModal, $q, NgTableParams, ClientsService, UtilityService, RegLicenseReaderService, PollingService, AgentDataService, toastr, blockUI) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
@@ -95,7 +95,7 @@
                 },
                 callback: function (result) {
                     if (result) {
-                        // TODO: start loading spinner
+                        blockUI.start();
 
                         var agentId = sessionStorage.getItem('tofficeAgentId');
                         console.log('Agent ID for RegLicenseReader service [ClientsController]: ' + agentId);
@@ -105,7 +105,7 @@
                             RegLicenseReaderService.readSmartCardData(agentData.data.WsConnectionId).then(
                                 function () {
                                     var responseUrl = RegLicenseReaderService.getSmartCardResponseUrl(agentData.data.WsConnectionId);
-                                    startPolling(responseUrl)
+                                    PollingService.initPolling('smartCardReader_' + Date.now(), responseUrl)
                                         .then(smartCardResponse => {
                                             console.log('%cPolling response successful.', 'color: green;');
                                             console.log(smartCardResponse);
@@ -121,6 +121,7 @@
                                             if (smartCardResponse.IsError) {
                                                 toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                                 toastr.error(smartCardResponse.ErrorMessage);
+                                                blockUI.stop();
                                                 return;
                                             } else {
                                                 console.log('Trying to insert new client..');
@@ -132,10 +133,12 @@
                                                         const existingClients = ClientsService.formatExistingClients(existingClientsArray);
                                                         console.log('List of existing clients obtained:');
                                                         console.log(existingClients);
+                                                        blockUI.stop();
                                                         insertClient(clientData, existingClients || []);
                                                     },
                                                     function (error) {
                                                         console.warn('List of existing clients cannot be obtained - inserting will be checked in the backend.');
+                                                        blockUI.stop();
                                                         insertClient(clientData, []);
                                                     }
                                                 );
@@ -143,6 +146,7 @@
                                         })
                                         .catch(errorMsg => {
                                             console.error(errorMsg);
+                                            blockUI.stop();
                                         });
                                 },
                                 function (error) {
@@ -150,6 +154,7 @@
                                     console.error(error);
                                     toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
                                     toastr.error('[GREŠKA] --> ' + error.statusText);
+                                    blockUI.stop();
                                     return;
                                 }
                             );
@@ -158,33 +163,6 @@
                 }
             });
         };
-
-        function startPolling(responseUrl) {
-            // poll the api endpoint for the smart card reader response
-            let promise = new Promise((resolve, reject) => {
-                console.log('Polling started.');
-
-                let retryCount = 0;
-                PollingService.start('smartCardReaderResponse', responseUrl, 2000, response => {
-                    if (!response.data) {
-                        console.log('Polling callback response: ' + JSON.stringify(JSON.decycle(response)));
-
-                        if (retryCount === 10) {
-                            PollingService.stop('smartCardReaderResponse');
-                            reject('Polling canceled: retry count limit exceeded.');
-                        } else {
-                            retryCount++;
-                            console.warn('Retrying - count = ' + retryCount);
-                        }
-                    } else {
-                        PollingService.stop('smartCardReaderResponse');
-                        resolve(response);
-                    }
-                });
-            });
-
-            return promise;
-        }
 
         function insertClient(data, existingClients) {
             let dialogHtml = ClientsService.createInsertClientDialogHtml(data, existingClients);

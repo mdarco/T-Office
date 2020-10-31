@@ -7,7 +7,7 @@
 
     configFn.$inject = ['$locationProvider', 'blockUIConfig', 'tagsInputConfigProvider', 'httpRequestInterceptorCacheBusterProvider'];
 
-    function configFn($locationProvider, blockUIConfig, tagsInputConfigProvider, httpRequestInterceptorCacheBusterProvider, RollbarProvider) {
+    function configFn($locationProvider, blockUIConfig, tagsInputConfigProvider, httpRequestInterceptorCacheBusterProvider) {
         $locationProvider.hashPrefix('');
 
         // angular-block-ui config

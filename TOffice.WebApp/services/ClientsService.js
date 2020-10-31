@@ -47,7 +47,8 @@
             getExistingClients: getExistingClients,
             formatExistingClients: formatExistingClients,
             createInsertClientDialogHtml: createInsertClientDialogHtml,
-            createInsertClientDataModel: createInsertClientDataModel
+            createInsertClientDataModel: createInsertClientDataModel,
+            eliminateNullStringsFromClientData: eliminateNullStringsFromClientData
         };
 
         return service;
@@ -233,6 +234,20 @@
             };
 
             return model;
+        }
+
+        function eliminateNullStringsFromClientData(data) {
+            Object.entries(data.DocumentData).forEach((key) => {
+                data.DocumentData[key[0]] = data.DocumentData[key[0]].replace(/\0/g, '');
+            });
+
+            Object.entries(data.PersonalData).forEach((key) => {
+                data.PersonalData[key[0]] = data.PersonalData[key[0]].replace(/\0/g, '');
+            });
+
+            Object.entries(data.VehicleData).forEach((key) => {
+                data.VehicleData[key[0]] = data.VehicleData[key[0]].replace(/\0/g, '');
+            });
         }
 
         //#endregion

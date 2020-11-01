@@ -9,12 +9,21 @@ using T_Office.Models;
 using System.Data.SqlClient;
 using Dapper;
 using TOffice.DB.DBModel;
+using Serilog;
+using Serilog.Core;
 
 namespace TOffice.DB
 {
     public static class Clients
     {
         private static readonly string connectionString = DALHelper.GetSqlConnectionStringFromEF();
+
+        private static readonly Logger _logger;
+
+        static Clients()
+        {
+            _logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+        }
 
         public static ApiTableResponseModel<ClientModel> GetClientsFiltered(ClientFilterModel filter)
         {
@@ -344,7 +353,11 @@ namespace TOffice.DB
             {
                 if (model != null)
                 {
+                    _logger.Information("Entered TOffice.DB FullClientEntry");
+
                     RegLicenseDataExistModel existModel = SimpleExist(model);
+
+                    _logger.Information("existModel: {@existModel}", existModel);
 
                     int? clientID = null;
                     int? vehicleID = null;
@@ -370,6 +383,8 @@ namespace TOffice.DB
                         }
                     }
 
+                    _logger.Information("clientID: {clientID}", clientID);
+
                     // vehicle (+ registration data)
                     if (!existModel.IsExistingVehicle)
                     {
@@ -379,25 +394,31 @@ namespace TOffice.DB
                     }
                     else
                     {
-                        var existingVehicle =
-                                ctx.RegistrationVehicleData.FirstOrDefault(x =>
-                                    x.RegistrationNumber.Trim() == model.VehicleData.RegistrationNumber.Trim()
-                                );
-
+                        var existingVehicle = ctx.RegistrationVehicleData.FirstOrDefault(x => x.RegistrationNumber.Trim() == model.VehicleData.RegistrationNumber.Trim());
                         if (existingVehicle != null)
                         {
                             vehicleID = existingVehicle.ID;
                         }
 
-                        var existingClientRegDoc = ctx.ClientRegistrationDocumentData.FirstOrDefault(x =>
-                                                        x.ClientID == clientID && x.RegistrationDocumentDataID == regDocID
-                                                   );
+                        var existingRegDoc = ctx.RegistrationDocumentData.FirstOrDefault(x => x.RegistrationVehicleDataID == vehicleID);
+                        if (existingRegDoc != null)
+                        {
+                            regDocID = existingRegDoc.ID;
+                        }
 
+                        var existingClientRegDoc = ctx.ClientRegistrationDocumentData.FirstOrDefault(x => x.ClientID == clientID && x.RegistrationDocumentDataID == regDocID);
                         if (existingClientRegDoc != null)
                         {
                             clientRegDocID = existingClientRegDoc.ID;
                         }
                     }
+
+                    _logger.Information("vehicleID: {vehicleID}", vehicleID);
+                    _logger.Information("regDocID: {regDocID}", regDocID);
+                    _logger.Information("clientRegDocID: {clientRegDocID}", clientRegDocID);
+
+                    _logger.Information("model: {model}", model);
+                    _logger.Information("model.VehicleRegData: {@VehicleRegistrationDat}", model.VehicleRegistrationData);
 
                     // vehicle registration
                     Vehicles.AddRegistration(ctx, clientRegDocID, model.VehicleRegistrationData, false);

@@ -14,8 +14,12 @@
             IsDriversLicenceDataPresent: false
         };
 
+        $scope.contextData = {};
         $scope.regLicenceData = {};
-        $scope.model = {};
+        $scope.model = {
+            OneTimePayment: false,
+            VehicleRegistrationData: {}
+        };
 
         $scope.getDriversLicenceData = function () {
             bootbox.confirm({
@@ -65,15 +69,16 @@
                                                 // used to show reg. license data on screen
                                                 const clientData = smartCardData.Result;
                                                 ClientsService.eliminateNullStringsFromClientData(clientData);
-                                                $scope.regLicenceData = clientData;
+                                                $scope.regLicenceData = Object.assign({}, clientData);
 
                                                 // used to transfer data model to the backend
                                                 const clientDataModel = ClientsService.createInsertClientDataModel(clientData);
-                                                $scope.model = clientDataModel;
+                                                $scope.model = Object.assign({}, $scope.model, clientDataModel);
 
                                                 ClientsService.simpleExist(clientDataModel).then(
                                                     result => {
                                                         if (result && result.data) {
+                                                            $scope.contextData = Object.assign({}, result.data);
                                                             setContext(result.data);
                                                         }
                                                     },
@@ -89,8 +94,9 @@
                                             }
                                         })
                                         .catch(errorMsg => {
-                                            console.error(errorMsg);
                                             blockUI.stop();
+                                            toastr.error('Došlo je do greške prilikom čitanja saobraćajne dozvole.');
+                                            console.error(errorMsg);
                                         });
                                 },
                                 function (error) {
@@ -98,6 +104,7 @@
                                     toastr.error('[GREŠKA] --> ' + error.statusText);
                                     $scope.regLicenceData = {};
                                     $scope.context.IsDriversLicenceDataPresent = false;
+                                    blockUI.stop();
                                     return;
                                 }
                             );
@@ -108,132 +115,47 @@
         };
 
         $scope.chkboxOneTimePaymentClicked = function () {
-            if ($scope.model.VehicleReg.OneTimePayment === true) {
-                $scope.model.VehicleReg.NumberOfInstallments = 1;
+            if ($scope.model.OneTimePayment === true) {
+                $scope.model.VehicleRegistrationData.NumberOfInstallments = 1;
             } else {
-                $scope.model.VehicleReg.NumberOfInstallments = '';
+                $scope.model.VehicleRegistrationData.NumberOfInstallments = '';
             }
         };
 
-        //#region InsertClient
+        $scope.save = function () {
+            const isValidVehicleRegData = validateVehicleRegData();
+            if (!isValidVehicleRegData) {
+                toastr.warning('Podaci o novoj registraciji nisu uneti ili nisu validni.');
+                return;
+            } else {
+                ClientsService.fullClientDataEntry($scope.model).then(
+                    function () {
+                        if ($scope.context.IsNewClient) {
+                            toastr.success('Novi klijent uspešno upisan.');
+                        } else if (!$scope.contextData.IsExistingVehicle) {
+                            toastr.success('Podaci za novo vozilo uspešno upisani.');
+                        } else {
+                            toastr.success('Podaci za vozilo uspešno ažurirani.');
+                        }
+                    },
+                    function (error) {
+                        toastr.error('Došlo je do greške prilikom snimanja podataka.');
+                        toastr.error('[GREŠKA] --> ' + error.statusText);
+                        console.log('Full client entry error:');
+                        console.log(error);
+                        return false;
+                    }
+                );
+            }
+        };
 
-        //function insertClient(data, existingClients) {
-        //    var dialogHtml = `
-        //        <table class="table table-condensed table-striped">
-        //            <tbody>
-        //                <tr>
-        //                    <td style="color: blue;">Vlasnik</td>
-        //                    <td>${data.PersonalData.ownersName || ''} ${data.PersonalData.ownersSurnameOrBusinessName || ''}, ${data.PersonalData.ownerAddress || ''}</td>
-        //                </tr>
-        //                <tr>
-        //                    <td style="color: blue;">Korisnik</td>
-        //                    <td>${data.PersonalData.usersName || ''} ${data.PersonalData.usersSurnameOrBusinessName || ''}, ${data.PersonalData.usersAddress || ''}</td>
-        //                </tr>
-        //                <tr>
-        //                    <td style="color: blue;">Vozilo</td>
-        //                    <td>${data.VehicleData.vehicleMake || ''} ${data.VehicleData.commercialDescription || ''} (${data.VehicleData.registrationNumberOfVehicle || ''})</td>
-        //                </tr>
-        //            </tbody>
-        //        </table>
-
-        //        <br /><br />
-
-        //        <table class="table table-condensed table-striped">
-        //            <caption>Postojeći klijenti</caption>
-        //            <tbody>
-        //    `;
-
-        //    _.each(existingClients, function (existingClient) {
-        //        dialogHtml += '<tr>';
-        //        dialogHtml += '<td>Vlasnik: [' + existingClient.OwnerJMBGMB + '] ' + existingClient.FullOwnerName + '(' + existingClient.OwnerAddress + ')<br />';
-        //        dialogHtml += 'Korisnik: [' + existingClient.UserJMBGMB + '] ' + existingClient.FullUserName + '(' + existingClient.UserAddress + ')</td>';
-        //        dialogHtml += '<td><a href="#/client-file/' + existingClient.ID + '" class="btn btn-xs btn-primary" onclick="bootbox.hideAll()">Detalji</></td>';
-        //        dialogHtml += '</tr>';
-        //    });
-
-        //    dialogHtml += `
-        //            </tbody>
-        //        </table>
-        //    `;
-
-        //    var model = {
-        //        DocumentData: {
-        //            IssuingState: data.DocumentData.stateIssuing.replace(/\0/g, ''),
-        //            CompetentAuthority: data.DocumentData.competentAuthority.replace(/\0/g, ''),
-        //            IssuingAuthority: data.DocumentData.authorityIssuing.replace(/\0/g, ''),
-        //            UnambiguousNumber: data.DocumentData.unambiguousNumber.replace(/\0/g, ''),
-        //            IssuingDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.issuingDate.replace(/\0/g, '')),
-        //            ExpiryDate: UtilityService.convertSerbianDateStringToISODateString(data.DocumentData.expiryDate.replace(/\0/g, '')),
-        //            SerialNumber: data.DocumentData.serialNumber.replace(/\0/g, '')
-        //        },
-
-        //        VehicleData: {
-        //            RegistrationNumber: data.VehicleData.registrationNumberOfVehicle.replace(/\0/g, ''),
-        //            FirstRegistrationDate: UtilityService.convertSerbianDateStringToISODateString(data.VehicleData.dateOfFirstRegistration.replace(/\0/g, '')),
-        //            ProductionYear: data.VehicleData.yearOfProduction.replace(/\0/g, ''),
-        //            Make: data.VehicleData.vehicleMake.replace(/\0/g, ''),
-        //            Model: data.VehicleData.commercialDescription.replace(/\0/g, ''),
-        //            Type: data.VehicleData.vehicleType.replace(/\0/g, ''),
-        //            EnginePowerKW: data.VehicleData.maximumNetPower.replace(/\0/g, ''),
-        //            EngineCapacity: data.VehicleData.engineCapacity.replace(/\0/g, ''),
-        //            FuelType: data.VehicleData.typeOfFuel.replace(/\0/g, ''),
-        //            PowerWeightRatio: data.VehicleData.powerWeightRatio.replace(/\0/g, ''),
-        //            Mass: data.VehicleData.vehicleMass.replace(/\0/g, ''),
-        //            MaxPermissibleLadenMass: data.VehicleData.maximumPermissibleLadenMass.replace(/\0/g, ''),
-        //            TypeApprovalNumber: data.VehicleData.typeApprovalNumber.replace(/\0/g, ''),
-        //            NumberOfSeats: data.VehicleData.numberOfSeats.replace(/\0/g, ''),
-        //            NumberOfStandingPlaces: data.VehicleData.numberOfStandingPlaces.replace(/\0/g, ''),
-        //            EngineIDNumber: data.VehicleData.engineIDNumber.replace(/\0/g, ''),
-        //            VehicleIDNumber: data.VehicleData.vehicleIDNumber.replace(/\0/g, ''),
-        //            NumberOfAxles: data.VehicleData.numberOfAxles.replace(/\0/g, ''),
-        //            Category: data.VehicleData.vehicleCategory.replace(/\0/g, ''),
-        //            Color: data.VehicleData.colourOfVehicle.replace(/\0/g, ''),
-        //            RestrictionToChangeOwner: UtilityService.convertSerbianJoinedDateStringToISODateString(data.VehicleData.restrictionToChangeOwner.replace(/\0/g, '')),
-        //            Load: data.VehicleData.vehicleLoad.replace(/\0/g, '')
-        //        },
-
-        //        PersonalData: {
-        //            OwnerPersonalNo: data.PersonalData.ownersPersonalNo.replace(/\0/g, ''),
-        //            OwnerName: data.PersonalData.ownerName.replace(/\0/g, ''),
-        //            OwnerSurnameOrBusinessName: data.PersonalData.ownersSurnameOrBusinessName.replace(/\0/g, ''),
-        //            OwnerAddress: data.PersonalData.ownerAddress.replace(/\0/g, ''),
-        //            UserPersonalNo: data.PersonalData.usersPersonalNo.replace(/\0/g, ''),
-        //            UserName: data.PersonalData.usersName.replace(/\0/g, ''),
-        //            UserSurnameOrBusinessName: data.PersonalData.usersSurnameOrBusinessName.replace(/\0/g, ''),
-        //            UserAddress: data.PersonalData.usersAddress.replace(/\0/g, '')
-        //        }
-        //    };
-
-        //    var dlg = bootbox.dialog({
-        //        size: 'large',
-        //        title: '<span style="font-weight: bold;">Klijent</span>',
-        //        message: dialogHtml,
-        //        buttons: {
-        //            cancel: {
-        //                label: 'Odustani',
-        //                className: 'btn-primary'
-        //            },
-        //            addClient: {
-        //                label: 'Upiši novog klijenta',
-        //                className: 'btn-success',
-        //                callback: function () {
-        //                    ClientsService.addClientFull(model).then(
-        //                        function () {
-        //                            toastr.success('Novi klijent uspešno upisan.');
-        //                        },
-        //                        function (error) {
-        //                            toastr.error('Došlo je do greške prilikom upisa novog klijenta.');
-        //                            toastr.error('[GREŠKA] --> ' + error.statusText);
-        //                            return false;
-        //                        }
-        //                    );
-        //                }
-        //            }
-        //        }
-        //    });
-        //}
-
-        //#endregion
+        function validateVehicleRegData() {
+            return (
+                (Boolean($scope.model.VehicleRegistrationData.RegistrationDate) && $scope.model.VehicleRegistrationData.RegistrationDate !== '') &&
+                (Boolean($scope.model.VehicleRegistrationData.TotalAmount) && $scope.model.VehicleRegistrationData.TotalAmount !== '' && _.isNumber($scope.model.VehicleRegistrationData.TotalAmount)) &&
+                (Boolean($scope.model.VehicleRegistrationData.NumberOfInstallments) && $scope.model.VehicleRegistrationData.NumberOfInstallments !== '' && _.isInteger($scope.model.VehicleRegistrationData.NumberOfInstallments))
+            );
+        };
 
         function setContext(contextData) {
             $scope.context.IsNewClient = !contextData.IsExistingOwner && !contextData.IsExistingUser;

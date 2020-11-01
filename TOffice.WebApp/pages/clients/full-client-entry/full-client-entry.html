@@ -209,7 +209,7 @@
                         <label class="input" style="width: 30%">
                             <input type="text"
                                    uib-datepicker-popup
-                                   ng-model="model.VehicleReg.RegistrationDate"
+                                   ng-model="model.VehicleRegistrationData.RegistrationDate"
                                    placeholder="yyyy-mm-dd"
                                    class="form-control disabled-input-color"
                                    is-open="datePickers.datePickerOpened_RegistrationDate"
@@ -220,24 +220,24 @@
 
                     <section>
                         <label class="control-label">Ukupna suma (*)</label>
-                        <label class="input"><input type="text" class="form-control" style="width: 30%;" ng-model="model.VehicleReg.Amount" numeric /></label>
+                        <label class="input"><input type="text" class="form-control" style="width: 30%;" ng-model="model.VehicleRegistrationData.TotalAmount" numeric /></label>
                     </section>
 
                     <section>
                         <label class="control-label">Broj rata (*)</label>
-                        <label class="input"><input type="text" class="form-control" style="width: 30%;" ng-model="model.VehicleReg.NumberOfInstallments" numeric decimals="0" ng-disabled="model.VehicleReg.OneTimePayment === true" /></label>
+                        <label class="input"><input type="text" class="form-control" style="width: 30%;" ng-model="model.VehicleRegistrationData.NumberOfInstallments" numeric decimals="0" ng-disabled="model.VehicleRegistrationData.OneTimePayment === true" /></label>
                     </section>
 
                     <section>
                         <label class="checkbox-inline" style="margin-left: 20px;">
-                            <input type="checkbox" class="checkbox style-1" ng-change="chkboxOneTimePaymentClicked()" ng-model="model.VehicleReg.OneTimePayment" />
+                            <input type="checkbox" class="checkbox style-1" ng-change="chkboxOneTimePaymentClicked()" ng-model="model.OneTimePayment" />
                             <span>Jednokratno plaćanje</span>
                         </label>
                     </section>
 
                     <section>
                         <label class="control-label">Preporuka</label>
-                        <label class="input"><input type="text" class="form-control" style="width: 50%;" ng-model="model.RecommendedBy" /></label>
+                        <label class="input"><input type="text" class="form-control" style="width: 50%;" ng-model="model.PersonalData.RecommendedBy" /></label>
                     </section>
 
                     <br />

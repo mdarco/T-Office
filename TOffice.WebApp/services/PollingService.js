@@ -52,7 +52,7 @@
                             reject('Polling canceled: retry count limit exceeded.');
                         } else {
                             _retryCount++;
-                            console.warn('Retrying - count = ' + retryCount);
+                            console.warn('Retrying - count = ' + _retryCount);
                         }
                     } else {
                         stopPolling(name);

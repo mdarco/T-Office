@@ -19,7 +19,7 @@
             editClient: editClient,
             deleteClient: deleteClient,
 
-            // fullClientDataEntry: fullClientDataEntry,
+            fullClientDataEntry: fullClientDataEntry,
 
             addRegDocData: addRegDocData,
 
@@ -89,7 +89,7 @@
             return $http.delete(url);
         }
 
-        function fullClientEntry(model) {
+        function fullClientDataEntry(model) {
             var url = WebApiBaseUrl + urlRoot + '/full-client-data-entry?nd=' + Date.now();
             return $http.post(url, model);
         }

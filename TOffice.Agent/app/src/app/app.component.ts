@@ -119,8 +119,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.signalrService.insertAgentData(agentData);
     });
 
-    this.hubConnection.onclose(err => {
-      console.error('SignalR connection closed reason: ' + err);
+    this.hubConnection.onclose(() => {
+      // console.error('SignalR connection closed reason: ' + err);
+      console.error('SignalR connection closed.');
 
       this.status = {
         connected: false,
@@ -132,6 +133,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   manualSignalrConnect() {
     this.startSignalrConnection();
+    this.signalrService.addReadSmartCardDataListener();
   }
 
   openApp() {

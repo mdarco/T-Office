@@ -664,6 +664,7 @@ namespace TOffice.DB
                 var client = 
                     ctx.Clients
                         .Include("ClientRegistrationDocumentData.VehicleRegistrations.VehicleRegistrationInstallments")
+                        .Include("ClientRegistrationDocumentData.RegistrationDocumentData")
                         .FirstOrDefault(c => c.ID == id);
 
                 if (client != null)
@@ -672,11 +673,14 @@ namespace TOffice.DB
                     {
                         var regDoc = client.ClientRegistrationDocumentData.ElementAt(i);
 
+                        ctx.RegistrationVehicleData.Remove(regDoc.RegistrationDocumentData.RegistrationVehicleData);
+                        ctx.RegistrationDocumentData.Remove(regDoc.RegistrationDocumentData);
+
                         for (int j = regDoc.VehicleRegistrations.Count() - 1; j >= 0; j--)
                         {
                             var reg = regDoc.VehicleRegistrations.ElementAt(j);
 
-                            for (int k = reg.VehicleRegistrationInstallments.Count() -1; k >= 0; k--)
+                            for (int k = reg.VehicleRegistrationInstallments.Count() - 1; k >= 0; k--)
                             {
                                 ctx.VehicleRegistrationInstallments.Remove(reg.VehicleRegistrationInstallments.ElementAt(k));
                             }

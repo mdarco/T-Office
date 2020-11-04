@@ -13,9 +13,14 @@ function createWindow() {
     win = new BrowserWindow({
         width: 800,
         height: 600,
+        icon: path.join(__dirname, '/assets/beetle.png'),
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        center: true,
+        autoHideMenuBar: true,
+        resizable: false,
+        // transparent: true
     });
 
     // and load the index.html of the app
@@ -30,6 +35,15 @@ function createWindow() {
 
     // Open the DevTools.
     win.webContents.openDevTools();
+
+    win.on('minimize', (event) => {
+        event.preventDefault();
+        win.hide();
+    });
+
+    win.on('restore', () => {
+        win.show();
+    });
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -46,7 +60,12 @@ function createTray() {
     if (process.platform === 'win32') {
         tray.on('click', tray.popUpContextMenu);
     }
+
     const menu = Menu.buildFromTemplate([
+        {
+            label: 'Open',
+            click() { win.show(); }
+        },
         {
             label: 'Quit',
             click() { app.quit(); }
@@ -55,6 +74,10 @@ function createTray() {
 
     tray.setToolTip('T-Office');
     tray.setContextMenu(menu);
+
+    tray.on('double-click', () => {
+        win.show();
+    });
 }
 
 // This method will be called when Electron has finished
@@ -73,7 +96,8 @@ app.on('window-all-closed', () => {
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        app.quit()
+        app.isQuitting = true;
+        app.quit();
     }
 });
 
@@ -81,7 +105,7 @@ app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
-        createWindow()
+        createWindow();
     }
 });
 

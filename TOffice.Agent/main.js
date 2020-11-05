@@ -1,4 +1,4 @@
-﻿const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron');
+﻿const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage } = require('electron');
 const url = require('url');
 const path = require('path');
 const macaddress = require('macaddress');
@@ -6,7 +6,7 @@ const macaddress = require('macaddress');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win = null;
-let tray = null;
+// let tray = null;
 
 function createWindow() {
     // Create the browser window
@@ -55,7 +55,10 @@ function createWindow() {
 }
 
 function createTray() {
-    tray = new Tray(path.join(__dirname, '/assets/beetle.png'));
+    const iconPath = path.join(__dirname, '/assets/car.png');
+
+    tray = new Tray(nativeImage.createEmpty());
+    tray.setImage(nativeImage.createFromPath(iconPath));
 
     if (process.platform === 'win32') {
         tray.on('click', tray.popUpContextMenu);
@@ -72,12 +75,13 @@ function createTray() {
         }
     ]);
 
+    //tray.on('double-click', (event) => {
+    //    console.log(event);
+    //    win.show();
+    //});
+
     tray.setToolTip('T-Office');
     tray.setContextMenu(menu);
-
-    tray.on('double-click', () => {
-        win.show();
-    });
 }
 
 // This method will be called when Electron has finished
@@ -85,7 +89,10 @@ function createTray() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
     createWindow();
-    createTray();
+
+    // Disabled for the time being because of the electron tray icon
+    // bug which fires unhandled javascript extension on icon click/double-click
+    // createTray();
 
     // hide dock icon
     // if (app.dock) app.dock.hide();

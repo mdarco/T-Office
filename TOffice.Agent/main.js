@@ -8,12 +8,16 @@ const macaddress = require('macaddress');
 let win = null;
 // let tray = null;
 
+const WINDOW_ICON_PATH = path.join(__dirname, '/assets/beetle.png');
+const APP_PATH = path.join(__dirname, '/app/dist/index.html');
+
 function createWindow() {
     // Create the browser window
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        icon: path.join(__dirname, '/assets/beetle.png'),
+        title: 'T-Office',
+        width: 500,
+        height: 80,
+        icon: WINDOW_ICON_PATH,
         webPreferences: {
             nodeIntegration: true
         },
@@ -27,23 +31,23 @@ function createWindow() {
     // win.loadFile('index.html');
     let promiseLoadURL = win.loadURL(
         url.format({
-            pathname: path.join(__dirname, '/app/dist/index.html'),
+            pathname: APP_PATH,
             protocol: 'file:',
             slashes: true
         })
     );
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
-    win.on('minimize', (event) => {
-        event.preventDefault();
-        win.hide();
-    });
+    //win.on('minimize', (event) => {
+    //    event.preventDefault();
+    //    win.hide();
+    //});
 
-    win.on('restore', () => {
-        win.show();
-    });
+    //win.on('restore', () => {
+    //    win.show();
+    //});
 
     // Emitted when the window is closed.
     win.on('closed', () => {

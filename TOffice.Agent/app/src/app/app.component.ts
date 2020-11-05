@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { SignalrService } from './services/signalr.service';
 
+import { environment } from '../environments/environment';
+
 const electron = (<any>window).require('electron');
 
 @Component({
@@ -25,6 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   hubConnection = null;
+
+  private WEB_APP_URL = environment.webAppUrl;
 
   constructor(
     private signalrService: SignalrService,
@@ -138,6 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   openApp() {
     const agentId = sessionStorage.getItem('wsAgentId');
-    this.electronService.shell.openExternal('http://localhost:52013/index.html?agentid=' + agentId);
+    // this.electronService.shell.openExternal('http://localhost:52013/index.html?agentid=' + agentId);
+    this.electronService.shell.openExternal(`${this.WEB_APP_URL}/index.html?agentid=${agentId}`);
   }
 }

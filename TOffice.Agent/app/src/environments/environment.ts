@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000'
+  apiUrl: 'http://localhost:5000/api',
+  signalrUrl: 'http://localhost:5000/tofficehub',
+  webAppUrl: 'http://localhost:52013/',
+  regLicenseReaderPath: 'c:\\Temp\\RegLicenseReader.exe'
 };
 
 /*

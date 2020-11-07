@@ -8,20 +8,7 @@
     ctrlFn.$inject = ['$scope', '$location', '$uibModal', '$q', 'ClientsService', 'UtilityService', 'RegLicenseReaderService', 'AgentDataService', 'PollingService', 'toastr', 'blockUI'];
 
     function ctrlFn($scope, $location, $uibModal, $q, ClientsService, UtilityService, RegLicenseReaderService, AgentDataService, PollingService, toastr, blockUI) {
-        $scope.context = {
-            AlertMessage: '-',
-            IsNewClient: false,
-            IsDriversLicenceDataPresent: false
-        };
-
-        $scope.contextData = {};
-        $scope.regLicenceData = {};
-        $scope.model = {
-            OneTimePayment: false,
-            VehicleRegistrationData: {
-                RegistrationDateFromPicker: null
-            }
-        };
+        resetPage();
 
         $scope.getDriversLicenceData = function () {
             bootbox.confirm({
@@ -130,17 +117,17 @@
         $scope.save = function () {
             const isValidVehicleRegData = validateVehicleRegData();
             if (!isValidVehicleRegData) {
-                toastr.warning('Podaci o novoj registraciji nisu uneti ili nisu validni.');
+                toastr.warning('Podaci o novoj registraciji nisu uneti ili nisu ispravni.');
                 return;
             } else {
                 // convert reg. date to ISO date string
                 $scope.model.VehicleRegistrationData.RegistrationDate = UtilityService.convertDateToISODateString($scope.model.VehicleRegistrationData.RegistrationDateFromPicker);
 
-                console.log('Adding new registration [model]');
-                console.log($scope.model);
+                // console.log('Adding new registration [model]');
+                // console.log($scope.model);
 
                 ClientsService.fullClientDataEntry($scope.model).then(
-                    function () {
+                    function (response) {
                         if ($scope.context.IsNewClient) {
                             toastr.success('Novi klijent uspešno upisan.');
                         } else if (!$scope.contextData.IsExistingVehicle) {
@@ -148,6 +135,9 @@
                         } else {
                             toastr.success('Podaci za vozilo uspešno ažurirani.');
                         }
+
+                        // response.data == client ID
+                        handleSuccessfulFullClientDataEntryContinuation(response.data);
                     },
                     function (error) {
                         toastr.error('Došlo je do greške prilikom snimanja podataka.');
@@ -189,6 +179,54 @@
             } else {
                 $scope.context.AlertMessage += 'Novo vozilo';
             }
+        }
+
+        function handleSuccessfulFullClientDataEntryContinuation(clientID) {
+            bootbox.confirm({
+                message: "<span style='font-weight: bold; font-size: large;'>Želite li da nastavite unos klijenata?</span>",
+                buttons: {
+                    confirm: {
+                        label: 'Da',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Ne',
+                        className: 'btn-primary'
+                    }
+                },
+                callback: callbackResult => {
+                    if (callbackResult) {
+                        // confirm - Yes
+                        blockUI.start();
+                        setTimeout(() => {
+                            resetPage();
+                            blockUI.stop();
+                        }, 1000);
+                    } else {
+                        // cancel - No
+                        // go to the client details page
+                        blockUI.start();
+                        $location.path('/client-file/' + clientID);
+                    }
+                }
+            });
+        }
+
+        function resetPage() {
+            $scope.context = {
+                AlertMessage: '-',
+                IsNewClient: false,
+                IsDriversLicenceDataPresent: false
+            };
+
+            $scope.contextData = {};
+            $scope.regLicenceData = {};
+            $scope.model = {
+                OneTimePayment: false,
+                VehicleRegistrationData: {
+                    RegistrationDateFromPicker: null
+                }
+            };
         }
 
         // date picker support

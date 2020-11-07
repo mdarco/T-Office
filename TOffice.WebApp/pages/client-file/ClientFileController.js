@@ -5,14 +5,15 @@
         .module('TOfficeApp')
         .controller('ClientFileController', ctrlFn);
 
-    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'RegLicenseReaderService', 'UtilityService', 'AgentDataService', 'toastr', 'client' /* , 'AuthenticationService' */];
+    ctrlFn.$inject = ['$rootScope', '$scope', '$location', '$uibModal', 'ClientsService', 'RegLicenseReaderService', 'UtilityService', 'AgentDataService', 'blockUI', 'toastr', 'client' /* , 'AuthenticationService' */];
 
-    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, RegLicenseReaderService, UtilityService, AgentDataService, toastr, client /* , AuthenticationService */) {
+    function ctrlFn($rootScope, $scope, $location, $uibModal, ClientsService, RegLicenseReaderService, UtilityService, AgentDataService, blockUI, toastr, client /* , AuthenticationService */) {
         // set active menu item
         $("#left-panel nav ul li").removeClass("active");
         $("#menuClients").addClass("active");
 
         //var currentUser = AuthenticationService.getCurrentUser();
+        blockUI.stop();
 
         $scope.client = client;
 

@@ -347,7 +347,7 @@ namespace TOffice.DB
             }
         }
 
-        public static void FullClientEntry(RegistrationDataModel model)
+        public static int FullClientEntry(RegistrationDataModel model)
         {
             using (var ctx = new TOfficeEntities())
             {
@@ -424,6 +424,8 @@ namespace TOffice.DB
                     Vehicles.AddRegistration(ctx, clientRegDocID, model.VehicleRegistrationData, false);
 
                     ctx.SaveChanges();
+
+                    return (int)clientID;
                 }
                 else
                 {

@@ -31,9 +31,9 @@ namespace T_Office.ApiCore.Controllers
 
         [Route("full-client-data-entry")]
         [HttpPost]
-        public void FullClientDataEntry(RegistrationDataModel model)
+        public int FullClientDataEntry(RegistrationDataModel model)
         {
-            Clients.FullClientEntry(model);
+            return Clients.FullClientEntry(model);
         }
 
         [Route("{id}")]

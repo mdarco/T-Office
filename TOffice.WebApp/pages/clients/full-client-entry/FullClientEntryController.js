@@ -73,6 +73,9 @@
                                                 ClientsService.eliminateNullStringsFromClientData(clientData);
                                                 $scope.regLicenceData = Object.assign({}, clientData);
 
+                                                // console.log('Reg. license data');
+                                                // console.log($scope.regLicenceData);
+
                                                 // used to transfer data model to the backend
                                                 const clientDataModel = ClientsService.createInsertClientDataModel(clientData);
                                                 $scope.model = Object.assign({}, $scope.model, clientDataModel);

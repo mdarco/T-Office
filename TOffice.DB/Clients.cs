@@ -614,7 +614,11 @@ namespace TOffice.DB
                         (!string.IsNullOrEmpty(x.UserPersonalNo) && (x.UserPersonalNo.Trim() == model.PersonalData.UserPersonalNo.Trim())) ||
                         (!string.IsNullOrEmpty(x.UserName.Trim() + x.UserSurnameOrBusinessName.Trim()) && (x.UserName.Trim() + x.UserSurnameOrBusinessName.Trim() == model.PersonalData.UserName.Trim() + model.PersonalData.UserSurnameOrBusinessName.Trim()))
                     );
-                result.IsExistingUser = (existingUser != null);
+
+                if ((existingUser != null) || (existingUser == null && string.IsNullOrEmpty(model.PersonalData.UserName) && existingOwner != null))
+                {
+                    result.IsExistingUser = true;
+                }
 
                 var existingVehicle =
                     ctx.RegistrationVehicleData.FirstOrDefault(x =>

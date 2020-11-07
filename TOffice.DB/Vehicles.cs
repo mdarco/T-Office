@@ -7,12 +7,21 @@ using System.Data.Entity;
 using T_Office.Models;
 using System.Configuration;
 using TOffice.DB.DBModel;
+using Serilog;
+using Serilog.Core;
 
 namespace TOffice.DB
 {
     public static class Vehicles
     {
+        private static readonly Logger _logger;
+
         const int FIRST_INSTALLMENT_DUE_PERIOD = 15;
+
+        static Vehicles()
+        {
+            _logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+        }
 
         public static void AddFromFullModel(int clientID, RegistrationDataModel model)
         {
@@ -193,6 +202,9 @@ namespace TOffice.DB
                         firstInstallmentDuePeriod = Int32.Parse(ConfigurationManager.AppSettings["toffice:FirstInstallmentDuePeriod"]);
                     }
                     catch (Exception) {}
+
+                    _logger.Information("Adding new registration [model]: {@model}", model);
+                    _logger.Information("Adding new registration [current date]: {date}", DateTime.Now.Date);
 
                     // add new registration
                     VehicleRegistrations vehicleReg = new VehicleRegistrations()

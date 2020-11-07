@@ -209,11 +209,14 @@
                         <label class="input" style="width: 30%">
                             <input type="text"
                                    uib-datepicker-popup
-                                   ng-model="model.VehicleRegistrationData.RegistrationDate"
+                                   ng-model="model.VehicleRegistrationData.RegistrationDateFromPicker"
                                    placeholder="yyyy-mm-dd"
                                    class="form-control disabled-input-color"
                                    is-open="datePickers.datePickerOpened_RegistrationDate"
-                                   readonly="readonly" />
+                                   readonly="readonly"
+                                   clear-text="Izbriši"
+                                   close-text="Zatvori"
+                                   current-text="Danas" />
                         </label>
                         <button type="button" class="btn btn-sm btn-default form-control" style="background-color: lightskyblue; margin-bottom: 3px; width: 10%;" ng-click="openDatePicker('RegistrationDate', $event)"><i class="fa fa-calendar"></i></button>
                     </section>

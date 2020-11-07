@@ -18,7 +18,9 @@
         $scope.regLicenceData = {};
         $scope.model = {
             OneTimePayment: false,
-            VehicleRegistrationData: {}
+            VehicleRegistrationData: {
+                RegistrationDateFromPicker: null
+            }
         };
 
         $scope.getDriversLicenceData = function () {
@@ -128,6 +130,12 @@
                 toastr.warning('Podaci o novoj registraciji nisu uneti ili nisu validni.');
                 return;
             } else {
+                // convert reg. date to ISO date string
+                $scope.model.VehicleRegistrationData.RegistrationDate = UtilityService.convertDateToISODateString($scope.model.VehicleRegistrationData.RegistrationDateFromPicker);
+
+                console.log('Adding new registration [model]');
+                console.log($scope.model);
+
                 ClientsService.fullClientDataEntry($scope.model).then(
                     function () {
                         if ($scope.context.IsNewClient) {
@@ -151,7 +159,7 @@
 
         function validateVehicleRegData() {
             return (
-                (Boolean($scope.model.VehicleRegistrationData.RegistrationDate) && $scope.model.VehicleRegistrationData.RegistrationDate !== '') &&
+                (Boolean($scope.model.VehicleRegistrationData.RegistrationDateFromPicker) && $scope.model.VehicleRegistrationData.RegistrationDateFromPicker !== '') &&
                 (Boolean($scope.model.VehicleRegistrationData.TotalAmount) && $scope.model.VehicleRegistrationData.TotalAmount !== '' && _.isNumber($scope.model.VehicleRegistrationData.TotalAmount)) &&
                 (Boolean($scope.model.VehicleRegistrationData.NumberOfInstallments) && $scope.model.VehicleRegistrationData.NumberOfInstallments !== '' && _.isInteger($scope.model.VehicleRegistrationData.NumberOfInstallments))
             );

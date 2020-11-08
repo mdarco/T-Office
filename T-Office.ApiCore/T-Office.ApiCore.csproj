@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>T_Office.ApiCore</RootNamespace>
+    <UserSecretsId>ef8b867b-3402-4c9d-8270-0aec2be8f360</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

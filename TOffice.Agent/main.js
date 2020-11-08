@@ -23,7 +23,7 @@ function createWindow() {
         },
         center: true,
         autoHideMenuBar: true,
-        resizable: false,
+        resizable: true,
         // transparent: true
     });
 
@@ -38,7 +38,7 @@ function createWindow() {
     );
 
     // Open the DevTools.
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     //win.on('minimize', (event) => {
     //    event.preventDefault();

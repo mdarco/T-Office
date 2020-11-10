@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Templates\potvrda-placanja.docx" />
+    <Content Include="Templates\potvrda-placanja.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,15 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.IO.Packaging" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="img\logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LiteDB\apistate.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

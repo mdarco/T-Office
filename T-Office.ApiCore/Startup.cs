@@ -45,6 +45,8 @@ namespace T_Office.ApiCore
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             // important: this should go before UseAuthorization() and/or UseEndpoints() methods

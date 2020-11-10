@@ -72,7 +72,10 @@ export class SignalrService {
   public insertAgentData = (agentData) => {
     console.log('SignalR service calling API InsertAgentData with agent data: ' + JSON.stringify(agentData));
     this.hubConnection.invoke('InsertAgentData', agentData)
-      .catch(err => console.error('SignalR service calling API InsertAgentData error: ' + err.statusText));
+      .catch(err => {
+        console.error('SignalR service calling API InsertAgentData error: ');
+        console.error(err);
+      });
   }
 
   public stopConnection = () => {

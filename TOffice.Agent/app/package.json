@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:electron": "npm run clean && ng build --base-href ./ && electron ."
+    "start:electron": "npm run clean && ng build --base-href ./ && electron .",
+    "start:electron:prod": "npm run clean && ng build --base-href ./ --prod=true && electron ."
   },
   "private": true,
   "dependencies": {

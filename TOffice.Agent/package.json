@@ -1,7 +1,15 @@
 {
   "name": "toffice-agent",
+  "productName": "toffice-agent",
   "version": "1.0.0",
+  "description": "TOffice Agent",
   "main": "app/main.js",
+  "author": {
+    "name": "Darko Milutinovic",
+    "email": "dmilutinovic@gmail.com"
+  },
+  "keywords": [],
+  "license": "",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",

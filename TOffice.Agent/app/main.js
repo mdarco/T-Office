@@ -1,4 +1,4 @@
-﻿const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, nativeImage } = require('electron');
 const url = require('url');
 const path = require('path');
 const macaddress = require('macaddress');
@@ -9,7 +9,7 @@ let win = null;
 // let tray = null;
 
 const WINDOW_ICON_PATH = path.join(__dirname, '/assets/beetle.png');
-const APP_PATH = path.join(__dirname, '/app/dist/index.html');
+const APP_PATH = path.join(__dirname, '/dist/index.html');
 
 function createWindow() {
     // Create the browser window
@@ -87,6 +87,8 @@ function createTray() {
     tray.setToolTip('T-Office');
     tray.setContextMenu(menu);
 }
+
+if (require('electron-squirrel-startup')) return;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

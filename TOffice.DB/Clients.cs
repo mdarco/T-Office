@@ -413,10 +413,7 @@ namespace TOffice.DB
                         }
                     }
 
-                    _logger.Information("vehicleID: {vehicleID}", vehicleID);
-                    _logger.Information("regDocID: {regDocID}", regDocID);
-                    _logger.Information("clientRegDocID: {clientRegDocID}", clientRegDocID);
-
+                    _logger.Information("Before ctx.SaveChanges()");
                     _logger.Information("model: {model}", model);
                     _logger.Information("model.VehicleRegData: {@VehicleRegistrationDat}", model.VehicleRegistrationData);
 
@@ -424,6 +421,26 @@ namespace TOffice.DB
                     Vehicles.AddRegistration(ctx, clientRegDocID, model.VehicleRegistrationData, false);
 
                     ctx.SaveChanges();
+
+                    if (clientID == 0)
+                    {
+                        var insertedOwner =
+                            ctx.Clients.FirstOrDefault(x =>
+                                (!string.IsNullOrEmpty(x.OwnerPersonalNo) && (x.OwnerPersonalNo.Trim() == model.PersonalData.OwnerPersonalNo.Trim())) ||
+                                (!string.IsNullOrEmpty(x.OwnerName.Trim() + x.OwnerSurnameOrBusinessName.Trim()) && (x.OwnerName.Trim() + x.OwnerSurnameOrBusinessName.Trim() == model.PersonalData.OwnerName.Trim() + model.PersonalData.OwnerSurnameOrBusinessName.Trim()))
+                            );
+
+                        if (insertedOwner != null)
+                        {
+                            clientID = insertedOwner.ID;
+                        }
+                    }
+
+                    _logger.Information("After ctx.SaveChanges()");
+                    _logger.Information("clientID: {clientID}", clientID);
+                    _logger.Information("vehicleID: {vehicleID}", vehicleID);
+                    _logger.Information("regDocID: {regDocID}", regDocID);
+                    _logger.Information("clientRegDocID: {clientRegDocID}", clientRegDocID);
 
                     return (int)clientID;
                 }

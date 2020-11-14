@@ -1,7 +1,7 @@
 {
   "name": "agent-app",
   "version": "1.0.0",
-  "main": "../main.js",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "clean": "rimraf dist",
@@ -41,7 +41,7 @@
     "@angular/compiler-cli": "~10.0.14",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.12.62",
+    "@types/node": "^12.19.4",
     "codelyzer": "^6.0.0",
     "electron": "^10.1.3",
     "jasmine-core": "~3.5.0",

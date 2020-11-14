@@ -201,6 +201,7 @@
                         setTimeout(() => {
                             resetPage();
                             blockUI.stop();
+                            $scope.$apply();
                         }, 1000);
                     } else {
                         // cancel - No

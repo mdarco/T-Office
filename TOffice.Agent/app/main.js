@@ -38,7 +38,7 @@ function createWindow() {
     );
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     //win.on('minimize', (event) => {
     //    event.preventDefault();
@@ -58,35 +58,35 @@ function createWindow() {
     });
 }
 
-function createTray() {
-    const iconPath = path.join(__dirname, '/assets/car.png');
-
-    tray = new Tray(nativeImage.createEmpty());
-    tray.setImage(nativeImage.createFromPath(iconPath));
-
-    if (process.platform === 'win32') {
-        tray.on('click', tray.popUpContextMenu);
-    }
-
-    const menu = Menu.buildFromTemplate([
-        {
-            label: 'Open',
-            click() { win.show(); }
-        },
-        {
-            label: 'Quit',
-            click() { app.quit(); }
-        }
-    ]);
-
-    //tray.on('double-click', (event) => {
-    //    console.log(event);
-    //    win.show();
-    //});
-
-    tray.setToolTip('T-Office');
-    tray.setContextMenu(menu);
-}
+// function createTray() {
+//     const iconPath = path.join(__dirname, '/assets/car.png');
+//
+//     tray = new Tray(nativeImage.createEmpty());
+//     tray.setImage(nativeImage.createFromPath(iconPath));
+//
+//     if (process.platform === 'win32') {
+//         tray.on('click', tray.popUpContextMenu);
+//     }
+//
+//     const menu = Menu.buildFromTemplate([
+//         {
+//             label: 'Open',
+//             click() { win.show(); }
+//         },
+//         {
+//             label: 'Quit',
+//             click() { app.quit(); }
+//         }
+//     ]);
+//
+//     //tray.on('double-click', (event) => {
+//     //    console.log(event);
+//     //    win.show();
+//     //});
+//
+//     tray.setToolTip('T-Office');
+//     tray.setContextMenu(menu);
+// }
 
 if (require('electron-squirrel-startup')) return;
 

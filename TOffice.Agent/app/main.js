@@ -16,7 +16,7 @@ function createWindow() {
     win = new BrowserWindow({
         title: 'T-Office',
         width: 500,
-        height: 80,
+        height: 85,
         icon: WINDOW_ICON_PATH,
         webPreferences: {
             nodeIntegration: true

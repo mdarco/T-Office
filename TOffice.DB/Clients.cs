@@ -687,7 +687,7 @@ namespace TOffice.DB
                 var client = 
                     ctx.Clients
                         .Include("ClientRegistrationDocumentData.VehicleRegistrations.VehicleRegistrationInstallments")
-                        .Include("ClientRegistrationDocumentData.RegistrationDocumentData")
+                        .Include("ClientRegistrationDocumentData.RegistrationDocumentData.RegistrationVehicleData")
                         .FirstOrDefault(c => c.ID == id);
 
                 if (client != null)

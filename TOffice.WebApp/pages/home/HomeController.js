@@ -115,6 +115,14 @@
 
             PdfService.createSimplePdf(model).then(
                 (response) => {
+                    console.log('Simple PDF generation response:');
+                    console.log(response);
+
+                    if (response.data.byteLength === 0) {
+                        toastr.warning('Nema podataka za izveštaj.');
+                        return;
+                    }
+
                     openPdf(response.data);
                 },
                 (error) => {
@@ -144,6 +152,11 @@
 
             PdfService.createSimplePdf(model).then(
                 (response) => {
+                    if (response.data.byteLength === 0) {
+                        toastr.warning('Nema podataka za izveštaj.');
+                        return;
+                    }
+
                     openPdf(response.data);
                 },
                 (error) => {
@@ -174,6 +187,11 @@
 
             PdfService.createSimplePdf(model).then(
                 (response) => {
+                    if (response.data.byteLength === 0) {
+                        toastr.warning('Nema podataka za izveštaj.');
+                        return;
+                    }
+                    
                     openPdf(response.data);
                 },
                 (error) => {

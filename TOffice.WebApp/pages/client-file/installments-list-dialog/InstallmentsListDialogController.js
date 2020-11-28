@@ -87,12 +87,12 @@
 
           newFieldValue = !installment.IsPaid;
 
-          if (newFieldValue) {
-            if (installment.PaidAmount < installment.Amount) {
-              toastr.warning('Plaćeni iznos je manji od iznosa rate.');
-              return;
-            }
-          }
+          // if (newFieldValue) {
+          //   if (installment.PaidAmount < installment.Amount) {
+          //     toastr.warning('Plaćeni iznos je manji od iznosa rate.');
+          //     return;
+          //   }
+          // }
         } else {
           if (!installment.IsAdminBan) {
             msg = 'Aktivirati administrativnu zabranu?';

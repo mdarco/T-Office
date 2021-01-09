@@ -4,11 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {ReactKeycloakProvider} from '@react-keycloak/web';
+import keycloak from './keycloak';
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<ReactKeycloakProvider
+		authClient={keycloak}
+		initOptions={{onLoad: 'login-required'}}
+	>
+		<React.StrictMode>
+			<App />
+		</React.StrictMode>
+	</ReactKeycloakProvider>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

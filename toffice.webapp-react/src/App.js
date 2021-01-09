@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import {useKeycloak} from '@react-keycloak/web';
+// import keycloak from './keycloak';
+
+// import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	React.useEffect(() => {
+		console.log('APP MOUNTED');
+	}, []);
+
+	// eslint-disable-next-line no-unused-vars
+	const {_, keycloak} = useKeycloak();
+
+	const btnClick = () => {
+		keycloak.logout();
+	};
+
+	return (
+		<div>
+			{keycloak.authenticated && <button onClick={btnClick}>Logout</button>}
+			{keycloak.authenticated && (
+				<span>{JSON.stringify(keycloak.tokenParsed, null, 2)}</span>
+			)}
+		</div>
+	);
 }
 
 export default App;

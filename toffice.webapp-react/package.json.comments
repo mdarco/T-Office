@@ -1,0 +1,2 @@
+Production settings (for PurgeCSS to work):
+"prebuild": "NODE_ENV=production run-s build:tailwind"

@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import {ReactKeycloakProvider} from '@react-keycloak/web';
 import keycloak from './keycloak';
 
+import './tailwind.output.css';
+
 ReactDOM.render(
 	<ReactKeycloakProvider
 		authClient={keycloak}

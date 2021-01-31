@@ -1,23 +1,39 @@
-import React from 'react';
+// import React, {Profiler} from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import {ReactKeycloakProvider} from '@react-keycloak/web';
-import keycloak from './keycloak';
+import {GlobalInfoProvider} from './context/global-info-context';
 
 import './tailwind.output.css';
 
+// const onRender = (
+// 	id,
+// 	phase,
+// 	actualDuration,
+// 	baseDuration,
+// 	startTime,
+// 	commitTime,
+// 	interactions
+// ) => {
+// 	const performanceData = [
+// 		`id: ${id}`,
+// 		`phase: ${phase}`,
+// 		`interactions: ${JSON.stringify([...interactions])}`
+// 	].join('\n');
+// 	console.log(performanceData);
+// };
+
 ReactDOM.render(
-	<ReactKeycloakProvider
-		authClient={keycloak}
-		initOptions={{onLoad: 'login-required'}}
-	>
-		<React.StrictMode>
+	// <Profiler id="App" onRender={onRender}>
+	<React.StrictMode>
+		<GlobalInfoProvider>
 			<App />
-		</React.StrictMode>
-	</ReactKeycloakProvider>,
+		</GlobalInfoProvider>
+	</React.StrictMode>,
+	// </Profiler>,
 	document.getElementById('root')
 );
 

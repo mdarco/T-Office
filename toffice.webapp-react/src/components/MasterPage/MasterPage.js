@@ -1,43 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
-import {useKeycloak} from '@react-keycloak/web';
 import {Transition} from '@headlessui/react';
+import {useKeycloak} from '@react-keycloak/web';
+import {useGlobalInfo} from '../../context/global-info-context';
 
 // import './MasterPage.css';
 
 function MasterPage() {
 	// eslint-disable-next-line no-unused-vars
-	const {_, keycloak} = useKeycloak();
-	// console.log('Keycloak', keycloak);
-	console.log('MOUNTED');
-
+	const {keycloak} = useKeycloak();
+	const {globalInfo, setGlobalInfo} = useGlobalInfo();
 	const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
-	const [userInfo, setUserInfo] = React.useState({
-		userFullName: '',
-		username: ''
-	});
-
 	React.useEffect(() => {
-		console.log('USE EFFECT');
-
-		if (keycloak.token) {
-			keycloak.loadUserInfo().then(userInfoResponse => {
-				// console.log('User info: ', userInfoResponse);
-				setUserInfo(userInfoPreviousValue => {
-					return {
-						...userInfoPreviousValue,
-						userFullName: userInfoResponse.name,
-						username: userInfoResponse.preferred_username
-					};
-				});
-			});
-		}
-
-		// keycloak.loadUserProfile().then(userProfileResponse => {
-		// 	console.log('User profile: ', userProfileResponse);
-		// });
-	}, [keycloak, keycloak.token]);
+		// console.log('MASTER PAGE USE EFFECT KEYCLOAK', keycloak?.idToken);
+		setGlobalInfo(globalInfoPreviousValue => {
+			return {
+				...globalInfoPreviousValue,
+				userInfo: {
+					userFullName: keycloak?.idTokenParsed?.name,
+					username: keycloak?.idTokenParsed?.preferred_username
+				}
+			};
+		});
+	}, [
+		keycloak?.idTokenParsed?.name,
+		keycloak?.idTokenParsed?.preferred_username,
+		setGlobalInfo
+	]);
 
 	return (
 		// requires Tailwind CSS v2.0+
@@ -316,6 +306,7 @@ function MasterPage() {
 								href="#"
 								className="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
 								onClick={() => {
+									console.log(keycloak.idToken);
 									keycloak.logout();
 								}}
 							>
@@ -350,10 +341,10 @@ function MasterPage() {
 									</div>
 									<div className="ml-3">
 										<p className="text-sm font-medium text-white">
-											{userInfo.userFullName}
+											{globalInfo?.userInfo?.userFullName}
 										</p>
 										<p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">
-											({userInfo.username})
+											({globalInfo?.userInfo?.username})
 										</p>
 									</div>
 								</div>

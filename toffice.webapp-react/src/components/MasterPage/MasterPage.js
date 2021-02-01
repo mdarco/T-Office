@@ -1,3 +1,5 @@
+/** @jsxImportSource @welldone-software/why-did-you-render */
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import {Transition} from '@headlessui/react';
@@ -8,24 +10,26 @@ import {useGlobalInfo} from '../../context/global-info-context';
 
 function MasterPage() {
 	// eslint-disable-next-line no-unused-vars
-	const {keycloak} = useKeycloak();
+	const {initialized, keycloak} = useKeycloak();
 	const {globalInfo, setGlobalInfo} = useGlobalInfo();
 	const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
 	React.useEffect(() => {
-		// console.log('MASTER PAGE USE EFFECT KEYCLOAK', keycloak?.idToken);
-		setGlobalInfo(globalInfoPreviousValue => {
-			return {
-				...globalInfoPreviousValue,
-				userInfo: {
-					userFullName: keycloak?.idTokenParsed?.name,
-					username: keycloak?.idTokenParsed?.preferred_username
-				}
-			};
-		});
+		if (initialized) {
+			setGlobalInfo(globalInfoPreviousValue => {
+				return {
+					...globalInfoPreviousValue,
+					userInfo: {
+						userFullName: keycloak?.idTokenParsed?.name,
+						username: keycloak?.idTokenParsed?.preferred_username
+					}
+				};
+			});
+		}
 	}, [
 		keycloak?.idTokenParsed?.name,
 		keycloak?.idTokenParsed?.preferred_username,
+		initialized,
 		setGlobalInfo
 	]);
 
@@ -404,5 +408,7 @@ function MasterPage() {
 		</div>
 	);
 }
+
+// MasterPage.whyDidYouRender = true;
 
 export default MasterPage;

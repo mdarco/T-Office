@@ -3,7 +3,7 @@ import * as React from 'react';
 // import './Reports.css';
 
 function Reports() {
-	return <div>Home</div>;
+	return <div>Reports</div>;
 }
 
 export default Reports;

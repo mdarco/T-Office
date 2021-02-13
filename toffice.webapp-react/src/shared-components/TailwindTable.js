@@ -2,8 +2,9 @@
 import * as React from 'react';
 // import {useTable, usePagination} from 'react-table';
 import {useTable} from 'react-table';
+import NoData from './NoData';
 
-function TailwindTable({columns, data}) {
+function TailwindTable({columns, data, total}) {
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -14,6 +15,10 @@ function TailwindTable({columns, data}) {
 		columns,
 		data
 	});
+
+	if (total === 0) {
+		return <NoData />;
+	}
 
 	return (
 		<div className="flex flex-col">
@@ -41,7 +46,12 @@ function TailwindTable({columns, data}) {
 								{rows.map(row => {
 									prepareRow(row);
 									return (
-										<tr {...row.getRowProps()} className="bg-white">
+										<tr
+											{...row.getRowProps()}
+											className={`hover:bg-gray-100 ${
+												row.index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+											}`}
+										>
 											{row.cells.map(cell => {
 												return (
 													<td

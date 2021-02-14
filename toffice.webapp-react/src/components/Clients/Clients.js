@@ -131,11 +131,8 @@ function Clients() {
 					return (
 						<>
 							{props.cell.row.original.Vehicles.map(vehicle => (
-								<div className="mb-2">
-									<span
-										key={vehicle.ID}
-										className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800"
-									>
+								<div key={vehicle.ID} className="mb-2">
+									<span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
 										{vehicle.RegistrationNumber}
 									</span>
 									&nbsp;&nbsp;&nbsp;
@@ -156,8 +153,8 @@ function Clients() {
 	);
 
 	const data = FakeClients.Data;
-	// const total = FakeClients.Total;
-	const total = 0;
+	const total = FakeClients.Total;
+	// const total = 0;
 
 	return (
 		<div className="p-10">

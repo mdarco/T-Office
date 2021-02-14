@@ -5,11 +5,11 @@ import * as React from 'react';
 
 function ClientsHeader() {
 	return (
-		<div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 mb-5">
+		<div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 mb-5 bg-gray-800 rounded-lg">
 			<div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 				<div className="ml-4 mt-4">
 					<div className="flex items-center">
-						<h3 className="text-lg leading-6 font-medium text-gray-900">
+						<h3 className="text-lg leading-6 font-medium text-gray-300">
 							Klijenti
 						</h3>
 					</div>

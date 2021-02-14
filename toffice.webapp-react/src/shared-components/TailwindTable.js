@@ -16,7 +16,7 @@ function TailwindTable({columns, data, total}) {
 		// instead of 'rows' - to show only the rows for the active page
 		page,
 		pageOptions,
-		pageCount,
+		// pageCount,
 		setPageSize,
 		gotoPage,
 		nextPage,
@@ -104,6 +104,20 @@ function TailwindTable({columns, data, total}) {
 						</div>
 					</div>
 				</div>
+			</div>
+
+			<div className="mt-5">
+				<TailwindTablePagination
+					pageIndex={pageIndex}
+					pageSize={pageSize}
+					pageOptions={pageOptions}
+					setPageSize={setPageSize}
+					gotoPage={gotoPage}
+					previousPage={previousPage}
+					nextPage={nextPage}
+					canPreviousPage={canPreviousPage}
+					canNextPage={canNextPage}
+				/>
 			</div>
 		</>
 	);

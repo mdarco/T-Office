@@ -11,7 +11,11 @@ function ClientsHeader() {
 
 	return (
 		<>
-			<div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 mb-5 bg-gray-800 rounded-lg">
+			<div
+				className={`bg-white px-4 py-5 border-b border-gray-200 sm:px-6 bg-gray-800 rounded-lg ${
+					!showFilter ? 'mb-5' : ''
+				}`}
+			>
 				<div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 					<div className="ml-4 mt-4">
 						<div className="flex items-center">

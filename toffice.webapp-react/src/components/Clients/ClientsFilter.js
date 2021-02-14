@@ -6,11 +6,11 @@ function ClientsFilter({showFilter}) {
 			{showFilter && (
 				<div className="bg-white px-4 py-5 bg-blue-100 sm:px-6 mb-5 rounded-lg">
 					<div class="grid grid-cols-6 gap-6">
-						<div class="col-span-6 sm:col-span-3">
+						<div class="col-span-6 sm:col-span-2">
 							{/* Client name */}
 							<label
-								htmlFor="email"
-								class="block text-sm font-medium text-gray-700"
+								htmlFor="clientName"
+								className="block text-sm font-medium text-gray-700"
 							>
 								Naziv
 							</label>
@@ -24,11 +24,11 @@ function ClientsFilter({showFilter}) {
 							</div>
 						</div>
 
-						<div class="col-span-6 sm:col-span-3">
+						<div class="col-span-6 sm:col-span-2">
 							{/* Registration number */}
 							<label
-								htmlFor="email"
-								class="block text-sm font-medium text-gray-700"
+								htmlFor="regNo"
+								className="block text-sm font-medium text-gray-700"
 							>
 								Broj registracije
 							</label>
@@ -42,7 +42,9 @@ function ClientsFilter({showFilter}) {
 							</div>
 						</div>
 
-						<div class="col-span-6 sm:col-span-3">
+						<div class="col-span-6 sm:col-span-2">
+							{/* dummy label to position the buttons properly */}
+							<label className="block">&nbsp;</label>
 							{/* Apply filter button */}
 							<button
 								type="button"
@@ -50,7 +52,7 @@ function ClientsFilter({showFilter}) {
 							>
 								Pronađi
 							</button>
-							&nbsp;&nbsp;&nbsp;
+							&nbsp;
 							{/* Cancel filter button */}
 							<button
 								type="button"

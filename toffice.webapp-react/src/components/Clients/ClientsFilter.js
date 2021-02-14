@@ -4,7 +4,7 @@ function ClientsFilter({showFilter}) {
 	return (
 		<>
 			{showFilter && (
-				<div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 mb-5 rounded-lg">
+				<div className="bg-white px-4 py-5 bg-blue-100 sm:px-6 mb-5 rounded-lg">
 					<div class="grid grid-cols-6 gap-6">
 						<div class="col-span-6 sm:col-span-3">
 							{/* Client name */}
@@ -54,7 +54,7 @@ function ClientsFilter({showFilter}) {
 							{/* Cancel filter button */}
 							<button
 								type="button"
-								className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white-900 hover:bg-indigo-700 focus:outline-none"
+								className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
 							>
 								Poništi
 							</button>

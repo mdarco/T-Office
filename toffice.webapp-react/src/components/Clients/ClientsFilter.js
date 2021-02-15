@@ -4,9 +4,9 @@ function ClientsFilter({showFilter}) {
 	return (
 		<>
 			{showFilter && (
-				<div className="bg-white px-4 py-5 bg-blue-100 sm:px-6 mb-5 rounded-lg">
-					<div class="grid grid-cols-6 gap-6">
-						<div class="col-span-6 sm:col-span-2">
+				<div className="px-4 py-5 bg-blue-100 sm:px-6 mb-5 rounded-lg">
+					<div className="grid grid-cols-6 gap-6">
+						<div className="col-span-6 sm:col-span-2">
 							{/* Client name */}
 							<label
 								htmlFor="clientName"
@@ -24,7 +24,7 @@ function ClientsFilter({showFilter}) {
 							</div>
 						</div>
 
-						<div class="col-span-6 sm:col-span-2">
+						<div className="col-span-6 sm:col-span-2">
 							{/* Registration number */}
 							<label
 								htmlFor="regNo"
@@ -42,7 +42,7 @@ function ClientsFilter({showFilter}) {
 							</div>
 						</div>
 
-						<div class="col-span-6 sm:col-span-2">
+						<div className="col-span-6 sm:col-span-2">
 							{/* dummy label to position the buttons properly */}
 							<label className="block">&nbsp;</label>
 							{/* Apply filter button */}

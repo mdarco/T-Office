@@ -5,7 +5,14 @@ import {useTable, usePagination} from 'react-table';
 import NoData from './NoData';
 import TailwindTablePagination from './TailwindTablePagination';
 
-function TailwindTable({columns, data, total}) {
+function TailwindTable({
+	columns,
+	data,
+	total,
+	fetchData,
+	isLoading,
+	pageCount: controlledPageCount
+}) {
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -28,11 +35,11 @@ function TailwindTable({columns, data, total}) {
 		{
 			columns,
 			data,
-			initialState: {pageIndex: 0, pageSize: 10}
+			initialState: {pageIndex: 0, pageSize: 10},
 			// turned on for our server-side pagination (our own data fetching)
-			// manualPagination: true
+			manualPagination: true,
 			// we also have to provide our own 'pageCount'
-			// pageCount: controlledPageCount
+			pageCount: controlledPageCount
 		},
 		usePagination
 	);

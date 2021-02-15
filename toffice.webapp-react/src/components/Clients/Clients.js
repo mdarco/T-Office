@@ -156,6 +156,8 @@ function Clients() {
 	const total = FakeClients.Total;
 	// const total = 0;
 
+	console.log(JSON.stringify(data));
+
 	return (
 		<div className="p-10">
 			<ClientsHeader />

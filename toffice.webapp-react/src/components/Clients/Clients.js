@@ -1,12 +1,14 @@
 import * as React from 'react';
 import TailwindTable from '../../shared-components/TailwindTable';
 import ClientsHeader from './ClientsHeader';
+import ClientsFilter from './ClientsFilter';
 import {Link} from 'react-router-dom';
-import FakeClients from '../../fake-data/clients';
-
-// import './Clients.css';
+import ClientsService from '../../services/clientsService';
 
 function Clients() {
+	const [showFilter, setShowFilter] = React.useState(false);
+	const [filter, setFilter] = React.useState({});
+
 	const columns = React.useMemo(
 		() => [
 			{
@@ -152,16 +154,22 @@ function Clients() {
 		[]
 	);
 
-	const data = FakeClients.Data;
-	const total = FakeClients.Total;
-	// const total = 0;
+	const setFilterData = filterData => {
+		/* Merge 'filterData' with paging data and use setFilter() here... */
+	};
 
-	console.log(JSON.stringify(data));
+	const fetchData = ClientsService.getInstance().getFilteredClients;
 
 	return (
 		<div className="p-10">
-			<ClientsHeader />
-			<TailwindTable columns={columns} data={data} total={total} />
+			<ClientsHeader showFilter={showFilter} setShowFilter={setShowFilter} />
+			<ClientsFilter showFilter={showFilter} setFilterData={setFilterData} />
+			<TailwindTable
+				columns={columns}
+				filter={filter}
+				fetchData={fetchData}
+				fetchDataQueryKey="clients"
+			/>
 		</div>
 	);
 }

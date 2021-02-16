@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-function ClientsFilter({showFilter}) {
+function ClientsFilter({showFilter, setFilterData}) {
 	return (
 		<>
 			{showFilter && (
@@ -49,6 +49,9 @@ function ClientsFilter({showFilter}) {
 							<button
 								type="button"
 								className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-900 hover:bg-blue-700 focus:outline-none"
+								onClick={() => {
+									/*TODO: call setFilter() here...*/
+								}}
 							>
 								Pronađi
 							</button>
@@ -57,6 +60,9 @@ function ClientsFilter({showFilter}) {
 							<button
 								type="button"
 								className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+								onClick={() => {
+									setFilterData({});
+								}}
 							>
 								Poništi
 							</button>

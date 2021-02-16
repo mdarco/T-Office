@@ -1,10 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
-import ClientsFilter from './ClientsFilter';
 
-function ClientsHeader() {
-	const [showFilter, setShowFilter] = React.useState(false);
-
+function ClientsHeader({showFilter, setShowFilter}) {
 	const toggleFilter = () => {
 		setShowFilter(!showFilter);
 	};
@@ -95,8 +92,6 @@ function ClientsHeader() {
 					</div>
 				</div>
 			</div>
-			{/* Filter panel */}
-			<ClientsFilter showFilter={showFilter} />
 		</>
 	);
 }

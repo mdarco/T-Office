@@ -1,18 +1,38 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import {useTable, usePagination} from 'react-table';
-// import {useTable} from 'react-table';
+import {useQuery} from 'react-query';
 import NoData from './NoData';
 import TailwindTablePagination from './TailwindTablePagination';
 
 function TailwindTable({
 	columns,
-	data,
-	total,
+	filter,
+	// data,
+	// total,
 	fetchData,
-	isLoading,
-	pageCount: controlledPageCount
+	fetchDataQueryKey
+	// isLoading,
+	// pageCount: controlledPageCount
 }) {
+	const [total, setTotal] = React.useState(0);
+	const [pageCount, setPageCount] = React.useState(0);
+
+	const {data, isLoading, isFetching, isError, error} = useQuery(
+		[fetchDataQueryKey, filter],
+		async () => {
+			console.log('Fetching data - filter: ', filter);
+			fetchData(filter).then(response => {
+				setTotal(response.Total);
+				setPageCount(Math.ceil(response.Total / pageSize));
+				return response.Data;
+			});
+		},
+		{
+			refetchOnWindowFocus: false
+		}
+	);
+
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -39,7 +59,7 @@ function TailwindTable({
 			// turned on for our server-side pagination (our own data fetching)
 			manualPagination: true,
 			// we also have to provide our own 'pageCount'
-			pageCount: controlledPageCount
+			pageCount: pageCount
 		},
 		usePagination
 	);
@@ -60,6 +80,7 @@ function TailwindTable({
 				nextPage={nextPage}
 				canPreviousPage={canPreviousPage}
 				canNextPage={canNextPage}
+				setFilter={setFilter}
 			/>
 
 			<div className="flex flex-col">
@@ -124,6 +145,7 @@ function TailwindTable({
 					nextPage={nextPage}
 					canPreviousPage={canPreviousPage}
 					canNextPage={canNextPage}
+					setFilter={setFilter}
 				/>
 			</div>
 		</>

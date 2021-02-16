@@ -10,7 +10,8 @@ function TailwindTablePagination({
 	previousPage,
 	nextPage,
 	canPreviousPage,
-	canNextPage
+	canNextPage,
+	setFilter
 }) {
 	return (
 		<div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 mb-5 rounded-lg">

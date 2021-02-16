@@ -4,6 +4,8 @@ import MasterPage from './components/MasterPage/MasterPage';
 import {ReactKeycloakProvider} from '@react-keycloak/web';
 import keycloak from './keycloak';
 
+import {QueryClient, QueryClientProvider} from 'react-query';
+
 // import './App.css';
 
 // const onRender = (
@@ -31,6 +33,8 @@ import keycloak from './keycloak';
 // 	console.log('Keycloak tokens:', tokens);
 // };
 
+const queryClient = new QueryClient();
+
 function App() {
 	return (
 		// <React.Profiler id="MasterPage" onRender={onRender}>
@@ -40,7 +44,9 @@ function App() {
 			// onEvent={keycloakEventLogger}
 			// onTokens={keycloakTokenLogger}
 		>
-			<MasterPage />
+			<QueryClientProvider client={queryClient}>
+				<MasterPage />
+			</QueryClientProvider>
 		</ReactKeycloakProvider>
 		// </React.Profiler>
 	);

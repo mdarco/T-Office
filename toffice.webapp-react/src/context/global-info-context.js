@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-const initialGlobalInfo = {};
+const initialGlobalInfo = {
+	WEB_API_BASE_URL: 'https://dancefactory.club/TOfficeApi/api'
+};
 
 const GlobalInfoContext = React.createContext();
 GlobalInfoContext.displayName = 'GlobalInfoContext';

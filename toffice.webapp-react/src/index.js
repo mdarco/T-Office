@@ -7,7 +7,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import {GlobalInfoProvider} from './context/global-info-context';
+// import {GlobalInfoProvider} from './context/global-info-context';
 
 import './tailwind.output.css';
 
@@ -31,9 +31,9 @@ import './tailwind.output.css';
 ReactDOM.render(
 	// <Profiler id="App" onRender={onRender}>
 	<React.StrictMode>
-		<GlobalInfoProvider>
-			<App />
-		</GlobalInfoProvider>
+		{/* <GlobalInfoProvider> */}
+		<App />
+		{/* </GlobalInfoProvider> */}
 	</React.StrictMode>,
 	// </Profiler>,
 	document.getElementById('root')

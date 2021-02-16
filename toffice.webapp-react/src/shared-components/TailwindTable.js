@@ -80,7 +80,6 @@ function TailwindTable({
 				nextPage={nextPage}
 				canPreviousPage={canPreviousPage}
 				canNextPage={canNextPage}
-				setFilter={setFilter}
 			/>
 
 			<div className="flex flex-col">
@@ -145,7 +144,6 @@ function TailwindTable({
 					nextPage={nextPage}
 					canPreviousPage={canPreviousPage}
 					canNextPage={canNextPage}
-					setFilter={setFilter}
 				/>
 			</div>
 		</>

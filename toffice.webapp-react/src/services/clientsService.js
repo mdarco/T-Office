@@ -4,14 +4,10 @@ import axios from 'axios';
 const webApiBaseUrl = apiConfig.WEB_API_BASE_URL;
 const urlPrefix = '/clients';
 
-export default class ClientsService {
-	static instance = null;
-
-	static getInstance() {
-		if (!this.instance) {
-			this.instance = new ClientsService();
-		}
-	}
+class ClientsService {
+	// constructor() {
+	// 	this._data = [];
+	// }
 
 	getFilteredClients(filter) {
 		const url = `${webApiBaseUrl}/${urlPrefix}/filtered`;
@@ -20,3 +16,8 @@ export default class ClientsService {
 		return axios.post(url, filter);
 	}
 }
+
+const clientsService = new ClientsService();
+Object.freeze(clientsService);
+
+export default clientsService;

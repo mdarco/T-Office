@@ -3,7 +3,7 @@ import TailwindTable from '../../shared-components/TailwindTable';
 import ClientsHeader from './ClientsHeader';
 import ClientsFilter from './ClientsFilter';
 import {Link} from 'react-router-dom';
-import ClientsService from '../../services/clientsService';
+import clientsService from '../../services/clientsService';
 
 function Clients() {
 	const [showFilter, setShowFilter] = React.useState(false);
@@ -158,7 +158,8 @@ function Clients() {
 		/* Merge 'filterData' with paging data and use setFilter() here... */
 	};
 
-	const fetchData = ClientsService.getInstance().getFilteredClients;
+	const fetchData = clientsService.getFilteredClients;
+	console.log('Fetch data', fetchData);
 
 	return (
 		<div className="p-10">

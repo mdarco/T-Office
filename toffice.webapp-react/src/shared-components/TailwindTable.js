@@ -19,8 +19,8 @@ function TailwindTable({
 	const [pageCount, setPageCount] = React.useState(0);
 
 	const {data, isLoading, isFetching, isError, error} = useQuery(
-		[fetchDataQueryKey, filter],
-		async () => {
+		[fetchDataQueryKey],
+		() => {
 			console.log('Fetching data - filter: ', filter);
 			fetchData(filter).then(response => {
 				setTotal(response.Total);

@@ -17,16 +17,26 @@ function TailwindTable({
 }) {
 	const [total, setTotal] = React.useState(0);
 	const [pageCount, setPageCount] = React.useState(0);
+	const [tableData, setTableData] = React.useState([]);
+
+	console.log('TABLE DATA', tableData);
 
 	const {data, isLoading, isFetching, isError, error} = useQuery(
-		[fetchDataQueryKey, filter],
+		[fetchDataQueryKey],
 		async () => {
 			console.log('Fetching data - filter: ', filter);
-			fetchData(filter).then(response => {
-				setTotal(response.Total);
-				setPageCount(Math.ceil(response.Total / pageSize));
-				return response.Data;
-			});
+			// fetchData(filter).then(response => {
+			// 	console.log('RESPONSE', response);
+			// 	setTotal(response.data.Total);
+			// 	setPageCount(Math.ceil(response.Total / pageSize));
+			// 	return response.data.Data;
+			// });
+			const response = await fetchData(filter);
+			console.log('RESPONSE', response);
+			setTotal(response.data.Total);
+			setPageCount(Math.ceil(response.data.Total / pageSize));
+			setTableData(response.data.Data);
+			return response.data.Data;
 		},
 		{
 			refetchOnWindowFocus: false
@@ -54,7 +64,8 @@ function TailwindTable({
 	} = useTable(
 		{
 			columns,
-			data,
+			// tableData,
+			data: tableData,
 			initialState: {pageIndex: 0, pageSize: 10},
 			// turned on for our server-side pagination (our own data fetching)
 			manualPagination: true,

@@ -159,7 +159,7 @@ function Clients() {
 	};
 
 	const fetchData = clientsService.getFilteredClients;
-	console.log('Fetch data', fetchData);
+	// console.log('Fetch data', fetchData);
 
 	return (
 		<div className="p-10">

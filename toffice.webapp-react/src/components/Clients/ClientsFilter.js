@@ -1,6 +1,9 @@
 import * as React from 'react';
 
 function ClientsFilter({showFilter, setFilterData}) {
+	const [clientName, setClientName] = React.useState('');
+	const [vehicleRegNo, setVehicleRegNo] = React.useState('');
+
 	return (
 		<>
 			{showFilter && (
@@ -19,6 +22,10 @@ function ClientsFilter({showFilter, setFilterData}) {
 									type="text"
 									name="clientName"
 									id="clientName"
+									value={clientName}
+									onChange={event => {
+										setClientName(event.target.value);
+									}}
 									className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
 								/>
 							</div>
@@ -37,6 +44,10 @@ function ClientsFilter({showFilter, setFilterData}) {
 									type="text"
 									name="regNo"
 									id="regNo"
+									value={vehicleRegNo}
+									onChange={event => {
+										setVehicleRegNo(event.target.value);
+									}}
 									className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
 								/>
 							</div>
@@ -50,7 +61,10 @@ function ClientsFilter({showFilter, setFilterData}) {
 								type="button"
 								className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-900 hover:bg-blue-700 focus:outline-none"
 								onClick={() => {
-									/*TODO: call setFilter() here...*/
+									setFilterData({
+										ClientName: clientName,
+										VehicleRegNo: vehicleRegNo
+									});
 								}}
 							>
 								Pronađi
@@ -61,6 +75,8 @@ function ClientsFilter({showFilter, setFilterData}) {
 								type="button"
 								className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
 								onClick={() => {
+									setClientName('');
+									setVehicleRegNo('');
 									setFilterData({});
 								}}
 							>

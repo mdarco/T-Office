@@ -1,55 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import {useTable, usePagination} from 'react-table';
-import {useQuery} from 'react-query';
 import NoData from './NoData';
 import TailwindTablePagination from './TailwindTablePagination';
 
-function TailwindTable({
-	columns,
-	filter,
-	// data,
-	// total,
-	fetchData,
-	fetchDataQueryKey
-	// isLoading,
-	// pageCount: controlledPageCount
-}) {
-	const [total, setTotal] = React.useState(0);
-	const [pageCount, setPageCount] = React.useState(0);
-	const [tableData, setTableData] = React.useState([]);
-
-	console.log('TABLE DATA', tableData);
-
-	const {data, isLoading, isFetching, isError, error} = useQuery(
-		[fetchDataQueryKey],
-		async () => {
-			console.log('Fetching data - filter: ', filter);
-			// fetchData(filter).then(response => {
-			// 	console.log('RESPONSE', response);
-			// 	setTotal(response.data.Total);
-			// 	setPageCount(Math.ceil(response.Total / pageSize));
-			// 	return response.data.Data;
-			// });
-			const response = await fetchData(filter);
-			console.log('RESPONSE', response);
-			setTotal(response.data.Total);
-			setPageCount(Math.ceil(response.data.Total / pageSize));
-			setTableData(response.data.Data);
-			return response.data.Data;
-		},
-		{
-			refetchOnWindowFocus: false
-		}
-	);
-
+function TailwindTable({columns, data, total}) {
 	const {
 		getTableProps,
 		getTableBodyProps,
 		headers,
 		// rows,
 		prepareRow,
-
 		// instead of 'rows' - to show only the rows for the active page
 		page,
 		pageOptions,
@@ -65,12 +26,12 @@ function TailwindTable({
 		{
 			columns,
 			// tableData,
-			data: tableData,
-			initialState: {pageIndex: 0, pageSize: 10},
+			data,
+			initialState: {pageIndex: 0, pageSize: 10}
 			// turned on for our server-side pagination (our own data fetching)
-			manualPagination: true,
+			// manualPagination: true,
 			// we also have to provide our own 'pageCount'
-			pageCount: pageCount
+			// pageCount: pageCount
 		},
 		usePagination
 	);

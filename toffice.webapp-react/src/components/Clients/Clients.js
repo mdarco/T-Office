@@ -1,13 +1,22 @@
 import * as React from 'react';
+import {useQuery, useQueryClient} from 'react-query';
+import {Link} from 'react-router-dom';
+import toast, {Toaster} from 'react-hot-toast';
 import TailwindTable from '../../shared-components/TailwindTable';
 import ClientsHeader from './ClientsHeader';
 import ClientsFilter from './ClientsFilter';
-import {Link} from 'react-router-dom';
 import clientsService from '../../services/clientsService';
 
 function Clients() {
+	const queryClient = useQueryClient();
+
+	const filter = React.useRef({});
+
 	const [showFilter, setShowFilter] = React.useState(false);
-	const [filter, setFilter] = React.useState({});
+	const [total, setTotal] = React.useState(0);
+	const [tabelData, setTableData] = React.useState([]);
+
+	const fetchData = clientsService.getFilteredClients;
 
 	const columns = React.useMemo(
 		() => [
@@ -154,23 +163,49 @@ function Clients() {
 		[]
 	);
 
-	const setFilterData = filterData => {
-		/* Merge 'filterData' with paging data and use setFilter() here... */
+	const {isLoading, error} = useQuery(
+		'clients',
+		async () => {
+			const response = await fetchData(filter.current);
+			console.log('RESPONSE', response);
+			setTotal(response.data.Total);
+			setTableData(response.data.Data);
+		},
+		{
+			refetchOnWindowFocus: false,
+			onError: () => notifyFetchError()
+		}
+	);
+
+	const setFilterData = ({ClientName, VehicleRegNo}) => {
+		let queryFilter = {};
+		if (ClientName) queryFilter.ClientName = ClientName;
+		if (VehicleRegNo) queryFilter.VehicleRegNo = VehicleRegNo;
+
+		// console.log('Filter', queryFilter);
+		filter.current = queryFilter;
+
+		queryClient.refetchQueries('clients', {exact: true});
 	};
 
-	const fetchData = clientsService.getFilteredClients;
-	// console.log('Fetch data', fetchData);
+	const notifyFetchError = () =>
+		toast.error('Došlo je do greške prilikom preuzimanja podataka.');
 
 	return (
 		<div className="p-10">
 			<ClientsHeader showFilter={showFilter} setShowFilter={setShowFilter} />
-			<ClientsFilter showFilter={showFilter} setFilterData={setFilterData} />
+			<ClientsFilter
+				showFilter={showFilter}
+				setFilterData={setFilterData}
+				isDataLoading={isLoading}
+			/>
 			<TailwindTable
 				columns={columns}
-				filter={filter}
-				fetchData={fetchData}
-				fetchDataQueryKey="clients"
+				data={tabelData}
+				total={total}
+				isDataLoading={isLoading}
 			/>
+			<Toaster />
 		</div>
 	);
 }

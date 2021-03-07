@@ -11,8 +11,7 @@ class ClientsService {
 
 	getFilteredClients(filter) {
 		const url = `${webApiBaseUrl}/${urlPrefix}/filtered`;
-		console.log('Clients filtered POST URL: ', url);
-		console.log('Clients filtered POST filter: ', filter);
+		// console.log('getFilteredClients() POST filter: ', filter);
 		return axios.post(url, filter);
 	}
 }

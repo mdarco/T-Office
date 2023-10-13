@@ -12,6 +12,8 @@
         $scope.vehicle = vehicle;
         $scope.model = {};
 
+        var NUMBER_OF_INSTALLMENTS_LIMIT = 36;
+
         $scope.save = function () {
             var modelValidation = validate();
             if (modelValidation.error) {
@@ -38,6 +40,15 @@
             if (!$scope.model.TotalAmount || ($scope.model.TotalAmount && $scope.model.TotalAmount === '') ||
                 !$scope.model.NumberOfInstallments || ($scope.model.NumberOfInstallments && $scope.model.NumberOfInstallments === '')) {
                 return { error: true, errorMsg: 'Nisu popunjena sva obavezna polja.' };
+            }
+
+            let installmentsNo = parseInt($scope.model.NumberOfInstallments);
+            if (isNaN(installmentsNo)) {
+                return { error: true, errorMsg: 'Broj rata nije ispravan.' };
+            }
+
+            if (installmentsNo > NUMBER_OF_INSTALLMENTS_LIMIT) {
+                return { error: true, errorMsg: 'Prekoračen je maksimalan broj rata (' + NUMBER_OF_INSTALLMENTS_LIMIT + ').' };
             }
 
             return { error: false };

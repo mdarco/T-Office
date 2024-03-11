@@ -11,3 +11,16 @@ temp
 
 *.cache
 ~*.*
+/TOffice.WebApp/Content/img/avatars/Thumbs.db
+/TOffice.WebApp/Content/img/demo/Thumbs.db
+/TOffice.WebApp/Content/img/dropzone/Thumbs.db
+/TOffice.WebApp/Content/img/favicon/Thumbs.db
+/TOffice.WebApp/Content/img/flags/Thumbs.db
+/TOffice.WebApp/Content/img/gradient/Thumbs.db
+/TOffice.WebApp/Content/img/invoice/Thumbs.db
+/TOffice.WebApp/Content/img/jqueryui/Thumbs.db
+/TOffice.WebApp/Content/img/pattern/Thumbs.db
+/TOffice.WebApp/Content/img/splash/Thumbs.db
+/TOffice.WebApp/Content/img/superbox/Thumbs.db
+/T-Office.sln.DotSettings.user
+/T-Office.ApiCore/Properties/PublishProfiles/TOffice.ApiCore.FolderPublish.pubxml.user

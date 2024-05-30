@@ -377,15 +377,18 @@ namespace TOffice.DB
                 var installment = ctx.VehicleRegistrationInstallments.FirstOrDefault(x => x.ID == installmentID);
                 if (installment != null)
                 {
-                    if (model.PaidAmount.HasValue)
-                    {
-                        if (model.PaidAmount == 0)
-                        {
-                            installment.IsPaid = false;
-                            installment.PaidAmount = null;
-                        }
-                        else
-                        {
+                    //Logic with installment amount recalculation
+
+
+                    //if (model.PaidAmount.HasValue)
+                    //{
+                        //if (model.PaidAmount == 0)
+                        //{
+                        //    installment.IsPaid = false;
+                        //    installment.PaidAmount = null;
+                        //}
+                        //else
+                        //{
                             /*
                              * Amount assignment logic:
                              * Discard already paid amount and:
@@ -415,44 +418,44 @@ namespace TOffice.DB
                             //var totalRegAmount = vehicleRegistration.TotalAmount;
 
                             // (1) and (2)
-                            installment.PaidAmount = model.PaidAmount;
-                            if (model.PaidAmount >= installment.Amount)
-                            {
-                                installment.IsPaid = true;
-                                installment.PaymentDate = DateTime.Now.Date;
-                            }
-                        }
-                    }
+                            //installment.PaidAmount = model.PaidAmount;
+                            //if (model.PaidAmount >= installment.Amount)
+                            //{
+                            //    installment.IsPaid = true;
+                            //    installment.PaymentDate = DateTime.Now.Date;
+                            //}
+                        //}
+                    //}
 
-                    if (model.IsPaid.HasValue)
-                    {
-                        installment.IsPaid = (bool)model.IsPaid;
+                    //if (model.IsPaid.HasValue)
+                    //{
+                    //    installment.IsPaid = (bool)model.IsPaid;
 
-                        if (installment.IsPaid && !model.PaymentDate.HasValue)
-                        {
-                            installment.PaymentDate = DateTime.Now;
-                        }
+                    //    if (installment.IsPaid && !model.PaymentDate.HasValue)
+                    //    {
+                    //        installment.PaymentDate = DateTime.Now;
+                    //    }
 
-                        if (!installment.IsPaid)
-                        {
-                            installment.PaymentDate = null;
-                        }
-                    }
+                    //    if (!installment.IsPaid)
+                    //    {
+                    //        installment.PaymentDate = null;
+                    //    }
+                    //}
 
-                    if (model.PaymentDate.HasValue && installment.IsPaid)
-                    {
-                        installment.PaymentDate = model.PaymentDate;
-                    }
+                    //if (model.PaymentDate.HasValue && installment.IsPaid)
+                    //{
+                    //    installment.PaymentDate = model.PaymentDate;
+                    //}
 
-                    if (model.IsAdminBan.HasValue)
-                    {
-                        installment.IsAdminBan = (bool)model.IsAdminBan;
-                    }
+                    //if (model.IsAdminBan.HasValue)
+                    //{
+                    //    installment.IsAdminBan = (bool)model.IsAdminBan;
+                    //}
 
-                    if (!string.IsNullOrEmpty(model.Note))
-                    {
-                        installment.Note = model.Note;
-                    }
+                    //if (!string.IsNullOrEmpty(model.Note))
+                    //{
+                    //    installment.Note = model.Note;
+                    //}
 
                     ctx.SaveChanges();
                 }

@@ -29,12 +29,7 @@ namespace TOffice.DB
 
             using (var ctx = new TOfficeEntities())
             {
-                var client = ctx.Clients.FirstOrDefault(c => c.ID == clientID);
-                if (client == null)
-                {
-                    throw new Exception("Klijent ne postoji.");
-                }
-
+                var client = ctx.Clients.FirstOrDefault(c => c.ID == clientID) ?? throw new Exception("Klijent ne postoji.");
                 try
                 {
                     int registrationDocumentDataID = RegistrationDocuments.AddFromFullModel(ctx, model);

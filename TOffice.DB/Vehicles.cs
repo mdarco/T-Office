@@ -369,91 +369,105 @@ namespace TOffice.DB
         {
             using (var ctx = new TOfficeEntities())
             {
-                var installment = ctx.VehicleRegistrationInstallments.FirstOrDefault(x => x.ID == installmentID);
-                if (installment != null)
-                {
-                    //Logic with installment amount recalculation
+                var installmentToEdit = 
+                        ctx.VehicleRegistrationInstallments
+                                .Include(t => t.VehicleRegistrations)
+                                .FirstOrDefault(x => x.ID == installmentID)
+                                    ?? throw new Exception($"Installment to edit not found: InstallmentID = {installmentID}.");
+
+                var installments =
+                        ctx.VehicleRegistrationInstallments
+                                .Where(x => x.VehicleRegistrationID == installmentToEdit.VehicleRegistrationID && x.ID != installmentToEdit.ID)
+                                .OrderBy(x => x.InstallmentDate)
+                                .ToList();
+
+                var totalRegistrationCost = installmentToEdit.VehicleRegistrations.TotalAmount;
 
 
-                    //if (model.PaidAmount.HasValue)
-                    //{
-                        //if (model.PaidAmount == 0)
-                        //{
-                        //    installment.IsPaid = false;
-                        //    installment.PaidAmount = null;
-                        //}
-                        //else
-                        //{
-                            /*
-                             * Amount assignment logic:
-                             * Discard already paid amount and:
-                             *     1. if 'paid amount' <= 'installment amount' => assign paid amount to the installment
-                             *         - set installment as paid if 'paid amount' == 'installment amount' and set payment date to the current date
-                             *     2. if 'paid amount' > 'installment amount'
-                             *         =>  assign paid amount to the installment, set installment as paid, set payment date to current date
-                             */
 
-                            // var alreadyPaidAmount = installment.PaidAmount.HasValue ? installment.PaidAmount : 0;
+                ctx.SaveChanges();
 
-                            // var relevantInstallments =
-                            //         ctx.VehicleRegistrationInstallments
-                            //                 .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.IsPaid == false && x.ID != installment.ID)
-                            //                 .OrderBy(x => x.InstallmentDate)
-                            //                 .ToList();
-                            //
-                            // var paidInstallments =
-                            //         ctx.VehicleRegistrationInstallments
-                            //                 .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.IsPaid == true)
-                            //                 .OrderBy(x => x.InstallmentDate)
-                            //                 .ToList();
-                            //
-                            // var totalPaidAmount = paidInstallments.Sum(x => x.PaidAmount);
+                //var installment = ctx.VehicleRegistrationInstallments.FirstOrDefault(x => x.ID == installmentID);
+                //if (installment != null)
+                //{
 
-                            //var vehicleRegistration = ctx.VehicleRegistrations.FirstOrDefault(x => x.ID == installment.VehicleRegistrationID);
-                            //var totalRegAmount = vehicleRegistration.TotalAmount;
+                //if (model.PaidAmount.HasValue)
+                //{
+                //if (model.PaidAmount == 0)
+                //{
+                //    installment.IsPaid = false;
+                //    installment.PaidAmount = null;
+                //}
+                //else
+                //{
+                /*
+                 * Amount assignment logic:
+                 * Discard already paid amount and:
+                 *     1. if 'paid amount' <= 'installment amount' => assign paid amount to the installment
+                 *         - set installment as paid if 'paid amount' == 'installment amount' and set payment date to the current date
+                 *     2. if 'paid amount' > 'installment amount'
+                 *         =>  assign paid amount to the installment, set installment as paid, set payment date to current date
+                 */
 
-                            // (1) and (2)
-                            //installment.PaidAmount = model.PaidAmount;
-                            //if (model.PaidAmount >= installment.Amount)
-                            //{
-                            //    installment.IsPaid = true;
-                            //    installment.PaymentDate = DateTime.Now.Date;
-                            //}
-                        //}
-                    //}
+                // var alreadyPaidAmount = installment.PaidAmount.HasValue ? installment.PaidAmount : 0;
 
-                    //if (model.IsPaid.HasValue)
-                    //{
-                    //    installment.IsPaid = (bool)model.IsPaid;
+                // var relevantInstallments =
+                //         ctx.VehicleRegistrationInstallments
+                //                 .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.IsPaid == false && x.ID != installment.ID)
+                //                 .OrderBy(x => x.InstallmentDate)
+                //                 .ToList();
+                //
+                // var paidInstallments =
+                //         ctx.VehicleRegistrationInstallments
+                //                 .Where(x => x.VehicleRegistrationID == installment.VehicleRegistrationID && x.IsPaid == true)
+                //                 .OrderBy(x => x.InstallmentDate)
+                //                 .ToList();
+                //
+                // var totalPaidAmount = paidInstallments.Sum(x => x.PaidAmount);
 
-                    //    if (installment.IsPaid && !model.PaymentDate.HasValue)
-                    //    {
-                    //        installment.PaymentDate = DateTime.Now;
-                    //    }
+                //var vehicleRegistration = ctx.VehicleRegistrations.FirstOrDefault(x => x.ID == installment.VehicleRegistrationID);
+                //var totalRegAmount = vehicleRegistration.TotalAmount;
 
-                    //    if (!installment.IsPaid)
-                    //    {
-                    //        installment.PaymentDate = null;
-                    //    }
-                    //}
+                // (1) and (2)
+                //installment.PaidAmount = model.PaidAmount;
+                //if (model.PaidAmount >= installment.Amount)
+                //{
+                //    installment.IsPaid = true;
+                //    installment.PaymentDate = DateTime.Now.Date;
+                //}
+                //}
+                //}
 
-                    //if (model.PaymentDate.HasValue && installment.IsPaid)
-                    //{
-                    //    installment.PaymentDate = model.PaymentDate;
-                    //}
+                //if (model.IsPaid.HasValue)
+                //{
+                //    installment.IsPaid = (bool)model.IsPaid;
 
-                    //if (model.IsAdminBan.HasValue)
-                    //{
-                    //    installment.IsAdminBan = (bool)model.IsAdminBan;
-                    //}
+                //    if (installment.IsPaid && !model.PaymentDate.HasValue)
+                //    {
+                //        installment.PaymentDate = DateTime.Now;
+                //    }
 
-                    //if (!string.IsNullOrEmpty(model.Note))
-                    //{
-                    //    installment.Note = model.Note;
-                    //}
+                //    if (!installment.IsPaid)
+                //    {
+                //        installment.PaymentDate = null;
+                //    }
+                //}
 
-                    ctx.SaveChanges();
-                }
+                //if (model.PaymentDate.HasValue && installment.IsPaid)
+                //{
+                //    installment.PaymentDate = model.PaymentDate;
+                //}
+
+                //if (model.IsAdminBan.HasValue)
+                //{
+                //    installment.IsAdminBan = (bool)model.IsAdminBan;
+                //}
+
+                //if (!string.IsNullOrEmpty(model.Note))
+                //{
+                //    installment.Note = model.Note;
+                //}
+                //}
             }
         }
 
